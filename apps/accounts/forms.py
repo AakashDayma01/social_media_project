@@ -2,6 +2,8 @@ from django import forms
 from .models import CustomUser
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import AuthenticationForm
+
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Password'}),
@@ -48,3 +50,26 @@ class CustomUserCreationForm(forms.ModelForm):
         if name == "":
             raise ValidationError("Enter your name.")
         return name
+
+class UniversalLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Username, Email, or Mobile Number",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your Username, Email, or Mobile',
+            'class': 'form-control'
+        })
+    )
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username', '')
+        if username=="": 
+            raise forms.ValidationError("Please enter a valid username. ")   
+        return username 
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password','')
+        if password == "":
+            raise ValidationError("Please enter a valid password. ")
+        return password
+
+

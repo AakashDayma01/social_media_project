@@ -1,10 +1,10 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'accounts/registration_page.css' %}">
+<link rel="stylesheet" href="{% static 'accounts/css_files/registration_page.css' %}">
 <div id="form-div">
 <form method="post" novalidate id="register-form" >
     {% csrf_token %}
     
-    {{ form.non_field_errors }}
+    <span class="error" id="non-field-errors"></span>
 
     {% for field in form %}
         <div class="form-group" >
@@ -17,7 +17,7 @@
 
     <button id="submit_button" type="submit">Submit</button>
 </form>
-<button id="login_button" >I already have an account</button>
+<button id="login_button" onclick="go_to_login()" >I already have an account</button>
 </div>
 
 <script>
@@ -26,7 +26,7 @@
        e.preventDefault();
        let form = this;
        let formData = new FormData(form)
-       document.querySelectorAll('error').forEach(span => span.textContent = '')
+       document.querySelectorAll('.error').forEach(span => span.textContent = '')
        fetch(form.action || window.location.href,{
         method: 'post',
         body: formData,
@@ -56,5 +56,9 @@
        })
        .catch(error => console.log('Error:', error));
     });
+
+    function go_to_login(){
+        window.location.href = 'http://127.0.0.1:8000/login/'
+    }
 
 </script>
