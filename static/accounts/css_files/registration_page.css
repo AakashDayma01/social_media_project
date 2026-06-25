@@ -2,7 +2,11 @@
     width: 45%;
     margin: auto;
     padding: 10px;
+    justify-content: center;
+    background-color: #ffffff;
+    box-sizing: border-box;
 }
+
 #login_button{
     padding: 8px 20px; 
     border: 1px solid #dbdbdb; 
@@ -12,14 +16,21 @@
     background-color: white;
     width: 100%;
     height: 45px;
+    transition: color 0.2s ease-in-out; 
+}
+
+#login_button:hover {
+    background-color: #f2f2f2; 
 }
 
 .form-group{
     margin-bottom: 15px; 
     display: flex; 
     flex-direction: column; 
-    max-width: 350px;
+    margin-right: 5px;
+    width: 100%;
 }
+
 #submit_button{
     padding: 8px 20px; 
     border: none;
@@ -53,8 +64,9 @@
     background-color: #fafafa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 14px;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
-    width: 160%;
+    box-sizing: border-box;
+    width: 100%;
     height: 60px;
     font-size: 15px;
 }
+

@@ -10,7 +10,6 @@ class UniversalAuthBackend(ModelBackend):
         identifier = kwargs.get('username')
         if not identifier:
             return None
-            
         try:    
             user = UserModel.objects.get(
                 Q(username__iexact=identifier) | 

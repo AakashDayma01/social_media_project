@@ -141,3 +141,16 @@ AUTHENTICATION_BACKENDS = [
     'apps.accounts.backends.UniversalAuthBackend', 
     'django.contrib.auth.backends.ModelBackend',  
 ]
+
+
+#Email credentials for reset password Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = '://gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'your_real_email@gmail.com' 
+EMAIL_HOST_PASSWORD = 'your_google_app_password' 
+
+# This acts as the default sender address
+DEFAULT_FROM_EMAIL = 'Your App Name <your_real_email@gmail.com>'

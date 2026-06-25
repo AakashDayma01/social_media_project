@@ -1,0 +1,135 @@
+#form-div{
+    width: 45%;
+    margin-top: 8%;
+    margin-left: 54%;
+    justify-content: center;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+#login_button{
+    padding: 8px 20px; 
+    border: 1px solid #dbdbdb; 
+    border-radius: 20px; 
+    font-weight: bold; 
+    cursor: pointer;
+    background-color: white;
+    width: 100%;
+    height: 45px;
+}
+
+.form-group{
+    margin-bottom: 0px; 
+    display: flex; 
+    flex-direction: column; 
+    margin-right: 5px;
+    width: 100%;
+}
+
+#submit_button{
+    padding: 8px 20px; 
+    border: none;
+    margin-top: 18px;
+    background-color: #0095f6; 
+    color: white;
+    border: 3px solid #dbdbdb; 
+    border-radius: 20px; 
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 50px;
+    width: 100%;
+}
+
+.error{
+    color: red; 
+    font-size: 13px;
+}
+
+.labels{
+
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    margin-top: 5px;
+    padding-left: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #dbdbdb; 
+    border-radius: 10px;
+    background-color: #fafafa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    font-size: 15px;
+}
+
+
+#forgot-button{
+    padding: 8px 20px; 
+    border: none;
+    background-color: white; 
+    color: black;
+    border-radius: 20px; 
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 50px;
+    width: 100%;
+    transition: color 0.2s ease-in-out; 
+
+}
+
+#forgot-button:hover {
+    background-color: #f2f2f2; 
+}
+
+
+#heading-label{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+
+#facebook-button{
+    padding: 8px 20px; 
+    border: 1px solid #dbdbdb; 
+    background-color: white; 
+    color: black;
+    border-radius: 20px; 
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    transition: color 0.2s ease-in-out;
+    margin-top: 50px; 
+
+}
+
+#facebook-button:hover {
+    background-color: #f2f2f2; 
+}
+
+#register-button{
+    padding: 8px 20px; 
+    border: 1px solid blue; 
+    background-color: white; 
+    color: #0095f6;
+    border-radius: 20px; 
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    transition: color 0.2s ease-in-out;
+    margin-top: 10PX; 
+
+}
+
+#register-button:hover {
+    background-color: #f2f2f2; 
+}

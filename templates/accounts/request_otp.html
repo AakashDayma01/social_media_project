@@ -1,0 +1,16 @@
+<form method="POST" novalidate> 
+    {% csrf_token %}
+    
+    {% if form.non_field_errors %}
+        <div class="errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <label>Enter Email:</label>
+    
+    {% if form.email.errors %}
+        <div class="errors">{{ form.email.errors }}</div>
+    {% endif %}
+    
+    <input type="email" name="email" value="{{ form.email.value|default:'' }}">
+    <button type="submit">Send OTP</button>
+</form>

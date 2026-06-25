@@ -3,6 +3,7 @@ from .models import CustomUser
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate
 
 class CustomUserCreationForm(forms.ModelForm):
     password = forms.CharField(
@@ -51,25 +52,54 @@ class CustomUserCreationForm(forms.ModelForm):
             raise ValidationError("Enter your name.")
         return name
 
-class UniversalLoginForm(AuthenticationForm):
+class UniversalLoginForm(forms.Form):
     username = forms.CharField(
-        label="Username, Email, or Mobile Number",
+        label="",
+        required=False,
         widget=forms.TextInput(attrs={
-            'placeholder': 'Enter your Username, Email, or Mobile',
+            'placeholder': 'Mobile number, Email, or Username',
             'class': 'form-control'
         })
     )
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username', '')
-        if username=="": 
-            raise forms.ValidationError("Please enter a valid username. ")   
-        return username 
+    password = forms.CharField(
+        label="",
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter your password',
+            'class': 'form-control'
+        })
+    )
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
 
-    def clean_password(self):
-        password = self.cleaned_data.get('password','')
-        if password == "":
-            raise ValidationError("Please enter a valid password. ")
-        return password
+    def clean(self):
+        username = self.cleaned_data.get('username', '').strip()
+        password = self.cleaned_data.get('password', '')
 
+        if password == "" and username == "":
+            raise ValidationError({"username": "Please enter a valid username.",
+                "password": "Please enter a valid password."})
+        if username == "" or password=="":
+            if username == "":
+                raise ValidationError({"username": "Please enter a valid username."})   
+            elif password=="":
+                raise ValidationError({"password": "Please enter a valid password."})
+
+        if username and password:
+            self.user_cache = authenticate(
+                self.request, 
+                username=username, 
+                password=password
+            )
+            
+            if self.user_cache is None:
+                raise ValidationError(
+                    "Invalid login credentials. Please try again."
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
 

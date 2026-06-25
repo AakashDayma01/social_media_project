@@ -1,6 +1,12 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'accounts/css_files/registration_page.css' %}">
+<head>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="{% static 'accounts/css_files/login.css' %}">
+    <script src="{% static 'accounts/js_files/login.js' %}" defer></script>
+</head>
 <div id="form-div">
+<label id="heading-label">Log into Instagram</label>
+
 <form method="post" novalidate id="login-form" >
     {% csrf_token %}
     
@@ -17,46 +23,11 @@
 
     <button id="submit_button" type="submit">Submit</button>
 </form>
+
+
+<button id="forgot-button" >Forgot Password?</button>
+<button id="facebook-button" >Log in with Facebook?</button>
+<button id="register-button" onclick="go_to_register()">Create new account</button>
+
 </div>
 
-<script>
-    
-    document.getElementById('login-form').addEventListener('submit', function(e){
-       e.preventDefault();
-       let form = this;
-       let formData = new FormData(form)
-       document.querySelectorAll('.error').forEach(span => span.textContent = '')
-       const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value
-       fetch(form.action || window.location.href,{
-        method: 'post',
-        body: formData,
-        headers: {
-            'X-Request-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrfToken 
-        }
-       }) 
-       .then(response => response.json().then(data => ({status: response.status,body:data})))
-       .then(res =>{
-        if (res.status === 200 && res.body.success){
-            window.location.href = 'res.body.redirect_url';
-        }else{
-            let errors = res.body.errors
-            console.log('error',errors)
-            for (let fieldName in errors){
-                let errorMessage =  errors[fieldName][0].message;
-
-                if (fieldName === '__all__'){
-                    document.getElementById('non-field-errors').textContent = errorMessage;
-                }else{
-                    let errorSpan = document.getElementById(`error_${fieldName}`);
-                    if (errorSpan) {
-                        errorSpan.textContent = errorMessage;
-                    }
-                }
-            }
-        }
-       })
-       .catch(error => console.log('Error:', error));
-    });
-
-</script>

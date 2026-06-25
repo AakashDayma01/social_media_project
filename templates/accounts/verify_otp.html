@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+    <label>Enter 6-Digit OTP:</label>
+    <input type="text" name="otp" required>
+    
+    <label>New Password:</label>
+    <input type="password" name="new_password" required>
+    
+    <button type="submit">Reset Password</button>
+</form>
