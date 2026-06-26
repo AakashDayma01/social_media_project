@@ -6,12 +6,12 @@ from django.shortcuts import render
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from django.conf import settings
-from .forms import UniversalLoginForm
+from .forms import UniversalLoginForm, OTPRequestForm
 
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
-from .models import PasswordResetOTP
+from .models import PasswordResetOTP 
 
 def register_view(request):
     if request.method == 'POST':
@@ -61,42 +61,48 @@ def login_view(request):
     return render(request, 'accounts/login.html', {'form': form})
 
 
-
 def request_otp(request):
     User = get_user_model()
+    
     if request.method == 'POST':
-        email = (request.POST.get('email') or '').strip()
+        form = OTPRequestForm(request.POST)
         
-        if not email:
-            return render(
-                request, 
-                'accounts/request_otp.html', 
-                {'custom_error_message': "Please enter an email address."}
-            )
-            
-        try:
-            user = User.objects.get(email=email)
-            otp_obj = PasswordResetOTP.generate_otp(user)
-            send_mail(
-                'Your Password Reset OTP',
-                f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-                settings.DEFAULT_FROM_EMAIL, 
-                [email],
-                fail_silently=False,
-            )
-            request.session['reset_email'] = email
-            return redirect('verify_otp')
-        except User.DoesNotExist:
-            return render(
-                request, 
-                'accounts/request_otp.html', 
-                {'custom_error_message': "No user found with this email."}
-            )
-            
-    return render(request, 'accounts/request_otp.html')
+        if form.is_valid():
+            email = form.cleaned_data['email'].strip()
+            user = User.objects.filter(email__iexact=email).first()
+            if user is not None:
+                otp_obj = PasswordResetOTP.generate_otp(user)
+                send_mail(
+                    'Your Pasjsword Reset OTP',
+                    f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
+                    settings.DEFAULT_FROM_EMAIL, 
+                    [email],
+                    fail_silently=False,
+                )
+                request.session['reset_email'] = email
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        'success': True,
+                        'redirect_url': 'verify-otp/'
+                    })
+                return redirect(settings.LOGIN_REDIRECT_URL)
+
+            else:
+                form.add_error('email', 'No user found with this email.')
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False, 
+                'errors': form.errors.get_json_data()
+            }, status=400)
+
+    else:
+        form = OTPRequestForm()
+
+    return render(request, 'accounts/request_otp.html', {'form': form})
 
 
 def verify_otp(request):
+    User = get_user_model()
     email = request.session.get('reset_email')
     if not email:
         return redirect('accounts/request_otp')
@@ -113,9 +119,9 @@ def verify_otp(request):
                 user.set_password(new_password)
                 user.save()
                 otp_record.delete()
-                del request.session['reset_email'] # Clean up session
+                del request.session['reset_email']
                 messages.success(request, "Password reset successful!")
-                return redirect('login') # Redirect to your login page
+                return redirect('login') 
             else:
                 messages.error(request, "Invalid or expired OTP.")
         except User.DoesNotExist:

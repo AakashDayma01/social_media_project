@@ -1,16 +1,91 @@
-<form method="POST" novalidate> 
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'accounts/css_files/request_otp.css' %}">
+<head>
+    <link rel="icon" href="data:,">
+</head>
+<div id="form-div">
+<label id="heading-label">Find your account</label>
+<form method="post" novalidate id="request-otp-form" >
     {% csrf_token %}
     
-    {% if form.non_field_errors %}
-        <div class="errors">{{ form.non_field_errors }}</div>
-    {% endif %}
+    <span class="error" id="non-field-errors"></span>
 
-    <label>Enter Email:</label>
-    
-    {% if form.email.errors %}
-        <div class="errors">{{ form.email.errors }}</div>
-    {% endif %}
-    
-    <input type="email" name="email" value="{{ form.email.value|default:'' }}">
-    <button type="submit">Send OTP</button>
+    {% for field in form %}
+        <div class="form-group" >
+            <label class="labels">{{ field.label }}</label>
+            {{ field }}
+            
+            <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
+        </div>
+    {% endfor %}
+    <label class="label-info">* You may receive Email with OTP from us for security and reset password purposes.</label>
+
+    <button id="submit_button" type="submit">Continue</button>
 </form>
+</div>
+
+<script>
+    document.getElementById('request-otp-form').addEventListener('submit', function(e){
+        e.preventDefault();
+
+        let form = this;
+        let formData = new FormData(form)
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+        fetch(form.action || window.location.href,{
+            method: 'post',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
+            }
+        })
+
+        .then(response => response.json().then(data => ({status: response.status, body:data})))
+
+        .then(res =>{
+            if (res.status ==200 && res.body.success){
+                window.location.href = res.body.redirect_url;
+            }else{
+                let fieldsWithNewErrors = {};
+                let errors = res.body.errors
+                for (let fieldName in errors){
+                    let errorMessage = errors[fieldName][0].message;
+                    fieldsWithNewErrors[fieldName] = true
+                    console.log(fieldsWithNewErrors)
+
+                    if (fieldName === '__all__'){
+                        let nonFieldSpan = document.getElementById('non-field-errors')
+                        if (nonFieldSpan.textContent !== errorMessage){
+                            nonFieldSpan.textContent = errorMessage;
+                        }
+                    }else{
+                        let errorSpan = document.getElementById(`error_${fieldName}`);
+                        if (errorSpan){
+                            if (errorSpan.textContent !== errorMessage){
+                                errorSpan.textContent = errorMessage;
+                            }
+                        }
+                    }
+                }
+
+                document.querySelectorAll('.error').forEach(span => {
+                    let id = span.id;
+                    let fieldName = id.replace('error_', '');
+                    if (id === 'non-field-errors'){ 
+                        fieldName = '__all__';
+                    }
+                    
+                    if (!fieldsWithNewErrors[fieldName]) {
+                        span.textContent = '';
+                        console.log('span',span)
+                    }
+                });
+            }
+
+        })
+        .catch(error=> console.log('Error:', error));
+    });
+
+</script>
+

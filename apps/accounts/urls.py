@@ -8,6 +8,6 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('login/profile/', register_view, name='profile'),
     path('request-otp/', request_otp, name='request_otp'),
-    path('verify-otp/', verify_otp, name='verify_otp'),
+    path('request-otp/verify-otp/', verify_otp, name='verify_otp'),
 
 ]

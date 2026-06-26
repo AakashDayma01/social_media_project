@@ -99,7 +99,22 @@ class UniversalLoginForm(forms.Form):
                     "Invalid login credentials. Please try again."
                 )
             else:
-                self.confirm_login_allowed(self.user_cache)
+                if not self.user_cache.is_active:
+                    raise ValidationError("This account is currently inactive.")
 
         return self.cleaned_data
 
+
+class OTPRequestForm(forms.Form):
+    email = forms.EmailField(
+        label="Enter Email",
+        error_messages={
+            'required': 'Please enter an email address.',
+            'invalid': 'Please enter a valid email address.'
+        },
+         widget=forms.TextInput(attrs={
+            'placeholder': 'Enter your registered email',
+            'class': 'form-control'
+        })
+    )
+    
