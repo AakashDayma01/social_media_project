@@ -12,6 +12,9 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from .models import PasswordResetOTP 
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 def register_view(request):
     if request.method == 'POST':
@@ -128,3 +131,17 @@ def verify_otp(request):
             messages.error(request, "An error occurred.")
             
     return render(request, 'accounts/verify_otp.html')
+
+
+def logout_view(request):
+    """
+    Clears the session cookies and logs the user out entirely from 
+    Django and allauth social providers.
+    """
+    logout(request)
+    return redirect('login') 
+
+@login_required
+def home_view(request):
+    """Renders the dashboard landing page for logged-in users."""
+    return render(request, 'home.html', {'user': request.user})

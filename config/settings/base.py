@@ -39,8 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.accounts'
+    'apps.accounts',
+    'django.contrib.sites', 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    "allauth.socialaccount.providers.github", 
+    'allauth.socialaccount.providers.linkedin_oauth2'
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -137,11 +153,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
-AUTHENTICATION_BACKENDS = [
-    'apps.accounts.backends.UniversalAuthBackend', 
-    'django.contrib.auth.backends.ModelBackend',  
-]
-
 
 #Email credentials for reset password Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -151,3 +162,26 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'akash.dayma@thoughtwin.com'       
 EMAIL_HOST_PASSWORD = 'zlcinbimnxhmodns'      
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'OAUTH_PKCE_ENABLED': True,
+    },
+    # Update the linkedin_oauth2 section right here:
+    'linkedin_oauth2': {
+        'SCOPE': ['openid', 'profile', 'email'], # Forces Django to use your approved scopes
+        'PROFILE_FIELDS': [
+            'id',
+            'first-name',
+            'last-name',
+            'email-address',
+            'picture-url',
+        ],
+    }
+}
+
+LOGIN_REDIRECT_URL = 'home'
+SOCIALACCOUNT_LOGIN_ON_GET = True
+

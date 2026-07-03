@@ -94,7 +94,7 @@
 }
 
 
-#facebook-button{
+#google-button{
     padding: 8px 20px; 
     border: 1px solid #dbdbdb; 
     background-color: white; 
@@ -107,12 +107,31 @@
     width: 100%;
     transition: color 0.2s ease-in-out;
     margin-top: 50px; 
-
 }
 
-#facebook-button:hover {
+#google-button:hover {
     background-color: #f2f2f2; 
 }
+
+
+#github-button{
+    padding: 8px 20px; 
+    border: 1px solid #dbdbdb; 
+    background-color: white; 
+    color: black;
+    border-radius: 20px; 
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    transition: color 0.2s ease-in-out;
+    margin-top: 5px; 
+}
+#github-button:hover {
+    background-color: #f2f2f2; 
+}
+
 
 #register-button{
     padding: 8px 20px; 
