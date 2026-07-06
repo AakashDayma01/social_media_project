@@ -1,29 +1,78 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome Home</title>
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f6f9; }
-        .dashboard-card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 100%; }
-        h1 { color: #333; margin-bottom: 10px; }
-        p { color: #666; margin-bottom: 30px; }
-        .logout-btn { background-color: #e02424; color: white; border: none; padding: 12px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.2s; width: 100%; }
-        .logout-btn:hover { background-color: #c81e1e; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Feed</title>
+    <link rel="stylesheet" href="{% static 'accounts/css_files/home.css' %}">
 </head>
 <body>
 
-<div class="dashboard-card">
-    <h1>Welcome, {{ user.username }}!</h1>
-    <p>You have successfully authenticated via your third-party account profile application setup.</p>
-    
-    <!-- This fires a standard routing request straight to your logout loop -->
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button class="logout-btn" type="submit">Log Out of All Accounts</button>
-    </form>
-</div>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar-custom">
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="logout-top-left" type="submit">Log Out</button>
+        </form>
+        <span class="navbar-title">Instagram App</span>
+        <a href="{% url 'create_post' %}" class="new-post-btn">+ New Post</a>
+    </nav>
+
+    <!-- Main Post Area -->
+    <div class="feed-container">
+        {% for post in posts %}
+            <div class="insta-card">
+                
+                <div class="card-header-user">
+                    <span>{{ post.author.username }}</span>
+                </div>
+
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="post-img" alt="Post Image">
+                {% endif %}
+
+                <div class="card-body-custom">
+                    <div class="action-bar">
+                        <form action="{% url 'like_post' post.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="like-btn-icon">
+                                {% if request.user in post.likes.all %}
+                                    ❤️
+                                {% else %}
+                                    🤍
+                                {% endif %}
+                            </button>
+                        </form>
+                    </div>
+
+                    <span class="likes-count">{{ post.total_likes }} likes</span>
+
+                    <p class="caption-text">
+                        <span class="caption-username">{{ post.author.username }}</span>{{ post.content }}
+                    </p>
+
+                    {% if request.user == post.author %}
+                        <form action="{% url 'delete_post' post.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">
+                                Delete Post
+                            </button>
+                            
+                        </form>
+                    {% endif %}
+
+
+                    <div class="post-time">{{ post.created_at|timesince }} ago</div>
+                </div>
+
+            </div>
+        {% empty %}
+            <div class="empty-feed">
+                <p>No posts visible right now. Share something with the network above!</p>
+            </div>
+        {% endfor %}
+    </div>
 
 </body>
 </html>

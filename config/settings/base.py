@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-ybe7dq9vt_m8gzu(&3&d5g=@$_bypu8m$7ll$p&i$p5si&jbrq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "testserver",
+]
 
 
 # Application definition
@@ -40,13 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.accounts',
+    'apps.post',
     'django.contrib.sites', 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     "allauth.socialaccount.providers.github", 
-    'allauth.socialaccount.providers.linkedin_oauth2'
+    'allauth.socialaccount.providers.openid_connect', 
 ]
 
 SITE_ID = 1
@@ -169,18 +174,10 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {'access_type': 'online'},
         'OAUTH_PKCE_ENABLED': True,
     },
-    # Update the linkedin_oauth2 section right here:
-    'linkedin_oauth2': {
-        'SCOPE': ['openid', 'profile', 'email'], # Forces Django to use your approved scopes
-        'PROFILE_FIELDS': [
-            'id',
-            'first-name',
-            'last-name',
-            'email-address',
-            'picture-url',
-        ],
-    }
+    # The 'openid_connect' block has been completely removed from settings.py 
+    # to let Django read everything exclusively from the database row (id 5).
 }
+
 
 LOGIN_REDIRECT_URL = 'home'
 SOCIALACCOUNT_LOGIN_ON_GET = True

@@ -37,7 +37,7 @@
 </form>  
 <!-- Locate this block in your template and update it -->
 <!-- Replace your LinkdIn form block with this exact code -->
-<form action="{% provider_login_url 'linkedin_oauth2' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
+<form action="{% provider_login_url 'openid_connect' id='linkedin' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
     {% csrf_token %}
     <button id="github-button" type="submit">Log in with LinkedIn</button>
 </form> 

@@ -1,8 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 
-# Create your views here.
-from django.shortcuts import render
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from django.conf import settings
@@ -13,8 +11,8 @@ from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from .models import PasswordResetOTP 
 from django.contrib.auth import logout
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from apps.post.models import SocialPost
 
 def register_view(request):
     if request.method == 'POST':
@@ -49,7 +47,7 @@ def login_view(request):
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                     return JsonResponse({
                         'success': True,
-                        'redirect_url': 'profile/'
+                        'redirect_url': '/home'
                     })
                 return redirect(settings.LOGIN_REDIRECT_URL)
 
@@ -141,7 +139,8 @@ def logout_view(request):
     logout(request)
     return redirect('login') 
 
+
 @login_required
 def home_view(request):
-    """Renders the dashboard landing page for logged-in users."""
-    return render(request, 'home.html', {'user': request.user})
+    posts = SocialPost.objects.all() 
+    return render(request, 'home.html', {'posts': posts})
