@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_view, login_view, request_otp, verify_otp, logout_view,home_view
+from . import views
 from django.contrib.auth import views as auth_views
 from .forms import UniversalLoginForm
 
