@@ -4,7 +4,7 @@ from django.db.models import Q
 
 class UniversalAuthBackend(ModelBackend):
     def authenticate(self, request, **kwargs):
-        UserModel = get_user_model()
+        User = get_user_model()
         username = kwargs.get('username')
         password = kwargs.get('password')
         identifier = kwargs.get('username')
