@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import SocialPostForm
 from apps.post.models import SocialPost
-from django.contrib import messages
+from django.http import JsonResponse
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 # Create your views here.
 
-@login_required
 def create_post(request):
     if request.method == 'POST':
         form = SocialPostForm(request.POST, request.FILES)
@@ -20,21 +20,33 @@ def create_post(request):
         
     return render(request, 'posts/create_post.html', {'form': form})
 
-@login_required
+@extend_schema(
+    summary="Like or unlike a post",
+    responses={
+        200: OpenApiResponse(description="Success returns like status and total count."),
+        403: OpenApiResponse(description="CSRF Token missing or invalid.")
+    }
+)
 def like_post(request, post_id):
     if request.method == "POST":
         post = get_object_or_404(SocialPost, id=post_id)
         if post.likes.filter(id=request.user.id).exists():
             post.likes.remove(request.user)
+            liked = False
         else:
             post.likes.add(request.user)
-    return redirect('home')
-
+            liked = True
+        return JsonResponse({"success": True, "liked": liked, "total_likes": post.likes.count()})
+    return JsonResponse({"success": False}, status=400)
 
 @login_required
 def delete_post(request, post_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         post = get_object_or_404(SocialPost, id=post_id)
         if post.author == request.user:
             post.delete()
-    return redirect('home')
+            return JsonResponse({"success": True})
+        return JsonResponse({"success": False,
+            "message": "You are not allowed to delete this post."
+        }, status=403)
+    return JsonResponse({"success": False}, status=400)

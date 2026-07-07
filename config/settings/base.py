@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     "allauth.socialaccount.providers.github", 
     'allauth.socialaccount.providers.openid_connect', 
+    "drf_spectacular",
 ]
 
 SITE_ID = 1
@@ -174,11 +175,23 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {'access_type': 'online'},
         'OAUTH_PKCE_ENABLED': True,
     },
-    # The 'openid_connect' block has been completely removed from settings.py 
-    # to let Django read everything exclusively from the database row (id 5).
+    
 }
 
 
 LOGIN_REDIRECT_URL = 'home'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Instagram App API',
+    'DESCRIPTION': 'API documentation for liking and deleting posts',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
