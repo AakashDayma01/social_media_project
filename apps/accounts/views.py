@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-
 from .forms import CustomUserCreationForm
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from .forms import UniversalLoginForm, OTPRequestForm
-
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
@@ -13,6 +11,9 @@ from .models import PasswordResetOTP
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from apps.post.models import SocialPost
+from .models import CustomUser, Contact
+from django.views.decorators.http import require_POST
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -30,32 +31,26 @@ def register_view(request):
 
 def login_view(request):
     #if request.user.is_authenticated:
-      #  return redirect(settings.LOGIN_REDIRECT_URL)
+      #a  return redirect(settings.LOGIN_REDIRECT_URL)
 
     if request.method == 'POST':
         form = UniversalLoginForm(data=request.POST)
-        
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            
             user = authenticate(request, username=username, password=password)
-            
             if user is not None:
-                login(request, user)
-                
+                login(request, user) 
                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                     return JsonResponse({
                         'success': True,
                         'redirect_url': '/home'
                     })
                 return redirect(settings.LOGIN_REDIRECT_URL)
-
             else:
                 form.add_error(None, "Invalid credentials. Please verify your entries.")
         else:
             return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
-
     else:
         form = UniversalLoginForm()
 
@@ -139,8 +134,30 @@ def logout_view(request):
     logout(request)
     return redirect('login') 
 
-
 @login_required
 def home_view(request):
     posts = SocialPost.objects.all() 
     return render(request, 'home.html', {'posts': posts})
+
+@require_POST 
+def toggle_follow(request):
+    target_user_id = request.POST.get('id')
+    if not target_user_id:
+        return JsonResponse({'status': 'error', 'message': 'Missing user ID.'}, status=400)
+
+    target_user = get_object_or_404(CustomUser, id=target_user_id)
+    if request.user == target_user:
+        return JsonResponse({'status': 'error', 'message': 'You cannot follow yourself.'}, status=400)
+
+    contact, created = Contact.objects.get_or_create(
+        user_from=request.user, user_to=target_user
+    )
+    if created:
+        action = 'follow'
+    else:
+        contact.delete()
+        action = 'unfollow'    
+
+    return JsonResponse({'status': 'success',
+        'action': action, 'follower_count': target_user.followers.count() 
+    })

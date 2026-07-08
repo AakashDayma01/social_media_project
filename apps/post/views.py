@@ -4,7 +4,8 @@ from .forms import SocialPostForm
 from apps.post.models import SocialPost
 from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema, OpenApiResponse
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 def create_post(request):
@@ -27,6 +28,8 @@ def create_post(request):
         403: OpenApiResponse(description="CSRF Token missing or invalid.")
     }
 )
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def like_post(request, post_id):
     if request.method == "POST":
         post = get_object_or_404(SocialPost, id=post_id)

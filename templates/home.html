@@ -50,9 +50,18 @@
                 </p>
 
                 {% if request.user == post.author %}
-                <button type="button" class="delete-btn" data-post-id="{{ post.id }}">
-                    Delete Post
-                </button>
+                    <button type="button" class="delete-btn" data-post-id="{{ post.id }}">
+                        Delete Post
+                    </button>
+                {% else %}
+                    <button type="button" class="follow-btn" data-id="{{ post.author.id }}">
+                        {% if request.user in post.author.followers.all %}
+                            Unfollow
+                        {% else %}
+                            Follow
+                        {% endif %}
+                    </button>
+                    <p><span class="follower-count-val" data-id="{{ post.author.id }}">{{ post.author.followers.count }}</span> Followers</p>
                 {% endif %}
                 <div class="post-time">
                     {{ post.created_at|timesince }} ago
@@ -105,6 +114,7 @@ document.querySelectorAll(".delete-btn").forEach(function(button){
         fetch(`/post/delete-post/${postId}/`, {
             method: "POST",
             headers: {
+
                 "X-Requested-With": "XMLHttpRequest",
                 'X-CSRFToken': csrfToken 
             }
@@ -119,6 +129,44 @@ document.querySelectorAll(".delete-btn").forEach(function(button){
             }
         })
         .catch(error => {console.log(error);});
+    });
+});
+
+document.querySelectorAll(".follow-btn").forEach(function(button){
+    button.addEventListener("click", function(){
+        const targetUserId = this.dataset.id; 
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                const formData = new FormData();
+        formData.append('id', targetUserId);
+
+        fetch('/user/toggle-follow/', {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                'X-CSRFToken': csrfToken 
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === 'success'){
+                document.querySelectorAll(`.follow-btn[data-id="${targetUserId}"]`).forEach(btn => {
+                    if(data.action === 'follow'){
+                        btn.textContent = 'Unfollow';
+                    } else {
+                        btn.textContent = 'Follow';
+                    }
+                });
+                document.querySelectorAll(`.follower-count-val[data-id="${targetUserId}"]`).forEach(el => {
+                    el.textContent = data.follower_count;
+                });
+            } else {
+                alert(data.message || "An error occurred.");
+            }
+        })
+        .catch(error => {
+            console.log("Error handling follow relationship: ", error);
+        });
     });
 });
 </script>

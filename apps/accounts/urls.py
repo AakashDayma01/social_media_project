@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register_view, login_view, request_otp, verify_otp, logout_view,home_view
+from .views import register_view, login_view, request_otp, verify_otp, logout_view,home_view, toggle_follow
 
 urlpatterns = [
     path('home/', home_view, name='home'), 
@@ -8,5 +8,5 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('request-otp/', request_otp, name='request_otp'),
     path('request-otp/verify-otp/', verify_otp, name='verify_otp'),
-
+    path('user/toggle-follow/', toggle_follow, name='toggle_follow'),
 ]
