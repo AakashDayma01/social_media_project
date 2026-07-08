@@ -10,16 +10,31 @@
 </head>
 <body>
     <nav class="navbar-custom">
+
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <button class="logout-top-left" type="submit">
                 Log Out
             </button>
         </form>
-        <span class="navbar-title">Instagram App</span>
-        <a href="{% url 'create_post' %}" class="new-post-btn">+ New Post</a>
-    </nav>
 
+        <span class="navbar-title">
+            Instagram App
+        </span>
+
+        <div class="nav-right">
+
+            <a href="{% url 'profile_view' request.user.username %}" class="profile-btn">
+                My Profile
+            </a>
+
+            <a href="{% url 'create_post' %}" class="new-post-btn">
+                + New Post
+            </a>
+
+        </div>
+
+    </nav>
     <div class="feed-container">
         {% for post in posts %}
         <div class="insta-card" id="post-{{ post.id }}">

@@ -28,7 +28,6 @@ def register_view(request):
         
     return render(request, 'accounts/registration.html', {'form': form})
 
-
 def login_view(request):
     #if request.user.is_authenticated:
       #a  return redirect(settings.LOGIN_REDIRECT_URL)
@@ -139,6 +138,48 @@ def home_view(request):
     posts = SocialPost.objects.all() 
     return render(request, 'home.html', {'posts': posts})
 
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import CustomUser
+from apps.post.models import SocialPost 
+
+@login_required
+def profile_view(request, username):
+    # SECURITY ENFORCEMENT: If the URL username doesn't match the logged-in user,
+    # force redirect them back to their own correct profile URL path.
+    if request.user.username != username:
+        return redirect('profile_view', username=request.user.username)
+    
+    # At this point, request.user is guaranteed to be the owner of the profile
+    posts = SocialPost.objects.filter(author=request.user)
+    
+    return render(request, 'accounts/profile.html', {
+        'profile_user': request.user, # No need to look up other users anymore
+        'posts': posts,
+    })
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
+def edit_profile_view(request):
+    user = request.user
+
+    if request.method == "POST":
+        user.full_name = request.POST.get("full_name", "").strip()
+        user.bio = request.POST.get("bio", "").strip()
+        user.website = request.POST.get("website", "").strip()
+        user.phone_number = request.POST.get("phone_number", "").strip()
+        user.gender = request.POST.get("gender", "")
+        dob = request.POST.get("date_of_birth")
+        if dob:
+            user.date_of_birth = dob
+        if request.FILES.get("profile_pic"):
+            user.profile_pic = request.FILES["profile_pic"]
+        user.save()
+        return redirect("profile_view", username=user.username)
+
+    return render(request, "accounts/edit_profile.html")
 @require_POST 
 def toggle_follow(request):
     target_user_id = request.POST.get('id')

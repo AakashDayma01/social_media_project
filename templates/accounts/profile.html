@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile_user.username }} | Instagram Clone</title>
+
+    <link rel="stylesheet" href="{% static 'accounts/css_files/profile.css' %}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        Instagram Clone
+    </div>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'create_post' %}">+ New Post</a>
+        <a href="{% url 'profile_view' request.user.username %}" class="active">
+            Profile
+        </a>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
+    </div>
+</nav>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-left">
+            {% if profile_user.profile_pic %}
+                <img src="{{ profile_user.profile_pic.url }}" class="profile-image">
+            {% else %}
+                <img src="{% static 'images/default.png' %}" class="profile-image">
+            {% endif %}
+        </div>
+        <div class="profile-right">
+            <div class="username-row">
+                <h2>{{ profile_user.username }}</h2>
+                <a href="{% url 'edit_profile' %}" class="edit-btn">
+                    Edit Profile
+                </a>
+                <button class="settings-btn">
+                    ⚙
+                </button>
+            </div>
+
+            <div class="stats">
+                <div>
+                    <strong>{{ posts.count }}</strong>
+                    <span>Posts</span>
+                </div>
+                <div>
+                    <strong>{{ profile_user.followers.count }}</strong>
+                    <span>Followers</span>
+                </div>
+                <div>
+                    <strong>{{ profile_user.following.count }}</strong>
+                    <span>Following</span>
+                </div>
+            </div>
+
+            <div class="bio">
+                <h4>{{ profile_user.full_name }}</h4>
+                {% if profile_user.bio %}
+                    <p>{{ profile_user.bio }}</p>
+                {% endif %}
+                {% if profile_user.website %}
+                    <a href="{{ profile_user.website }}" target="_blank">
+                        {{ profile_user.website }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="profile-tabs">
+        <div class="tab active">
+            📷 POSTS
+        </div>
+        <!-- <div class="tab">
+            🎬 REELS
+        </div>
+        <div class="tab">
+            🏷 TAGGED
+        </div> -->
+    </div>
+
+    <div class="post-grid">
+        {% for post in posts %}
+            <div class="post-card">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Post">
+                    <div class="overlay">
+                        <span>❤️ {{ post.total_likes }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="empty-posts">
+                <h2>No Posts Yet</h2>
+                <p>Create your first post.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

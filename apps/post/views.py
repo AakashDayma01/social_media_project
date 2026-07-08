@@ -53,3 +53,4 @@ def delete_post(request, post_id):
             "message": "You are not allowed to delete this post."
         }, status=403)
     return JsonResponse({"success": False}, status=400)
+
