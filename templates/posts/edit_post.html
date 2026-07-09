@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Post</title>
+    <title>Edit New Post</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'accounts/css_files/create_post.css' %}">
 </head>
@@ -31,8 +31,8 @@
     </nav>
     <div class="post-card">
 
-        <h2 class="post-title">📸 Create a New Post</h2>
-
+        <h2 class="post-title">📸 Edit Your Post</h2>
+        
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -42,16 +42,15 @@
             </div>
 
             <div class="mb-4">
-                <label class="form-label">Upload Photo</label>
+                <label class="form-label">Change Photo</label>
 
                 <div class="upload-box">
                     <span class="emoji">🖼️</span>
                     {{ form.image }}
                 </div>
             </div>
-
             <button type="submit" class="btn btn-publish w-100">
-                🚀 Publish Post
+                🚀 Edit Post
             </button>
         </form>
     </div>

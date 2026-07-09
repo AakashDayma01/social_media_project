@@ -6,125 +6,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
-
     <link rel="stylesheet" href="{% static 'accounts/css_files/edit_profile.css' %}">
 </head>
 <body>
-
 <div class="edit-profile-container">
-
     <h2>Edit Profile</h2>
-
     <form method="POST" enctype="multipart/form-data">
-
         {% csrf_token %}
-
         <div class="profile-image-section">
-
             {% if request.user.profile_pic %}
                 <img src="{{ request.user.profile_pic.url }}" class="profile-preview">
             {% else %}
                 <img src="{% static 'images/default.png' %}" class="profile-preview">
             {% endif %}
-
-            <input type="file"
-                   name="profile_pic"
-                   accept="image/*">
-
+            <input type="file" name="profile_pic" accept="image/*">
         </div>
-
         <div class="form-group">
-
             <label>Full Name</label>
-
-            <input type="text"
-                   name="full_name"
-                   value="{{ request.user.full_name }}">
-
+            <input type="text" name="full_name" value="{{ request.user.full_name }}">
         </div>
-
         <div class="form-group">
-
             <label>Bio</label>
-
-            <textarea
-                name="bio"
-                rows="4"
-                maxlength="150">{{ request.user.bio }}</textarea>
-
+            <textarea name="bio" rows="4" maxlength="150">{{ request.user.bio }}</textarea>
         </div>
-
         <div class="form-group">
-
             <label>Website</label>
-
-            <input type="url"
-                   name="website"
-                   value="{{ request.user.website }}">
-
+            <input type="url" name="website" value="{{ request.user.website }}">
         </div>
-
         <div class="form-group">
-
             <label>Phone Number</label>
-
-            <input type="text"
-                   name="phone_number"
-                   value="{{ request.user.phone_number }}">
-
+            <input type="text" name="phone_number" value="{{ request.user.phone_number }}">
         </div>
-
         <div class="form-group">
-
             <label>Gender</label>
-
             <select name="gender">
-
                 <option value="M"
                     {% if request.user.gender == "M" %}selected{% endif %}>
                     Male
                 </option>
-
                 <option value="F"
                     {% if request.user.gender == "F" %}selected{% endif %}>
                     Female
                 </option>
-
                 <option value="O"
                     {% if request.user.gender == "O" %}selected{% endif %}>
                     Other
                 </option>
-
             </select>
-
         </div>
-
         <div class="form-group">
-
             <label>Date of Birth</label>
-
-            <input type="date"
-                   name="date_of_birth"
-                   value="{{ request.user.date_of_birth|date:'Y-m-d' }}">
-
+            <input type="date" name="date_of_birth" value="{{ request.user.date_of_birth|date:'Y-m-d' }}">
         </div>
-
         <div class="button-group">
-
             <button type="submit" class="save-btn">
                 Save Changes
             </button>
-
-            <a href="{% url 'profile_view' request.user.username %}"
-               class="cancel-btn">
+            <a href="{% url 'profile_view' request.user.username %}" class="cancel-btn">
                 Cancel
             </a>
-
         </div>
-
     </form>
-
 </div>
-
 </body>
 </html>

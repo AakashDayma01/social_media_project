@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from .forms import SocialPostForm
 from apps.post.models import SocialPost
 from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from .models import ChatMessage
 # Create your views here.
 
 def create_post(request):
@@ -20,6 +20,19 @@ def create_post(request):
         form = SocialPostForm()
         
     return render(request, 'posts/create_post.html', {'form': form})
+
+
+def edit_post(request, post_id):
+    post = get_object_or_404(SocialPost, id=post_id, author=request.user)
+    if request.method == "POST":
+        form = SocialPostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        return JsonResponse({"success": False, "errors": form.errors}, status=400)
+    else:
+        form = SocialPostForm(instance=post)
+    return render(request, "posts/edit_post.html", {'form': form, 'post': post})
 
 @extend_schema(
     summary="Like or unlike a post",
@@ -42,7 +55,6 @@ def like_post(request, post_id):
         return JsonResponse({"success": True, "liked": liked, "total_likes": post.likes.count()})
     return JsonResponse({"success": False}, status=400)
 
-@login_required
 def delete_post(request, post_id):
     if request.method == "POST":
         post = get_object_or_404(SocialPost, id=post_id)
@@ -53,4 +65,48 @@ def delete_post(request, post_id):
             "message": "You are not allowed to delete this post."
         }, status=403)
     return JsonResponse({"success": False}, status=400)
+
+def add_comment(request, post_id):
+    post = get_object_or_404(SocialPost, id=post_id)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        parent = request.POST.get('parent')
+
+        parent_msg = None
+        if parent:
+            parent_msg = get_object_or_404(ChatMessage, id=parent)
+
+        comment = ChatMessage.objects.create(post=post, user=request.user, content=content, parent=parent_msg)
+        return JsonResponse({
+            'success': True,
+            'id': comment.id,
+            'username': comment.user.username,
+            'content': comment.content,
+            'parent_id': parent,
+            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M')
+        })
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+def get_comments(request, post_id):
+    post = get_object_or_404(SocialPost, id=post_id)
+    comments = post.comments.filter(parent__isnull=True).order_by('-timestamp')
+    comments_data = []
+    for comment in comments:
+        replies = comment.replies.all().order_by('timestamp')
+        replies_data = [{
+            'id': reply.id,
+            'username': reply.user.username,
+            'content': reply.content,
+            'timestamp': reply.timestamp.strftime('%b %d, %Y %H:%M')
+        } for reply in replies]
+        comments_data.append({
+            'id': comment.id,
+            'username': comment.user.username,
+            'content': comment.content,
+            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'replies': replies_data
+        })
+    return JsonResponse({'success': True, 'comments': comments_data})
+
 

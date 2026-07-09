@@ -5,36 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Feed</title>
-
     <link rel="stylesheet" href="{% static 'accounts/css_files/home.css' %}">
 </head>
 <body>
     <nav class="navbar-custom">
-
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button class="logout-top-left" type="submit">
-                Log Out
-            </button>
-        </form>
-
-        <span class="navbar-title">
-            Instagram App
-        </span>
-
-        <div class="nav-right">
-
-            <a href="{% url 'profile_view' request.user.username %}" class="profile-btn">
-                My Profile
-            </a>
-
-            <a href="{% url 'create_post' %}" class="new-post-btn">
-                + New Post
-            </a>
-
+        <div class="logo">
+            Instagram Clone
         </div>
-
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'create_post' %}">+ New Post</a>
+            <a href="{% url 'profile_view' request.user.username %}" class="active">
+                Profile
+            </a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </div>
     </nav>
+    
     <div class="feed-container">
         {% for post in posts %}
         <div class="insta-card" id="post-{{ post.id }}">
@@ -53,6 +45,9 @@
                             🤍
                         {% endif %}
                     </button>
+                    <button type="button" class="comment-popup-btn" data-post-id="{{ post.id }}" style="background:none; border:none; font-size:1.3rem; cursor:pointer; padding-left: 10px;">
+                        💬
+                    </button>
                 </div>
                 <span class="likes-count" id="likes-count-{{ post.id }}">
                     {{ post.total_likes }} likes
@@ -68,6 +63,10 @@
                     <button type="button" class="delete-btn" data-post-id="{{ post.id }}">
                         Delete Post
                     </button>
+                    <a href="{% url 'update_post' post.id %}" class="edit-btn">
+                        Edit post
+                    </a>
+                    
                 {% else %}
                     <button type="button" class="follow-btn" data-id="{{ post.author.id }}">
                         {% if request.user in post.author.followers.all %}
@@ -76,6 +75,7 @@
                             Follow
                         {% endif %}
                     </button>
+
                     <p><span class="follower-count-val" data-id="{{ post.author.id }}">{{ post.author.followers.count }}</span> Followers</p>
                 {% endif %}
                 <div class="post-time">
@@ -146,6 +146,7 @@ document.querySelectorAll(".delete-btn").forEach(function(button){
         .catch(error => {console.log(error);});
     });
 });
+
 
 document.querySelectorAll(".follow-btn").forEach(function(button){
     button.addEventListener("click", function(){

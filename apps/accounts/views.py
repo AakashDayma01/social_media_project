@@ -139,29 +139,18 @@ def home_view(request):
     return render(request, 'home.html', {'posts': posts})
 
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from .models import CustomUser
-from apps.post.models import SocialPost 
-
 @login_required
 def profile_view(request, username):
-    # SECURITY ENFORCEMENT: If the URL username doesn't match the logged-in user,
-    # force redirect them back to their own correct profile URL path.
     if request.user.username != username:
         return redirect('profile_view', username=request.user.username)
     
-    # At this point, request.user is guaranteed to be the owner of the profile
     posts = SocialPost.objects.filter(author=request.user)
     
     return render(request, 'accounts/profile.html', {
-        'profile_user': request.user, # No need to look up other users anymore
+        'profile_user': request.user,
         'posts': posts,
     })
-from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-
+    
 def edit_profile_view(request):
     user = request.user
 
@@ -180,6 +169,7 @@ def edit_profile_view(request):
         return redirect("profile_view", username=user.username)
 
     return render(request, "accounts/edit_profile.html")
+
 @require_POST 
 def toggle_follow(request):
     target_user_id = request.POST.get('id')

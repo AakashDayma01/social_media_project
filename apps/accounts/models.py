@@ -60,5 +60,6 @@ class PasswordResetOTP(models.Model):
         cls.objects.filter(user=user).delete()
         otp_code = f"{random.randint(100000, 999999)}"
         return cls.objects.create(user=user, otp=otp_code)
+    
 
 
