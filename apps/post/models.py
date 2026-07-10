@@ -18,8 +18,7 @@ class SocialPost(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-
-class ChatMessage(models.Model):
+class Comment(models.Model):
     post = models.ForeignKey(SocialPost, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()

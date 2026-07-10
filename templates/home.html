@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instagram Feed</title>
     <link rel="stylesheet" href="{% static 'accounts/css_files/home.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar-custom">
@@ -27,6 +28,25 @@
         </div>
     </nav>
     
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="commentsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- modal-lg is recommended for nested replies -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Comments</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalCommentsBody">
+                <!-- JavaScript will dynamically inject JSON comments here -->
+                <div class="text-center">Loading...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
     <div class="feed-container">
         {% for post in posts %}
         <div class="insta-card" id="post-{{ post.id }}">
@@ -45,7 +65,7 @@
                             🤍
                         {% endif %}
                     </button>
-                    <button type="button" class="comment-popup-btn" data-post-id="{{ post.id }}" style="background:none; border:none; font-size:1.3rem; cursor:pointer; padding-left: 10px;">
+                    <button class="btn btn-primary open-comments-btn" data-url="{% url 'get_comments' post.id %}">
                         💬
                     </button>
                 </div>
@@ -91,6 +111,7 @@
         </div>
         {% endfor %}
     </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 document.querySelectorAll(".like-btn").forEach(function(button){
     button.addEventListener("click", function(){
@@ -152,7 +173,7 @@ document.querySelectorAll(".follow-btn").forEach(function(button){
     button.addEventListener("click", function(){
         const targetUserId = this.dataset.id; 
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                const formData = new FormData();
+        const formData = new FormData();
         formData.append('id', targetUserId);
 
         fetch('/user/toggle-follow/', {
@@ -185,6 +206,67 @@ document.querySelectorAll(".follow-btn").forEach(function(button){
         });
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const commentButtons = document.querySelectorAll(".open-comments-btn");
+    const modalBody = document.getElementById("modalCommentsBody");
+    const commentsModal = new bootstrap.Modal(document.getElementById("commentsModal"));
+    
+    commentButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const url = this.getAttribute("data-url");
+            modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+            commentsModal.show();
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.comments.length > 0) {
+                        let htmlContent = '';
+
+                        data.comments.forEach(comment => {
+                            htmlContent += `
+                                <div class="comment-block mb-3 border-bottom pb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>@${comment.username}</strong>
+                                        <small class="text-muted">${comment.timestamp}</small>
+                                    </div>
+                                    <p class="mb-1 mt-1">${comment.content}</p>
+                                    
+                                    <!-- Nested Replies Frame -->
+                                    <div class="replies-section ms-4 ps-2 border-start text-secondary">
+                            `;
+                            comment.replies.forEach(reply => {
+                                htmlContent += `
+                                    <div class="reply-block py-1 mt-2 bg-light p-2 rounded">
+                                        <div class="d-flex justify-content-between">
+                                            <strong class="text-dark">@${reply.username}</strong>
+                                            <small class="text-muted" style="font-size: 0.8rem;">${reply.timestamp}</small>
+                                        </div>
+                                        <p class="mb-0 text-dark" style="font-size: 0.9rem;">${reply.content}</p>
+                                    </div>
+                                `;
+                            });
+
+                            htmlContent += `
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        modalBody.innerHTML = htmlContent;
+                    } else {
+                        modalBody.innerHTML = '<p class="text-muted text-center">No comments yet.</p>';
+                    }
+                })
+                .catch(error => {
+                    modalBody.innerHTML = '<p class="text-danger text-center">Failed to load comments.</p>';
+                    console.error("Error payload structure mapping error:", error);
+                });
+        });
+    });
+});
+
 </script>
 </body>
 </html>

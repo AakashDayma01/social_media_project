@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import ChatMessage
+from .models import Comment
 # Create your views here.
 
 def create_post(request):
@@ -74,9 +74,9 @@ def add_comment(request, post_id):
 
         parent_msg = None
         if parent:
-            parent_msg = get_object_or_404(ChatMessage, id=parent)
+            parent_msg = get_object_or_404(Comment, id=parent)
 
-        comment = ChatMessage.objects.create(post=post, user=request.user, content=content, parent=parent_msg)
+        comment = Comment.objects.create(post=post, user=request.user, content=content, parent=parent_msg)
         return JsonResponse({
             'success': True,
             'id': comment.id,
@@ -109,4 +109,4 @@ def get_comments(request, post_id):
         })
     return JsonResponse({'success': True, 'comments': comments_data})
 
-
+    
