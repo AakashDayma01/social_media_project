@@ -26,26 +26,37 @@
                 </button>
             </form>
         </div>
-    </nav>
-    
+    </nav> 
 
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="commentsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg"> <!-- modal-lg is recommended for nested replies -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Comments</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modalCommentsBody">
-                <!-- JavaScript will dynamically inject JSON comments here -->
-                <div class="text-center">Loading...</div>
+    <!-- Bootstrap Comments code -->
+    <div class="modal fade" id="commentsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg"> 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Comments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalCommentsBody">
+                        <div class="text-center">Loading...</div>
+                    </div>
+                    <hr>
+                    <form id="commentForm">
+                        {% csrf_token %}
+                        <input type="hidden" id="postIdInput">
+                        <input type="hidden" id="parentCommentInput" value="">
+                        <textarea id="commentText" class="form-control" rows="2" placeholder="Write a comment..."></textarea>
+                        <div class="d-flex justify-content-between mt-2">
+                            <small id="replyingTo" class="text-primary"></small>
+                            <button class="btn btn-primary" type="submit">
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
 
     <div class="feed-container">
         {% for post in posts %}
@@ -65,9 +76,10 @@
                             🤍
                         {% endif %}
                     </button>
-                    <button class="btn btn-primary open-comments-btn" data-url="{% url 'get_comments' post.id %}">
+                    <button class="btn btn-primary open-comments-btn" data-post-id="{{ post.id }}" data-url="{% url 'get_comments' post.id %}">
                         💬
                     </button>
+                    
                 </div>
                 <span class="likes-count" id="likes-count-{{ post.id }}">
                     {{ post.total_likes }} likes
@@ -212,9 +224,48 @@ document.addEventListener("DOMContentLoaded", function () {
     const commentButtons = document.querySelectorAll(".open-comments-btn");
     const modalBody = document.getElementById("modalCommentsBody");
     const commentsModal = new bootstrap.Modal(document.getElementById("commentsModal"));
+
+    modalBody.addEventListener('click', function (event) {
+    const button = event.target.closest('.reply-btn');
+        if (button) {
+            const commentId = button.dataset.id;
+            const username = button.dataset.user;
+            document.getElementById('parentCommentInput').value = commentId;
+            document.getElementById('replyingTo').innerHTML = `Replying to @${username}`;
+            document.getElementById('commentText').focus();
+        }
+    });
+
+    function generateCommentHtml(comment, isReply=false) {
+        let htmlContent = `
+            <div class="${isReply ? 'reply-block' : 'comment-block'} mb-3 border-bottom pb-2">
+                <div class="d-flex justify-content-between">
+                    <strong>@${comment.username}</strong>
+                    <small class="text-muted">${comment.timestamp}</small>
+                </div>
+                <p class="mb-1 mt-1">${comment.content}</p>
+                <button class="btn btn-sm btn-link reply-btn" data-id="${comment.id}" data-user="${comment.username}">
+                    Reply
+                </button>                                  
+                <div id="replies-container-${comment.id}" class="replies-section ms-4 ps-2 border-start text-secondary">
+        `;
+        comment.replies.forEach(reply => {
+            htmlContent += generateCommentHtml(reply, true);
+        });
+        htmlContent += `
+                </div>
+            </div>
+        `;
+        return htmlContent;
+
+    }
     
     commentButtons.forEach(button => {
         button.addEventListener("click", function () {
+            document.getElementById("postIdInput").value = this.dataset.postId;
+            document.getElementById("parentCommentInput").value = "";
+            document.getElementById("replyingTo").innerHTML = "";
+            document.getElementById("commentText").value = "";
             const url = this.getAttribute("data-url");
             modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
             commentsModal.show();
@@ -223,37 +274,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     if (data.success && data.comments.length > 0) {
                         let htmlContent = '';
-
                         data.comments.forEach(comment => {
-                            htmlContent += `
-                                <div class="comment-block mb-3 border-bottom pb-2">
-                                    <div class="d-flex justify-content-between">
-                                        <strong>@${comment.username}</strong>
-                                        <small class="text-muted">${comment.timestamp}</small>
-                                    </div>
-                                    <p class="mb-1 mt-1">${comment.content}</p>
-                                    
-                                    <!-- Nested Replies Frame -->
-                                    <div class="replies-section ms-4 ps-2 border-start text-secondary">
-                            `;
-                            comment.replies.forEach(reply => {
-                                htmlContent += `
-                                    <div class="reply-block py-1 mt-2 bg-light p-2 rounded">
-                                        <div class="d-flex justify-content-between">
-                                            <strong class="text-dark">@${reply.username}</strong>
-                                            <small class="text-muted" style="font-size: 0.8rem;">${reply.timestamp}</small>
-                                        </div>
-                                        <p class="mb-0 text-dark" style="font-size: 0.9rem;">${reply.content}</p>
-                                    </div>
-                                `;
-                            });
-
-                            htmlContent += `
-                                    </div>
-                                </div>
-                            `;
+                            htmlContent += generateCommentHtml(comment);
                         });
-
                         modalBody.innerHTML = htmlContent;
                     } else {
                         modalBody.innerHTML = '<p class="text-muted text-center">No comments yet.</p>';
@@ -266,6 +289,79 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+document.getElementById("commentForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const postId = document.getElementById("postIdInput").value;
+    const parent = document.getElementById("parentCommentInput").value;
+    const content = document.getElementById("commentText").value.trim();
+    const modalBody = document.getElementById("modalCommentsBody");
+    if(content === ""){
+        alert("Please write a comment.");
+        return;
+    }
+    fetch(`/post/comments/${postId}/add/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+            "X-Requested-With": "XMLHttpRequest",
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+            content: content,
+            parent: parent
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        if(data.success){
+            if(data.parent_id){
+                const repliesContainer = document.getElementById(`replies-container-${data.parent_id}`);
+                if(repliesContainer){
+                    repliesContainer.insertAdjacentHTML('afterbegin', `
+                        <div class="reply-block py-1 mt-2 bg-light p-2 rounded">
+                            <div class="d-flex justify-content-between">
+                                <strong class="text-dark">@${data.username}</strong>
+                                <small class="text-muted" style="font-size: 0.8rem;">${data.timestamp}</small>
+                            </div>
+                            <p class="mb-0 text-dark" style="font-size: 0.9rem;">${data.content}</p>
+                            <button class="btn btn-sm btn-link reply-btn" data-id="${data.id}" data-user="${data.username}">
+                                Reply
+                            </button>
+                            <div id="replies-container-${data.id}" class="replies-section ms-4 ps-2 border-start text-secondary"></div>
+                        </div>
+                    `);
+                }
+                
+            }else{
+                modalBody.insertAdjacentHTML('afterbegin', `
+                    <div class="comment-block mb-3 border-bottom pb-2">
+                        <div class="d-flex justify-content-between">
+                            <strong>@${data.username}</strong>
+                            <small class="text-muted">${data.timestamp}</small>
+                        </div>
+                        <p class="mb-1 mt-1">${data.content}</p>
+                        <button class="btn btn-sm btn-link reply-btn" data-id="${data.id}" data-user="${data.username}">
+                            Reply
+                        </button>                                  
+                        <div id="replies-container-${data.id}" class="replies-section ms-4 ps-2 border-start text-secondary"></div>
+                    </div>
+                `);
+            }
+            document.getElementById("commentText").value = "";
+            document.getElementById("parentCommentInput").value = "";
+            document.getElementById("replyingTo").innerHTML = "";
+        }else{
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+});
+
 
 </script>
 </body>

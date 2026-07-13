@@ -75,6 +75,7 @@ def add_comment(request, post_id):
         parent_msg = None
         if parent:
             parent_msg = get_object_or_404(Comment, id=parent)
+            print(parent)
 
         comment = Comment.objects.create(post=post, user=request.user, content=content, parent=parent_msg)
         return JsonResponse({
@@ -88,25 +89,62 @@ def add_comment(request, post_id):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 
+# def get_comments(request, post_id):
+#     post = get_object_or_404(SocialPost, id=post_id)
+#     comments = post.comments.filter(parent__isnull=True).order_by('-timestamp')
+#     comments_data = []
+#     for comment in comments:
+#         replies = comment.replies.all().order_by('timestamp')
+#         replies_data = []
+#         for reply in replies:
+#             replies_data.append({
+#                 'id': reply.id,
+#                 'username': reply.user.username,
+#                 'content': reply.content,
+#                 'timestamp': reply.timestamp.strftime('%b %d, %Y %H:%M')
+#             })
+#         comments_data.append({
+#             'id': comment.id,
+#             'username': comment.user.username,
+#             'content': comment.content,
+#             'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+#             'replies': replies_data
+#         })
+#     return JsonResponse({'success': True, 'comments': comments_data})
+
+
 def get_comments(request, post_id):
     post = get_object_or_404(SocialPost, id=post_id)
-    comments = post.comments.filter(parent__isnull=True).order_by('-timestamp')
-    comments_data = []
-    for comment in comments:
-        replies = comment.replies.all().order_by('timestamp')
-        replies_data = [{
-            'id': reply.id,
-            'username': reply.user.username,
-            'content': reply.content,
-            'timestamp': reply.timestamp.strftime('%b %d, %Y %H:%M')
-        } for reply in replies]
-        comments_data.append({
+    all_comments = post.comments.select_related('user').order_by('timestamp')
+    comment_tree = {}
+    root_comments = []
+
+    for comment in all_comments:
+        data = {
             'id': comment.id,
             'username': comment.user.username,
             'content': comment.content,
             'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
-            'replies': replies_data
-        })
-    return JsonResponse({'success': True, 'comments': comments_data})
+            'replies': [] 
+        }
+        
+        if comment.parent_id is None:
+            root_comments.append(data)
+        else:
+            if comment.parent_id not in comment_tree:
+                comment_tree[comment.parent_id] = []
+            comment_tree[comment.parent_id].append(data)
 
-    
+    root_comments.reverse()
+
+    def attach_replies(parent_comment):
+        parent_id = parent_comment['id']
+        if parent_id in comment_tree:
+            for reply in comment_tree[parent_id]:
+                parent_comment['replies'].append(reply)
+                attach_replies(reply)
+
+    for root_comment in root_comments:
+        attach_replies(root_comment)
+    return JsonResponse({'success': True, 'comments': root_comments})
+
