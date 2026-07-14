@@ -84,35 +84,33 @@ def add_comment(request, post_id):
             'username': comment.user.username,
             'content': comment.content,
             'parent_id': parent,
-            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M')
+            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'type': 'add'
         })
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+def edit_comment(request, post_id):
+    post = get_object_or_404(SocialPost, id=post_id)
 
-# def get_comments(request, post_id):
-#     post = get_object_or_404(SocialPost, id=post_id)
-#     comments = post.comments.filter(parent__isnull=True).order_by('-timestamp')
-#     comments_data = []
-#     for comment in comments:
-#         replies = comment.replies.all().order_by('timestamp')
-#         replies_data = []
-#         for reply in replies:
-#             replies_data.append({
-#                 'id': reply.id,
-#                 'username': reply.user.username,
-#                 'content': reply.content,
-#                 'timestamp': reply.timestamp.strftime('%b %d, %Y %H:%M')
-#             })
-#         comments_data.append({
-#             'id': comment.id,
-#             'username': comment.user.username,
-#             'content': comment.content,
-#             'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
-#             'replies': replies_data
-#         })
-#     return JsonResponse({'success': True, 'comments': comments_data})
+    if request.method == 'POST':
+        parent = request.POST.get('parent')
+        comment = get_object_or_404(Comment, id=parent, post=post)
 
+        if comment.user != request.user:
+            return JsonResponse({'success': False, 'error': 'You are not allowed to edit this comment.'}, status=403)
 
+        content = request.POST.get('content')
+        comment.content = content
+        comment.save()
+        return JsonResponse({
+            'success': True,
+            'id': comment.id,
+            'username': comment.user.username,
+            'content': comment.content,
+            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'type': 'edit'
+        })
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 def get_comments(request, post_id):
     post = get_object_or_404(SocialPost, id=post_id)
     all_comments = post.comments.select_related('user').order_by('timestamp')
@@ -148,3 +146,20 @@ def get_comments(request, post_id):
         attach_replies(root_comment)
     return JsonResponse({'success': True, 'comments': root_comments})
 
+def delete_comment(request, post_id):
+    post = get_object_or_404(SocialPost, id=post_id)
+
+    if request.method == 'POST':
+        commentId = request.POST.get('commentId')
+        comment = get_object_or_404(Comment, id=commentId, post=post)
+
+        if comment.user != request.user:
+            return JsonResponse({'success': False, 'error': 'You are not allowed to delete this comment.'}, status=403)
+
+        comment.delete()
+        return JsonResponse({
+            'success': True,
+            'id': commentId,
+            'type': 'delete'
+        })
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})

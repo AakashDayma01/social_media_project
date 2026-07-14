@@ -154,3 +154,15 @@ body {
 .logout-top-left:hover { 
     background-color: #000; 
 }
+
+#modalCommentsBody {
+    max-height: 400px;        
+    overflow-y: auto;        
+    padding-right: 5px;       
+}
+
+#modalCommentsBody p {
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    margin-bottom: 0.5rem;
+}
