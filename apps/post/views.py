@@ -6,6 +6,7 @@ from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Comment
+from django.utils import timezone
 # Create your views here.
 
 def create_post(request):
@@ -85,13 +86,14 @@ def add_comment(request, post_id):
             'content': comment.content,
             'parent_id': parent,
             'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'liked_by_user': request.user in comment.likes.all(),
+            'total_likes': comment.likes.count(),
             'type': 'add'
         })
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def edit_comment(request, post_id):
     post = get_object_or_404(SocialPost, id=post_id)
-
     if request.method == 'POST':
         parent = request.POST.get('parent')
         comment = get_object_or_404(Comment, id=parent, post=post)
@@ -101,6 +103,7 @@ def edit_comment(request, post_id):
 
         content = request.POST.get('content')
         comment.content = content
+        comment.timestamp = timezone.now() 
         comment.save()
         return JsonResponse({
             'success': True,
@@ -108,9 +111,12 @@ def edit_comment(request, post_id):
             'username': comment.user.username,
             'content': comment.content,
             'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'liked_by_user': request.user in comment.likes.all(),
+            'total_likes': comment.likes.count(),
             'type': 'edit'
         })
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
 def get_comments(request, post_id):
     post = get_object_or_404(SocialPost, id=post_id)
     all_comments = post.comments.select_related('user').order_by('timestamp')
@@ -123,6 +129,9 @@ def get_comments(request, post_id):
             'username': comment.user.username,
             'content': comment.content,
             'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'liked_by_user': request.user in comment.likes.all(),
+            'total_likes': comment.likes.count(),
+            'is_deleted': comment.is_deleted,
             'replies': [] 
         }
         
@@ -133,7 +142,6 @@ def get_comments(request, post_id):
                 comment_tree[comment.parent_id] = []
             comment_tree[comment.parent_id].append(data)
 
-    root_comments.reverse()
 
     def attach_replies(parent_comment):
         parent_id = parent_comment['id']
@@ -150,16 +158,36 @@ def delete_comment(request, post_id):
     post = get_object_or_404(SocialPost, id=post_id)
 
     if request.method == 'POST':
-        commentId = request.POST.get('commentId')
-        comment = get_object_or_404(Comment, id=commentId, post=post)
+        comment_id = request.POST.get('comment_id')
+        comment = get_object_or_404(Comment, id=comment_id, post=post)
 
         if comment.user != request.user:
             return JsonResponse({'success': False, 'error': 'You are not allowed to delete this comment.'}, status=403)
 
-        comment.delete()
+        comment.content = 'This comment has been deleted.'
+        comment.is_deleted = True
+        comment.likes.clear()
+        comment.timestamp = timezone.now()
+        comment.save()
         return JsonResponse({
             'success': True,
-            'id': commentId,
+            'id': comment_id,
+            'content': comment.content,
+            'is_deleted': comment.is_deleted,
+            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
             'type': 'delete'
         })
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+def like_comment(request, comment_id):
+    if request.method == "POST":
+        comment = get_object_or_404(Comment, id=comment_id)
+        if comment.likes.filter(id=request.user.id).exists():
+            comment.likes.remove(request.user)
+            liked = False
+        else:
+            comment.likes.add(request.user)
+            liked = True
+        return JsonResponse({"success": True, "liked": liked, "total_likes": comment.likes.count()})
+    return JsonResponse({"success": False}, status=400)
