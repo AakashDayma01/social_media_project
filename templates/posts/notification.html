@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'accounts/css_files/notification.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="notification-container">
+        <div class="notification-header">
+            <h2>Notifications</h2>
+            <span class="badge-count">{{ notifications.count }} total</span>
+        </div>
+        
+        <div class="notification-list">
+            {% for notification in notifications %}
+                <div class="notification-item {% if not notification.is_read %}unread{% endif %}">
+                    
+                    <div class="notification-body">
+                        {% if not notification.is_read %}
+                            <span class="unread-dot" title="Unread"></span>
+                        {% endif %}
+                        <div class="avatar-wrapper">
+                            {% if notification.sender.profile_pic %}
+                                <img src="{{ notification.sender.profile_pic.url }}" alt="Profile Picture" class="avatar-img">
+                            {% else %}
+                                <div class="avatar-placeholder">
+                                    {{ notification.sender.username|slice:":2"|upper }}
+                                </div>
+                            {% endif %}
+                            
+                            <span class="type-badge {{ notification.notification_type }}">
+                                {% if notification.notification_type == 'follow' %}👤
+                                {% elif notification.notification_type == 'like' %}❤️
+                                {% elif notification.notification_type == 'comment' %}💬
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <!-- Content Texts -->
+                        <div class="notification-text">
+                            <span class="username">{{ notification.sender.full_name|default:notification.sender.username }}</span>
+                            <span class="action-text">
+                                {% if notification.notification_type == 'follow' %}
+                                    started following you.
+                                {% elif notification.notification_type == 'like' %}
+                                    liked your post.
+                                {% elif notification.notification_type == 'comment' %}
+                                    commented on your post.
+                                {% endif %}
+                            </span>
+                            <span class="timestamp">{{ notification.timestamp|timesince }} ago</span>
+                        </div>
+                    </div>
+
+                    <div class="notification-actions">
+                        {% if notification.notification_type == 'follow' %}
+                            {% if notification.sender.id in following_ids %}
+                                <button class="btn btn-following" disabled>
+                                    <span>✓</span> Following
+                                </button>
+                            {% else %}
+                                <form method="POST" action="/user/toggle-follow/" style="margin: 0;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{ notification.sender.id }}">
+                                    <button type="submit" class="btn btn-follow-back">Follow Back</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                        
+                       
+                    </div>
+
+                </div>
+            {% empty %}
+                <div class="empty-notifications">
+                    <div class="empty-icon">🔔</div>
+                    <h3>All caught up!</h3>
+                    <p>When people interact with your posts or profile, they'll appear here.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

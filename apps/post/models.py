@@ -30,3 +30,21 @@ class Comment(models.Model):
     is_deleted = models.BooleanField(default=False)
     class Meta:
         ordering = ['timestamp']
+
+
+class Notification(models.Model):
+    notification_types = [
+        ('like', 'Like'),
+        ('comment', 'Comment'),
+        ('follow', 'Follow'),
+    ]
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='notifications')
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sent_notifications')
+    post = models.ForeignKey(SocialPost, on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank=True)
+    notification_type = models.CharField(max_length=10, choices=notification_types)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-timestamp']

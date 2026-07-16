@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Comment
 from django.utils import timezone
+from apps.post.models import Notification
+
 # Create your views here.
 
 def create_post(request):
@@ -191,3 +193,14 @@ def like_comment(request, comment_id):
             liked = True
         return JsonResponse({"success": True, "liked": liked, "total_likes": comment.likes.count()})
     return JsonResponse({"success": False}, status=400)
+
+
+def notification_list_view(request):
+    notifications = request.user.notifications.select_related('sender').all()
+    following_ids = set(request.user.following.values_list('id', flat=True))
+
+    context = {
+        'notifications': notifications,
+        'following_ids': following_ids
+    }
+    return render(request, 'posts/notification.html', context)
