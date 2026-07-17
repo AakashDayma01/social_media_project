@@ -1,3 +1,13 @@
+"""
+Database models for the accounts application.
+This module defines the schema and business logic for user profiles, 
+social relationships (followers/following), and security tokens.
+
+Models:
+    CustomUser: Extended user profile containing personal demographics and social links.
+    Contact: Intermediary asymmetric tracking model for user-to-user follow statuses.
+    PasswordResetOTP: Security model managing expiration and issuance of 6-digit tokens.
+"""
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import random
@@ -7,6 +17,11 @@ from datetime import timedelta
 # Create your models here.
 
 class CustomUser(AbstractUser):
+    """
+    Custom user model expanding the default Django user behavior.
+    Adds support for profile customization, social metrics (following/followers),
+    and additional personal identification fields like phone numbers.
+    """
     GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),
@@ -25,10 +40,16 @@ class CustomUser(AbstractUser):
         'self', through='Contact', related_name='followers', symmetrical=False
     )
     def __str__(self):
+        """
+        Returns the string representation of the user.
+        """
         return self.username
     
 
 class Contact(models.Model):
+    """
+    Intermediary M2M model representing follow relationships between users.
+    """
     user_from = models.ForeignKey(settings.AUTH_USER_MODEL, 
         related_name='rel_from_set', on_delete=models.CASCADE
     )
@@ -43,20 +64,36 @@ class Contact(models.Model):
         ]
 
     def __str__(self):
+        """
+        Returns the directional relationship description string.
+        """
         return f'{self.user_from} follows {self.user_to}'
 
 
 
 class PasswordResetOTP(models.Model):
+    """
+    Stores temporary short-lived OTP tokens used for account verification.
+    """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)    
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_valid(self):
+        """
+        Checks if the generated OTP token is less than 5 minutes old.
+        Returns:
+            bool: True if the token has not expired yet, False otherwise.
+        """
         return timezone.now() < self.created_at + timedelta(minutes=5)
 
     @classmethod
     def generate_otp(cls, user):
+        """
+        Invalidates existing user tokens and issues a new random 6-digit OTP.
+        Args: user (CustomUser): The user requesting a token refresh.
+        Returns: PasswordResetOTP: The newly saved database token instance.
+        """
         cls.objects.filter(user=user).delete()
         otp_code = f"{random.randint(100000, 999999)}"
         return cls.objects.create(user=user, otp=otp_code)

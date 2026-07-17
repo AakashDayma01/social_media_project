@@ -1,3 +1,22 @@
+"""
+URL configuration for the post and interaction social features.
+
+This module maps incoming HTTP request routes to their corresponding view functions 
+handling feed management, content creation, nested commenting, engagement metrics, 
+and user notifications.
+
+Routes:
+    - add/ : Creates and publishes new social posts.
+    - like-post/<post_id>/ : Toggles likes on individual posts.
+    - delete-post/<post_id>/ : Permanently removes an existing post.
+    - update-post/<post_id>/ : Modifies content or attachments of an existing post.
+    - comments/<post_id>/ : Fetches the conversation list for a specific post.
+    - comments/<post_id>/add/ : Publishes top-level comments or nested replies.
+    - comments/<post_id>/edit/ : Modifies an existing comment entry.
+    - comments/<post_id>/delete/ : Flags or hard-deletes a comment entry.
+    - like-comment/<comment_id>/ : Toggles like status on an individual comment.
+    - notifications/ : Displays structural user activity feeds.
+"""
 from django.urls import path
 from . import views
 

@@ -1,3 +1,20 @@
+"""
+URL configuration for the accounts application.
+
+This module maps incoming HTTP request routes to their corresponding view functions 
+handling user sessions, profile management, OTP verification, and social interactions.
+
+Routes:
+    - home/ : Core user dashboard or feed landing page.
+    - logout/ : Terminates user authentication sessions.
+    - register/ : Renders and processes account creation forms.
+    - login/ : Processes user authentication credentials.
+    - request-otp/ : Handles verification token generation requests.
+    - request-otp/verify-otp/ : Direct target for evaluating user-submitted tokens.
+    - user/toggle-follow/ : API or view endpoint to follow/unfollow accounts.
+    - profile/edit/ : Interface for updating personal user profile details.
+    - profile/<username>/ : Dynamic routing to display a specific user's public page.
+"""
 from django.urls import path
 from . import views
 

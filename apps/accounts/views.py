@@ -1,3 +1,10 @@
+"""
+Authentication and profile views for the accounts application.
+
+This module contains views managing user workflows including registration, 
+universal identifier login, password resets via OTP tokens, session management, 
+profile modifications, and social follow networks.
+"""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .forms import CustomUserCreationForm
@@ -16,6 +23,12 @@ from django.views.decorators.http import require_POST
 
 
 def register_view(request):
+    """
+    Handle user registration and process account creation forms.
+
+    Accepts standard browser requests as well as structured AJAX POST elements.
+    Returns JSON response strings containing routing context when successful.
+    """
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -29,11 +42,17 @@ def register_view(request):
     return render(request, 'accounts/registration.html', {'form': form})
 
 def login_view(request):
+    """
+    Authenticate users utilizing a multi-identifier universal login form.
+
+    Populates standard session structures or transmits payload data objects 
+    back to asynchronous frontend fetch/XMLHttpRequest handlers.
+    """
     #if request.user.is_authenticated:
       #a  return redirect(settings.LOGIN_REDIRECT_URL)
 
     if request.method == 'POST':
-        form = UniversalLoginForm(data=request.POST)
+        form = UniversalLoginForm(request=request,data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -57,6 +76,10 @@ def login_view(request):
 
 
 def request_otp(request):
+    """
+    Validate target user emails and distribute short-lived OTP tokens via SMTP.
+    Persists targeted credentials to the current user tracking session.
+    """
     User = get_user_model()
     
     if request.method == 'POST':
@@ -97,6 +120,10 @@ def request_otp(request):
 
 
 def verify_otp(request):
+    """
+    Verify incoming user-supplied safety tokens against database OTP instances.
+    Updates system passwords securely and flushes reset keys from active sessions.
+    """
     User = get_user_model()
     email = request.session.get('reset_email')
     if not email:
@@ -135,12 +162,18 @@ def logout_view(request):
 
 @login_required
 def home_view(request):
+    """
+    Render central dashboard feed populated with global social post data.
+    """
     posts = SocialPost.objects.all() 
     return render(request, 'home.html', {'posts': posts})
 
 
 @login_required
 def profile_view(request, username):
+    """
+    Display public or private account details filtered by specific author.
+    """
     if request.user.username != username:
         return redirect('profile_view', username=request.user.username)
     
@@ -152,6 +185,9 @@ def profile_view(request, username):
     })
     
 def edit_profile_view(request):
+    """
+    Process custom multi-field user profile changes from direct POST submissions.
+    """
     user = request.user
 
     if request.method == "POST":
@@ -172,6 +208,9 @@ def edit_profile_view(request):
 
 @require_POST 
 def toggle_follow(request):
+    """
+    Toggle social network graph follow connections asynchronously via JSON.
+    """
     target_user_id = request.POST.get('id')
     if not target_user_id:
         return JsonResponse({'status': 'error', 'message': 'Missing user ID.'}, status=400)

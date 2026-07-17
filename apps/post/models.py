@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
 
 class SocialPost(models.Model):
+    """
+    Represents an individual text or multimedia entry created by a user.
+    """
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
     content = models.TextField(blank=True)
     image = models.ImageField(upload_to='posts/', blank=True, null=True)
@@ -10,15 +13,27 @@ class SocialPost(models.Model):
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_social_posts', blank=True)
 
     def total_likes(self):
+        """
+        Calculates the aggregate number of user interactions on this specific post.
+        Returns:int: The total count of users who have liked this instance.
+        """
         return self.likes.count()
 
     def __str__(self):
+        """
+        Returns a trunacted summary snippet of the post's text content.
+        """
         return self.content[:50]
 
     class Meta:
         ordering = ['-created_at']
 
 class Comment(models.Model):
+    """
+    Represents a conversational message attached to a parent SocialPost instance.
+    Supports nesting structures via a self-referencing hierarchy key to track individual
+    replies, and features safe deletion logic via status toggles.
+    """
     post = models.ForeignKey(SocialPost, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
@@ -33,6 +48,9 @@ class Comment(models.Model):
 
 
 class Notification(models.Model):
+    """
+    Tracks and distributes automated activity system events directly to targeted users.
+    """
     notification_types = [
         ('like', 'Like'),
         ('comment', 'Comment'),

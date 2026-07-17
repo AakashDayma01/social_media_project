@@ -1,11 +1,14 @@
 from django import forms
 from .models import CustomUser
-from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 
 class CustomUserCreationForm(forms.ModelForm):
+    """
+    Form for handling new user registration.
+    Enforces field requirement rules and securely hashes the user's
+    chosen password before saving it to the database.
+    """
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'placeholder': 'Password'}),
         label="Password"
@@ -28,6 +31,9 @@ class CustomUserCreationForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """
+        Hashes the plain-text password and saves the user instance.
+        """
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
         if commit:
@@ -35,24 +41,39 @@ class CustomUserCreationForm(forms.ModelForm):
         return user
 
     def clean_email(self):
+        """
+        Validates that the email field is not empty.
+        """
         email = self.cleaned_data.get('email', '')
         if email=="": 
             raise forms.ValidationError("Please enter a valid email address. ")   
         return email 
 
     def clean_date_of_birth(self):
+        """
+        Validates that a birthday has been chosen.
+        """
         dob = self.cleaned_data.get('date_of_birth','')
         if dob is None:
             raise ValidationError("Select your birthday.")
         return dob
 
     def clean_full_name(self):
+        """
+        Validates that the full name field is not empty.
+        """
         name = self.cleaned_data.get('full_name','')
         if name == "":
             raise ValidationError("Enter your name.")
         return name
 
 class UniversalLoginForm(forms.Form):
+    """
+    Multi-identifier login form with authentication caching.
+
+    Accepts an email, phone number, or username alongside a password,
+    then queries the authentication backend.
+    """
     username = forms.CharField(
         label="",
         required=False,
@@ -71,10 +92,16 @@ class UniversalLoginForm(forms.Form):
         })
     )
     def __init__(self, request=None, *args, **kwargs):
+        """
+        Stores the current HTTP request to forward context to auth backends.
+        """
         self.request = request
         super().__init__(*args, **kwargs)
 
     def clean(self):
+        """
+        Verifies credentials, checks account status, and populates the user cache.
+        """
         username = self.cleaned_data.get('username', '').strip()
         password = self.cleaned_data.get('password', '')
 
@@ -106,6 +133,9 @@ class UniversalLoginForm(forms.Form):
 
 
 class OTPRequestForm(forms.Form):
+    """
+    Form to request a One-Time Password reset token.
+    """
     email = forms.EmailField(
         label="Enter Email",
         error_messages={

@@ -1,3 +1,10 @@
+"""
+Business logic and request controllers for the post application.
+
+This module exposes functional endpoints managing standard database operations (CRUD)
+for media-supported social updates, fully asynchronous nested conversational commenting hierarchies,
+interaction metrics (likes), and system notifications.
+"""
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SocialPostForm
 from apps.post.models import SocialPost
@@ -7,11 +14,14 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Comment
 from django.utils import timezone
-from apps.post.models import Notification
 
 # Create your views here.
 
 def create_post(request):
+    """
+    Render or process the submission form for publishing a new entry.
+    Binds the incoming upload assets and text values directly to the active session user.
+    """
     if request.method == 'POST':
         form = SocialPostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,6 +36,10 @@ def create_post(request):
 
 
 def edit_post(request, post_id):
+    """
+    Modify an existing publication instance owned by the current user.
+    Returns structured error JSON components if an unexpected form validation gap occurs.
+    """
     post = get_object_or_404(SocialPost, id=post_id, author=request.user)
     if request.method == "POST":
         form = SocialPostForm(request.POST, request.FILES, instance=post)
@@ -47,6 +61,10 @@ def edit_post(request, post_id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def like_post(request, post_id):
+    """
+    Toggle a user's recommendation preference status for a particular post.
+    Calculates aggregate metrics and returns boolean operations tracking interaction changes.
+    """
     if request.method == "POST":
         post = get_object_or_404(SocialPost, id=post_id)
         if post.likes.filter(id=request.user.id).exists():
@@ -59,6 +77,10 @@ def like_post(request, post_id):
     return JsonResponse({"success": False}, status=400)
 
 def delete_post(request, post_id):
+    """
+    Hard-remove a specific publication entry entirely from the database.
+    Enforces ownership criteria validation prior to conducting the deletion step.
+    """
     if request.method == "POST":
         post = get_object_or_404(SocialPost, id=post_id)
         if post.author == request.user:
@@ -70,6 +92,9 @@ def delete_post(request, post_id):
     return JsonResponse({"success": False}, status=400)
 
 def add_comment(request, post_id):
+    """
+    Publish a flat top-level remark or a deeply nested sub-conversational response.
+    """
     post = get_object_or_404(SocialPost, id=post_id)
     if request.method == 'POST':
         content = request.POST.get('content')
@@ -95,6 +120,9 @@ def add_comment(request, post_id):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def edit_comment(request, post_id):
+    """
+    Update text components of an existing user-authored conversation entry.
+    """
     post = get_object_or_404(SocialPost, id=post_id)
     if request.method == 'POST':
         parent = request.POST.get('parent')
@@ -120,6 +148,9 @@ def edit_comment(request, post_id):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 def get_comments(request, post_id):
+    """
+    Retrieve and construct an algorithmic nested tree of message data components.
+    """
     post = get_object_or_404(SocialPost, id=post_id)
     all_comments = post.comments.select_related('user').order_by('timestamp')
     comment_tree = {}
@@ -157,6 +188,9 @@ def get_comments(request, post_id):
     return JsonResponse({'success': True, 'comments': root_comments})
 
 def delete_comment(request, post_id):
+    """
+    Flag a comment entry as deleted and securely wipe text and interaction contents.
+    """
     post = get_object_or_404(SocialPost, id=post_id)
 
     if request.method == 'POST':
@@ -183,6 +217,9 @@ def delete_comment(request, post_id):
 
 
 def like_comment(request, comment_id):
+    """
+    Toggle a user's recommendation metrics for an individual conversation row.
+    """
     if request.method == "POST":
         comment = get_object_or_404(Comment, id=comment_id)
         if comment.likes.filter(id=request.user.id).exists():
@@ -196,6 +233,9 @@ def like_comment(request, comment_id):
 
 
 def notification_list_view(request):
+    """
+    Fetch comprehensive system event streams and relation trackers for rendering.
+    """
     notifications = request.user.notifications.select_related('sender').all()
     following_ids = set(request.user.following.values_list('id', flat=True))
 
