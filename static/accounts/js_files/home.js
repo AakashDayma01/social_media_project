@@ -1,104 +1,144 @@
 const currentUser = document.body.dataset.currentUser;
-document.querySelectorAll(".like-btn").forEach(function(button){
-    button.addEventListener("click", function(){
-        const postId = this.dataset.postId;
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        fetch(`/post/like-post/${postId}/`, {
-            method: "POST",
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrfToken 
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.liked){
-                this.innerHTML = "❤️";
-            }else{
-                this.innerHTML = "🤍";
-            }
-            document.getElementById(`likes-count-${postId}`).innerHTML = `${data.total_likes} likes`;
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    });
-});
 
-document.querySelectorAll(".delete-btn").forEach(function(button){
-    button.addEventListener("click", function(){
-        const postId = this.dataset.postId;
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        let confirmation = confirm("Do you want to delete this post?");
-        if(!confirmation){
+document.addEventListener("DOMContentLoaded", () => {
+    const feedContainer = document.getElementById("infinite-feed-container");
+    const endTrigger = document.getElementById("feed-end-trigger");
+    let loading = false;
+    const originalPosts = $(".insta-card");
+    const observer = new IntersectionObserver((entries)=>{
+        if(!entries[0].isIntersecting || loading){
             return;
         }
-        fetch(`/post/delete-post/${postId}/`, {
-            method: "POST",
-            headers: {
-
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrfToken 
+        loading = true;
+        originalPosts.each(function(){
+            const clonedPost = $(this).clone(true);
+            let oldId = clonedPost.attr("id");
+            if(oldId){
+                clonedPost.attr(
+                    "id",
+                    oldId + "-clone-" + Date.now()
+                );
             }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success){
-                document.getElementById(`post-${postId}`).remove();
-            }
-            else{
-                alert("Unable to delete the post.");
-            }
-        })
-        .catch(error => {console.log(error);});
-    });
-});
-
-
-document.querySelectorAll(".follow-btn").forEach(function(button){
-    button.addEventListener("click", function(){
-        const targetUserId = this.dataset.id; 
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        const formData = new FormData();
-        formData.append('id', targetUserId);
-
-        fetch('/user/toggle-follow/', {
-            method: "POST",
-            body: formData,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                'X-CSRFToken': csrfToken 
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.status === 'success'){
-                document.querySelectorAll(`.follow-btn[data-id="${targetUserId}"]`).forEach(btn => {
-                    if(data.action === 'follow'){
-                        btn.textContent = 'Unfollow';
-                    } else {
-                        btn.textContent = 'Follow';
-                    }
-                });
-                document.querySelectorAll(`.follower-count-val[data-id="${targetUserId}"]`).forEach(el => {
-                    el.textContent = data.follower_count;
-                });
-            } else {
-                alert(data.message || "An error occurred.");
-            }
-        })
-        .catch(error => {
-            console.log("Error handling follow relationship: ", error);
+            $(endTrigger).before(clonedPost);
         });
+        loading = false;
+    },{
+        rootMargin:"300px",
+        threshold:0
     });
+    observer.observe(endTrigger);
 });
+
+document.addEventListener("click", function(e){
+    const likeBtn = e.target.closest(".like-btn");
+    const deleteBtn=e.target.closest(".delete-btn");
+    const followBtn = e.target.closest(".follow-btn");
+    const commentBtn = e.target.closest(".open-comments-btn");
+
+    if(likeBtn){
+        handleLike(likeBtn);
+    }else if(deleteBtn){
+        handleDelete(deleteBtn);
+    }else if(followBtn){
+        handleFollow(followBtn)
+    }else if (commentBtn){
+        openCommentsPopup(commentBtn);
+    }
+});
+
+
+function handleLike(button){
+    const postId = button.dataset.postId;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch(`/post/like-post/${postId}/`, {
+        method: "POST",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            'X-CSRFToken': csrfToken 
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const likeButtons = document.querySelectorAll(`button.like-btn-icon[data-post-id="${postId}"]`);
+        if(data.liked){
+            likeButtons.forEach(btn => btn.innerHTML = "❤️");
+        }else{
+            likeButtons.forEach(btn => btn.innerHTML = "🤍");
+        }
+        document.querySelectorAll(`.likes-count-${postId}`).forEach(element => {element.innerHTML = `${data.total_likes} likes`;});
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+function handleDelete(button){
+    const postId = button.dataset.postId;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    let confirmation = confirm("Do you want to delete this post?");
+    if(!confirmation){
+        return;
+    }
+    fetch(`/post/delete-post/${postId}/`, {
+        method: "POST",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            'X-CSRFToken': csrfToken 
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            document.getElementById(`post-${postId}`).remove();
+        }
+        else{
+            alert("Unable to delete the post.");
+        }
+    })
+    .catch(error => {console.log(error);});
+}
+
+
+function handleFollow(button){
+    const targetUserId = button.dataset.id; 
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const formData = new FormData();
+    formData.append('id', targetUserId);
+
+    fetch('/user/toggle-follow/', {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            'X-CSRFToken': csrfToken 
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success'){
+            document.querySelectorAll(`.follow-btn[data-id="${targetUserId}"]`).forEach(btn => {
+                if(data.action === 'follow'){
+                    btn.textContent = 'Unfollow';
+                } else {
+                    btn.textContent = 'Follow';
+                }
+            });
+            document.querySelectorAll(`.follower-count-val[data-id="${targetUserId}"]`).forEach(el => {
+            el.textContent = data.follower_count;
+            });
+        } else {
+            alert(data.message || "An error occurred.");
+        }
+    })
+    .catch(error => {
+        console.log("Error handling follow relationship: ", error);
+    });
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
     const commentButtons = document.querySelectorAll(".open-comments-btn");
     const modalBody = document.getElementById("modalCommentsBody");
-    const commentsModal = new bootstrap.Modal(document.getElementById("commentsModal"));
-
     modalBody.addEventListener('click', function (event) {
         const button = event.target.closest('.reply-btn');
         const edit_button = event.target.closest('.edit-btn');
@@ -217,7 +257,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+    
+});
 
+function generateCommentHtml(comment, isReply=false) {
     function getTotalRepliesCount(comment) {
         let count = 0;
         if (comment.replies) {
@@ -228,83 +271,81 @@ document.addEventListener("DOMContentLoaded", function () {
         return count;
     }
 
-    function generateCommentHtml(comment, isReply=false) {
-        let editButton = "";
-        if (comment.username === currentUser && !comment.is_deleted) {
-            editButton = `
-                <button class="btn btn-sm btn-link edit-btn" data-id="${comment.id}" data-user="${comment.username}">
-                    Edit
-                </button>
-                <button class="btn btn-sm btn-link delete-comment-btn" data-id="${comment.id}" data-user="${comment.username}">
-                    Delete
-                </button>
-            `;
-        }
-        const totalReplies = getTotalRepliesCount(comment);
-        const replyCountText = totalReplies > 0 ? `${totalReplies} replies` : '';
-        let heartIcon = comment.liked_by_user ? "❤️" : "🤍";
-        let userName = comment.is_deleted ? "@deleted" : `@${comment.username}`;
-        let htmlContent = `
-            <div class="${isReply ? 'reply-block' : 'comment-block'} mb-3 border-bottom pb-2" id="comment-${comment.id}">
-                <div class="d-flex justify-content-between">
-                    <strong class="text-dark">${userName}</strong>
-                    <small class="text-muted">${comment.timestamp}</small>
-                </div>
-                <p class="mb-1 mt-1 text-dark" >${comment.content}</p>
-                <button type="button" class="like-comment-btn btn btn-sm " data-id="${comment.id}">
-                    ${heartIcon}
-                </button>
-                <span id="likes-count-${comment.id}" class="text-secondary">
-                    ${comment.total_likes} likes
-                </span>
-                <button class="btn btn-sm btn-link reply-btn" data-id="${comment.id}" data-user="${comment.username}">
-                    Reply
-                </button>
-                ${editButton}
-                <small class="text-muted" id="comments-count-${comment.id}">${replyCountText}</small>
-                                           
-                <div id="replies-container-${comment.id}" class="replies-section ms-4 ps-2 border-start text-secondary" style="display: none;">
+    let editButton = "";
+    if (comment.username === currentUser && !comment.is_deleted) {
+        editButton = `
+            <button class="btn btn-sm btn-link edit-btn" data-id="${comment.id}" data-user="${comment.username}">
+                Edit
+            </button>
+            <button class="btn btn-sm btn-link delete-comment-btn" data-id="${comment.id}" data-user="${comment.username}">
+                Delete
+            </button>
         `;
-        comment.replies.forEach(reply => {
-            htmlContent += generateCommentHtml(reply, true);
-        });
-        htmlContent += `
-                </div>
-            </div>
-        `;
-        return htmlContent;
-
     }
-    
-    commentButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            document.getElementById("postIdInput").value = this.dataset.postId;
-            document.getElementById("parentCommentInput").value = "";
-            document.getElementById("replyingTo").innerHTML = "";
-            document.getElementById("commentText").value = "";
-            const url = this.getAttribute("data-url");
-            modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
-            commentsModal.show();
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success && data.comments.length > 0) {
-                        let htmlContent = '';
-                        data.comments.forEach(comment => {
-                            htmlContent += generateCommentHtml(comment);
-                        });
-                        modalBody.innerHTML = htmlContent;
-                    } else {
-                        modalBody.innerHTML = '<p class="text-muted text-center">No comments yet.</p>';
-                    }
-                })
-                .catch(error => {
-                    modalBody.innerHTML = '<p class="text-danger text-center">Failed to load comments.</p>';
-                    console.error("Error payload structure mapping error:", error);
-                });
-        });
+    const totalReplies = getTotalRepliesCount(comment);
+    const replyCountText = totalReplies > 0 ? `${totalReplies} replies` : '';
+    let heartIcon = comment.liked_by_user ? "❤️" : "🤍";
+    let userName = comment.is_deleted ? "@deleted" : `@${comment.username}`;
+    let htmlContent = `
+        <div class="${isReply ? 'reply-block' : 'comment-block'} mb-3 border-bottom pb-2" id="comment-${comment.id}">
+            <div class="d-flex justify-content-between">
+                <strong class="text-dark">${userName}</strong>
+                <small class="text-muted">${comment.timestamp}</small>
+            </div>
+            <p class="mb-1 mt-1 text-dark" >${comment.content}</p>
+            <button type="button" class="like-comment-btn btn btn-sm " data-id="${comment.id}">
+                ${heartIcon}
+            </button>
+            <span id="likes-count-${comment.id}" class="text-secondary">
+                ${comment.total_likes} likes
+            </span>
+            <button class="btn btn-sm btn-link reply-btn" data-id="${comment.id}" data-user="${comment.username}">
+                Reply
+            </button>
+            ${editButton}
+            <small class="text-muted" id="comments-count-${comment.id}">${replyCountText}</small>
+                                        
+            <div id="replies-container-${comment.id}" class="replies-section ms-4 ps-2 border-start text-secondary" style="display: none;">
+    `;
+    comment.replies.forEach(reply => {
+        htmlContent += generateCommentHtml(reply, true);
     });
-});
+    htmlContent += `
+            </div>
+        </div>
+    `;
+    return htmlContent;
+
+}
+
+function openCommentsPopup(button){
+    const commentsModal = new bootstrap.Modal(document.getElementById("commentsModal"));
+    const modalBody = document.getElementById("modalCommentsBody");
+    document.getElementById("postIdInput").value = button.dataset.postId;
+    document.getElementById("parentCommentInput").value = "";
+    document.getElementById("replyingTo").innerHTML = "";
+    document.getElementById("commentText").value = "";
+    const url = button.getAttribute("data-url");
+    modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+    commentsModal.show();
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.comments.length > 0) {
+                let htmlContent = '';
+                data.comments.forEach(comment => {
+                    htmlContent += generateCommentHtml(comment);
+                });
+                modalBody.innerHTML = htmlContent;
+            } else {
+                modalBody.innerHTML = '<p class="text-muted text-center">No comments yet.</p>';
+            }
+        })
+        .catch(error => {
+            modalBody.innerHTML = '<p class="text-danger text-center">Failed to load comments.</p>';
+            console.error("Error payload structure mapping error:", error);
+        });
+}
 
 document.getElementById("commentForm").addEventListener("submit", function(e){
     e.preventDefault();
@@ -331,7 +372,6 @@ document.getElementById("commentForm").addEventListener("submit", function(e){
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         if(data.success){
             if(data.parent_id){
                 const repliesContainer = document.getElementById(`replies-container-${data.parent_id}`);

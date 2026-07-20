@@ -1,46 +1,59 @@
 {% load static %}
 {% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login • Instagram</title>
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="{% static 'accounts/css_files/login.css' %}">
     <script src="{% static 'accounts/js_files/login.js' %}" defer></script>
 </head>
-<div id="form-div">
-<label id="heading-label">Log into Instagram</label>
+<body>
 
-<form method="post" novalidate id="login-form" >
-    {% csrf_token %}
-    
-    <span class="error" id="non-field-errors"></span>   
+<div id="main-div">
+    <div id="image-container">
+        <div class="text"><h1>See everyday moments from </h1></div>
+        <div class="text"><h2>your close friends.</h1></div>
 
-    {% for field in form %}
-        <div class="form-group" >
-            <label class="labels">{{ field.label }}</label>
-            {{ field }}
-            
-            <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
-        </div>
-    {% endfor %}
+        <div class="image-div"><img src="{% static 'accounts/instapic.jpg' %}" alt="Instagram Layout Visual"></div>
+    </div>
 
-    <button id="submit_button" type="submit">Submit</button>
-</form>
+    <div id="form-div">
+        <label id="heading-label">Log into Instagram</label>
 
+        <form method="post" novalidate id="login-form">
+            {% csrf_token %}
+            <span class="error" id="non-field-errors">{{ form.non_field_errors }}</span>   
 
-<button id="forgot-button" onclick="reset_password()">Forgot Password?</button>
-<form action="{% provider_login_url 'google' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
-    {% csrf_token %}
-    <button id="google-button" type="submit">Log in with Google</button>
-</form>
-<form action="{% provider_login_url 'github' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
-    {% csrf_token %}
-    <button id="github-button" type="submit">Log in with Github</button>
-</form>  
-<form action="{% provider_login_url 'openid_connect' id='linkedin' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
-    {% csrf_token %}
-    <button id="github-button" type="submit">Log in with LinkedIn</button>
-</form> 
+            {% for field in form %}
+                <div class="form-group">
+                    <label class="labels" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
+                </div>
+            {% endfor %}
 
-<button id="register-button" onclick="go_to_register()">Create new account</button>
+            <button id="submit_button" type="submit">Submit</button>
+        </form>
 
+        <button id="forgot-button" onclick="reset_password()">Forgot Password?</button>
+        <form action="{% provider_login_url 'google' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
+            {% csrf_token %}
+            <button id="google-button" type="submit">Log in with Google</button>
+        </form>
+        <form action="{% provider_login_url 'github' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
+            {% csrf_token %}
+            <button class="outh-button" type="submit">Log in with Github</button>
+        </form>  
+        <form action="{% provider_login_url 'openid_connect' id='linkedin' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
+            {% csrf_token %}
+            <button class="outh-button" type="submit">Log in with LinkedIn</button>
+        </form> 
+
+        <button class="outh-button" onclick="go_to_register()">Create new account</button>
 </div>
 
+</body>
+</html>

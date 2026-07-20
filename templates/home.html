@@ -15,6 +15,7 @@
             Instagram Clone
         </div>
         <div class="nav-links">
+            <a href="{% url 'notification_list' %}">Notifications</a>
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'create_post' %}">+ New Post</a>
             <a href="{% url 'profile_view' request.user.username %}" class="active">
@@ -58,72 +59,59 @@
             </div>
         </div>
     </div>
-
-    <div class="feed-container">
-        {% for post in posts %}
-        <div class="insta-card" id="post-{{ post.id }}">
-            <div class="card-header-user">
-                <span>{{ post.author.username }}</span>
-            </div>
-            {% if post.image %}
+    
+    <div class="feed-wrapper" style="overflow-y: auto; height: 100vh;">
+        <div class="feed-container" id="infinite-feed-container">
+            {% for post in posts %}
+            <div class="insta-card" id="post-{{ post.id }}">
+                <div class="card-header-user">
+                    <span>{{ post.author.username }}</span>
+                </div>
+                {% if post.image %}
                 <img src="{{ post.image.url }}" class="post-img" alt="Post Image">
-            {% endif %}
-            <div class="card-body-custom">
-                <div class="action-bar">
-                    <button type="button" class="like-btn-icon like-btn" data-post-id="{{ post.id }}">
-                        {% if request.user in post.likes.all %}
-                            ❤️
-                        {% else %}
-                            🤍
-                        {% endif %}
-                    </button>
-                    <button class="btn btn-primary open-comments-btn" data-post-id="{{ post.id }}" data-url="{% url 'get_comments' post.id %}">
-                        💬
-                    </button>
-                    
-                </div>
-                <span class="likes-count" id="likes-count-{{ post.id }}">
-                    {{ post.total_likes }} likes
-                </span>
-                <p class="caption-text">
-                    <span class="caption-username">
-                        {{ post.author.username }}
-                    </span>
-                    {{ post.content }}
-                </p>
-
-                {% if request.user == post.author %}
-                    <button type="button" class="delete-btn" data-post-id="{{ post.id }}">
-                        Delete Post
-                    </button>
-                    <a href="{% url 'update_post' post.id %}" class="edit-btn">
-                        Edit post
-                    </a>
-                    
-                {% else %}
-                    <button type="button" class="follow-btn" data-id="{{ post.author.id }}">
-                        {% if request.user in post.author.followers.all %}
-                            Unfollow
-                        {% else %}
-                            Follow
-                        {% endif %}
-                    </button>
-
-                    <p><span class="follower-count-val" data-id="{{ post.author.id }}">{{ post.author.followers.count }}</span> Followers</p>
                 {% endif %}
-                <div class="post-time">
-                    {{ post.created_at|timesince }} ago
+                <div class="card-body-custom">
+                    <div class="action-bar">
+                        <button type="button" class="like-btn-icon like-btn" data-post-id="{{ post.id }}">
+                            {% if request.user in post.likes.all %} ❤️ {% else %} 🤍 {% endif %}
+                        </button>
+                        <button class="btn btn-primary open-comments-btn" data-post-id="{{ post.id }}" data-url="{% url 'get_comments' post.id %}">
+                            💬
+                        </button>
+                    </div>
+                    <span class="likes-count likes-count-{{ post.id }}">
+                        {{ post.total_likes }} likes
+                    </span>
+                    <p class="caption-text">
+                        <span class="caption-username">
+                            {{ post.author.username }}
+                        </span> {{ post.content }}
+                    </p>
+                    {% if request.user == post.author %}
+                    <button type="button" class="delete-btn" data-post-id="{{ post.id }}"> Delete Post </button>
+                    <a href="{% url 'update_post' post.id %}" class="edit-btn"> Edit post </a>
+                    {% else %}
+                    <button type="button" class="follow-btn" data-id="{{ post.author.id }}">
+                        {% if request.user in post.author.followers.all %} Unfollow {% else %} Follow {% endif %}
+                    </button>
+                    <p><span class="follower-count-val" data-id="{{ post.author.id }}">{{ post.author.followers.count }}</span> Followers</p>
+                    {% endif %}
+                    <div class="post-time">
+                        {{ post.created_at|timesince }} ago
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="empty-feed">
+                <p> No posts visible right now. Share something with the network above! </p>
+            </div>
+            {% endfor %}
+            
+            <div id="feed-end-trigger" style="height: 10px; width: 100%;"></div>
         </div>
-        {% empty %}
-        <div class="empty-feed">
-            <p>
-                No posts visible right now. Share something with the network above!
-            </p>
-        </div>
-        {% endfor %}
     </div>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="{% static 'accounts/js_files/home.js' %}"></script>
 </html>

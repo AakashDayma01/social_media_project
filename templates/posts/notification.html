@@ -8,6 +8,25 @@
     <title>Document</title>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">
+            Instagram Clone
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'create_post' %}">+ New Post</a>
+            <a href="{% url 'profile_view' request.user.username %}" class="active">
+                Profile
+            </a>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </nav>
+
     <div class="notification-container">
         <div class="notification-header">
             <h2>Notifications</h2>
@@ -56,20 +75,10 @@
 
                     <div class="notification-actions">
                         {% if notification.notification_type == 'follow' %}
-                            {% if notification.sender.id in following_ids %}
-                                <button class="btn btn-following" disabled>
-                                    <span>✓</span> Following
-                                </button>
-                            {% else %}
-                                <form method="POST" action="/user/toggle-follow/" style="margin: 0;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="id" value="{{ notification.sender.id }}">
-                                    <button type="submit" class="btn btn-follow-back">Follow Back</button>
-                                </form>
-                            {% endif %}
+                            <button type="submit" class="btn btn-follow" data-id="{{notification.sender.id}}">
+                                {% if notification.sender.id in following_ids %} ✓ Following {% else %} Follow Back {% endif %}
+                            </button>
                         {% endif %}
-                        
-                       
                     </div>
 
                 </div>
@@ -84,4 +93,38 @@
     </div>
 
 </body>
+<script>
+document.querySelector('.btn-follow').addEventListener('click', function(){
+    const targetUserId = this.dataset.id; 
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const formData = new FormData();
+    formData.append('id', targetUserId);
+
+    fetch('/user/toggle-follow/', {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            'X-CSRFToken': csrfToken 
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'success'){
+            document.querySelectorAll(`.btn-follow[data-id="${targetUserId}"]`).forEach(btn => {
+                if(data.action === 'follow'){
+                    btn.textContent = '✓ Following';
+                } else {
+                    btn.textContent = 'Follow Back';
+                }
+            });
+        } else {
+            alert(data.message || "An error occurred.");
+        }
+    })
+    .catch(error => {
+        console.log("Error handling follow relationship: ", error);
+    });
+});
+</script>
 </html>
