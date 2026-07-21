@@ -31,5 +31,7 @@ urlpatterns = [
     path('comments/<int:post_id>/delete/', views.delete_comment, name='delete_comment'),
     path('like-comment/<int:comment_id>/', views.like_comment, name='like_comment'),
     path('notifications/', views.notification_list_view, name='notification_list'),
+    path('story-create/', views.create_story, name='create_story'),
+    path('story-delete/<int:story_id>/', views.delete_story, name='delete_story')
  ]
     

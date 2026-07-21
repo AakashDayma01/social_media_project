@@ -17,9 +17,11 @@ from django.contrib.auth import get_user_model
 from .models import PasswordResetOTP 
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from apps.post.models import SocialPost
+from apps.post.models import SocialPost, Story
 from .models import CustomUser, Contact
 from django.views.decorators.http import require_POST
+from django.utils import timezone
+from datetime import timedelta
 
 
 def register_view(request):
@@ -166,7 +168,9 @@ def home_view(request):
     Render central dashboard feed populated with global social post data.
     """
     posts = SocialPost.objects.all() 
-    return render(request, 'home.html', {'posts': posts})
+    time_threshold = timezone.now() - timedelta(hours=24)
+    stories = Story.objects.filter(timestamp__gte=time_threshold).order_by('-timestamp')
+    return render(request, 'home.html', {'posts': posts, 'stories':stories})
 
 
 @login_required

@@ -1,5 +1,5 @@
 from django import forms
-from .models import SocialPost
+from .models import SocialPost, Story
 
 class SocialPostForm(forms.ModelForm):
     """
@@ -17,6 +17,16 @@ class SocialPostForm(forms.ModelForm):
                 'placeholder': "What's on your mind?",
                 'rows': 4
             }),
+            'image': forms.FileInput(attrs={
+                'class': 'form-control-file'
+            }),
+        }
+
+class StoryForm(forms.ModelForm):
+    class Meta:
+        model = Story
+        fields = ['image']
+        widgets = {
             'image': forms.FileInput(attrs={
                 'class': 'form-control-file'
             }),

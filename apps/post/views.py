@@ -6,8 +6,8 @@ for media-supported social updates, fully asynchronous nested conversational com
 interaction metrics (likes), and system notifications.
 """
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SocialPostForm
-from apps.post.models import SocialPost
+from .forms import SocialPostForm, StoryForm
+from apps.post.models import SocialPost, Story
 from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.decorators import api_view, permission_classes
@@ -244,3 +244,31 @@ def notification_list_view(request):
         'following_ids': following_ids
     }
     return render(request, 'posts/notification.html', context)
+
+
+def create_story(request):
+    if request.method == "POST":
+        form = StoryForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return JsonResponse({
+                'success': True,
+                'image_url': post.image.url if post.image else None
+            })
+        return JsonResponse({"success": False, "errors": form.errors}, status=400)
+    else:
+        form = StoryForm()
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+def delete_story(request, story_id):
+    if request.method == "POST":
+        story = get_object_or_404(Story, id=story_id)
+        if story.author == request.user:
+            story.delete()
+            return JsonResponse({"success": True})
+        return JsonResponse({"success": False,
+            "message": "You are not allowed to delete this post."
+        }, status=403)
+    return JsonResponse({"success": False}, status=400)

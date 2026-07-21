@@ -13,12 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         originalPosts.each(function(){
             const clonedPost = $(this).clone(true);
             let oldId = clonedPost.attr("id");
-            if(oldId){
-                clonedPost.attr(
-                    "id",
-                    oldId + "-clone-" + Date.now()
-                );
-            }
+            
             $(endTrigger).before(clonedPost);
         });
         loading = false;
@@ -89,7 +84,8 @@ function handleDelete(button){
     .then(response => response.json())
     .then(data => {
         if(data.success){
-            document.getElementById(`post-${postId}`).remove();
+            const elementsToRemove = document.querySelectorAll(`[data-post-id="${postId}"], #post-${postId}`);
+            elementsToRemove.forEach(element => element.remove());
         }
         else{
             alert("Unable to delete the post.");

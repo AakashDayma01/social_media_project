@@ -157,3 +157,71 @@ body {
     white-space: pre-wrap;
     margin-bottom: 0.5rem;
 }
+
+
+/* story tray css */
+.stories-tray {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+.stories-tray::-webkit-scrollbar {
+    display: none; 
+}
+.story-circle {
+    width: 68px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.story-img-wrapper {
+    width: 64px;
+    height: 64px;
+    padding: 2px;
+    border: 2px solid #de005f; 
+    border-radius: 50%;
+}
+.story-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.add-story-btn {
+    width: 64px;
+    height: 64px;
+    border-style: dashed !important;
+}
+.story-username {
+    font-size: 11px;
+    max-width: 68px;
+}
+
+.modal-content .modal-footer {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+/* Full-width aesthetic Delete Button */
+.btn-delete-story {
+    width: 100%;
+    border: none;
+    background-color: #dc3545; 
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 14px 0;
+    text-align: center;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    outline: none;
+}
+
+.btn-delete-story:hover {
+    background-color: #bd2130;
+}
+
+.btn-delete-story:active {
+    background-color: #b21f2d;
+    transform: scale(0.99);
+}
