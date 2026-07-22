@@ -250,12 +250,13 @@ def create_story(request):
     if request.method == "POST":
         form = StoryForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
+            story = form.save(commit=False)
+            story.author = request.user
+            story.save()
             return JsonResponse({
                 'success': True,
-                'image_url': post.image.url if post.image else None
+                'image_url': story.image.url if story.image else None,
+                'story_id': story.id
             })
         return JsonResponse({"success": False, "errors": form.errors}, status=400)
     else:
@@ -267,7 +268,12 @@ def delete_story(request, story_id):
         story = get_object_or_404(Story, id=story_id)
         if story.author == request.user:
             story.delete()
-            return JsonResponse({"success": True})
+            return JsonResponse({
+                "success": True, 
+                "image_url": story.image.url, 
+                "story_id": story.id
+            })
+
         return JsonResponse({"success": False,
             "message": "You are not allowed to delete this post."
         }, status=403)
