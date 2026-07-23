@@ -22,6 +22,7 @@ from .models import CustomUser, Contact
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from datetime import timedelta
+from django.urls import reverse
 
 
 def register_view(request):
@@ -120,8 +121,6 @@ def request_otp(request):
 
     return render(request, 'accounts/request_otp.html', {'form': form})
 
-
-from django.urls import reverse
 
 def verify_otp(request):
     """

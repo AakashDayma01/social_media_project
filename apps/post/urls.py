@@ -19,19 +19,20 @@ Routes:
 """
 from django.urls import path
 from . import views
+from . import class_view
 
 urlpatterns = [
-    path('add/', views.create_post, name='create_post'),
-    path('like-post/<int:post_id>/', views.like_post, name='like_post'),
-    path('delete-post/<int:post_id>/', views.delete_post, name='delete_post'),
-    path('update-post/<int:post_id>/', views.edit_post, name='update_post'),
-    path('comments/<int:post_id>/', views.get_comments, name='get_comments'),
-    path('comments/<int:post_id>/add/', views.add_comment, name='add_comment'),
-    path('comments/<int:post_id>/edit/', views.edit_comment, name='edit_comment'),
-    path('comments/<int:post_id>/delete/', views.delete_comment, name='delete_comment'),
-    path('like-comment/<int:comment_id>/', views.like_comment, name='like_comment'),
-    path('notifications/', views.notification_list_view, name='notification_list'),
-    path('story-create/', views.create_story, name='create_story'),
-    path('story-delete/<int:story_id>/', views.delete_story, name='delete_story')
+    path('add/', class_view.CreatePost.as_view(), name='create_post'),
+    path('like-post/<int:post_id>/', class_view.LikePost.as_view(), name='like_post'),
+    path('delete-post/<int:post_id>/', class_view.DeletePost.as_view(), name='delete_post'),
+    path('update-post/<int:post_id>/', class_view.EditPost.as_view(), name='update_post'),
+    path('comments/<int:post_id>/', class_view.GetComments.as_view(), name='get_comments'),
+    path('comments/<int:post_id>/add/', class_view.AddComment.as_view(), name='add_comment'),
+    path('comments/<int:post_id>/edit/', class_view.EditComments.as_view(), name='edit_comment'),
+    path('comments/<int:post_id>/delete/', class_view.DeleteComment.as_view(), name='delete_comment'),
+    path('like-comment/<int:comment_id>/', class_view.LikeComment.as_view(), name='like_comment'),
+    path('notifications/', class_view.NotificationListView.as_view(), name='notification_list'),
+    path('story-create/', class_view.CreateStory.as_view(), name='create_story'),
+    path('story-delete/<int:story_id>/', class_view.DeleteStory.as_view(), name='delete_story')
  ]
     

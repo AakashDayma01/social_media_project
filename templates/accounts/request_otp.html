@@ -25,7 +25,7 @@
 </form>
 
 <div id="otp-form-div" style="display:none;">
-    <h3 style="margin-top:0; margin-bottom: 24px; text-align: center; color: #111827;"
+    <h3 style="margin-top:0; margin-bottom: 24px; text-align: center; color: #111827;">
     <form method="POST" id="otp-reset-form" action="{% url 'verify_otp' %}">
         {% csrf_token %}
 
@@ -37,14 +37,43 @@
 
         <button type="submit">Reset Password</button>
     </form>
+    </h3>
 </div>
 </div>
 
 <script>
-    document.getElementById('request-otp-form').addEventListener('submit', function(e){
-        e.preventDefault();
+document.addEventListener('submit', function(e){
+    reset_otp_form = e.target.closest('#otp-reset-form')
+    request_otp = e.target.closest('#request-otp-form')
+    e.preventDefault();
+    if (reset_otp_form){
+        let form = reset_otp_form;
+        let formData = new FormData(form);
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+        console.log("verifying", form.action)
 
-        let form = this;
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
+            }
+        })
+        .then(response => response.json().then(data => ({
+            status: response.status,
+            body: data
+        })))
+        .then(res => {
+            if (res.status == 200 && res.body.success) {
+                window.location.href = res.body.redirect_url;
+            } else {
+                alert(res.body.message || "Invalid or expired OTP.");
+            }
+        })
+        .catch(error => console.log(error));
+    }else if (request_otp){
+        let form = request_otp;
         let formData = new FormData(form)
         const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
         fetch(form.action || window.location.href,{
@@ -102,35 +131,7 @@
 
         })
         .catch(error=> console.log('Error:', error));
-    });
-
-document.getElementById('otp-reset-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    let form = this;
-    let formData = new FormData(form);
-    const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrfToken
-        }
-    })
-    .then(response => response.json().then(data => ({
-        status: response.status,
-        body: data
-    })))
-    .then(res => {
-        if (res.status == 200 && res.body.success) {
-            window.location.href = res.body.redirect_url;
-        } else {
-            alert(res.body.message || "Invalid or expired OTP.");
-        }
-    })
-    .catch(error => console.log(error));
+    }
 });
 </script>
 

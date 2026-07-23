@@ -5,9 +5,11 @@ This module exposes functional endpoints managing standard database operations (
 for media-supported social updates, fully asynchronous nested conversational commenting hierarchies,
 interaction metrics (likes), and system notifications.
 """
+from datetime import timedelta
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SocialPostForm, StoryForm
-from apps.post.models import SocialPost, Story
+from apps.post.models import SocialPost, Story, Notification
 from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework.decorators import api_view, permission_classes
@@ -231,17 +233,21 @@ def like_comment(request, comment_id):
         return JsonResponse({"success": True, "liked": liked, "total_likes": comment.likes.count()})
     return JsonResponse({"success": False}, status=400)
 
-
 def notification_list_view(request):
     """
     Fetch comprehensive system event streams and relation trackers for rendering.
     """
+    cutoff_date = timezone.now() - timedelta(days=30)
     notifications = request.user.notifications.select_related('sender').all()
+    unread_count = request.user.notifications.filter(is_read=False).count()
+    request.user.notifications.filter(is_read=False).update(is_read=True)
+    request.user.notifications.filter(timestamp__lte=cutoff_date, is_read=True).delete()
     following_ids = set(request.user.following.values_list('id', flat=True))
 
     context = {
         'notifications': notifications,
-        'following_ids': following_ids
+        'following_ids': following_ids,
+        'unread_count': unread_count
     }
     return render(request, 'posts/notification.html', context)
 
@@ -278,3 +284,5 @@ def delete_story(request, story_id):
             "message": "You are not allowed to delete this post."
         }, status=403)
     return JsonResponse({"success": False}, status=400)
+
+
