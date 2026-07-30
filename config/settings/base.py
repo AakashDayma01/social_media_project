@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 import environ
@@ -52,7 +53,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     "allauth.socialaccount.providers.github", 
     'allauth.socialaccount.providers.openid_connect', 
-    "drf_spectacular",
+    # "drf_spectacular",
+    "rest_framework",
 ]
 
 SITE_ID = 1
@@ -189,14 +191,34 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
-
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    )
 }
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Instagram App API',
-    'DESCRIPTION': 'API documentation for liking and deleting posts',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
+    
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "UPDATE_LAST_LOGIN": True,
 }
+# REST_FRAMEWORK = {
+#     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+# }
+
+# SPECTACULAR_SETTINGS = {
+#     'TITLE': 'Instagram App API',
+#     'DESCRIPTION': 'API documentation for liking and deleting posts',
+#     'VERSION': '1.0.0',
+#     'SERVE_INCLUDE_SCHEMA': False,
+# }

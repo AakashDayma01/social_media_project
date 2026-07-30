@@ -47,7 +47,6 @@ def register_view(request):
 def login_view(request):
     """
     Authenticate users utilizing a multi-identifier universal login form.
-
     Populates standard session structures or transmits payload data objects 
     back to asynchronous frontend fetch/XMLHttpRequest handlers.
     """
@@ -129,7 +128,6 @@ def verify_otp(request):
     """
     User = get_user_model()
     email = request.session.get('reset_email')
-
     if not email:
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
@@ -137,51 +135,38 @@ def verify_otp(request):
                 "message": "Session expired. Please request a new OTP."
             }, status=400)
         return redirect('request_otp')
-
     if request.method == 'POST':
         otp_entered = request.POST.get('otp')
         new_password = request.POST.get('new_password')
-
         try:
             user = User.objects.get(email=email)
-            otp_record = PasswordResetOTP.objects.filter(
-                user=user,
-                otp=otp_entered
-            ).first()
-
+            otp_record = PasswordResetOTP.objects.filter( user=user, otp=otp_entered).first()
             if otp_record and otp_record.is_valid():
                 user.set_password(new_password)
                 user.save()
                 otp_record.delete()
                 del request.session['reset_email']
-
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     return JsonResponse({
                         "success": True,
                         "redirect_url": reverse("login")
                     })
-
                 messages.success(request, "Password reset successful!")
                 return redirect("login")
-
             else:
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     return JsonResponse({
                         "success": False,
                         "message": "Invalid or expired OTP."
                     }, status=400)
-
                 messages.error(request, "Invalid or expired OTP.")
-
         except User.DoesNotExist:
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
                     "success": False,
                     "message": "An error occurred."
                 }, status=400)
-
             messages.error(request, "An error occurred.")
-
     return render(request, 'accounts/verify_otp.html')
 
 def logout_view(request):

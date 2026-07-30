@@ -17,10 +17,10 @@ Routes:
     - like-comment/<comment_id>/ : Toggles like status on an individual comment.
     - notifications/ : Displays structural user activity feeds.
 """
-from django.urls import path
+from django.urls import path, include
 from . import views
 from . import class_view
-
+    
 urlpatterns = [
     path('add/', class_view.CreatePost.as_view(), name='create_post'),
     path('like-post/<int:post_id>/', class_view.LikePost.as_view(), name='like_post'),
@@ -33,6 +33,7 @@ urlpatterns = [
     path('like-comment/<int:comment_id>/', class_view.LikeComment.as_view(), name='like_comment'),
     path('notifications/', class_view.NotificationListView.as_view(), name='notification_list'),
     path('story-create/', class_view.CreateStory.as_view(), name='create_story'),
-    path('story-delete/<int:story_id>/', class_view.DeleteStory.as_view(), name='delete_story')
+    path('story-delete/<int:story_id>/', class_view.DeleteStory.as_view(), name='delete_story'),
+    path('api/', include('apps.post.api.urls')),
  ]
     

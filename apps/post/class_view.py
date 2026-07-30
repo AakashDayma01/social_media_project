@@ -6,7 +6,6 @@ for media-supported social updates, fully asynchronous nested conversational com
 interaction metrics (likes), and system notifications.
 """
 from datetime import timedelta
-
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SocialPostForm, StoryForm
 from apps.post.models import SocialPost, Story
