@@ -1,5 +1,6 @@
-from apps.post.models import SocialPost, Comment
+from apps.post.models import SocialPost, Comment, Notification, Story
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 class SocialPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = SocialPost
@@ -28,3 +29,43 @@ class CommentSerializer(serializers.ModelSerializer):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
 
+
+class NotificationSenderSerializer(serializers.ModelSerializer):
+    """
+    A minimal user serializer to avoid leaking sensitive data 
+    while showing who triggered the notification.
+    """
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    sender = NotificationSenderSerializer(read_only=True)
+
+    class Meta:
+        model = Notification
+        fields = [
+            'id', 
+            'recipient', 
+            'sender', 
+            'post', 
+            'comment', 
+            'notification_type', 
+            'timestamp', 
+            'is_read'
+        ]
+        read_only_fields = ['recipient', 'sender', 'timestamp','notification_type']
+
+
+class StorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Story
+        fields = [
+            'id',
+            'author',
+            'image',
+            'timestamp',
+            'viewers'
+        ]
+        read_only_fields = ['viewers', 'timestamp', 'author']

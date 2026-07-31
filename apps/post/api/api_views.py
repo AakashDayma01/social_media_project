@@ -1,16 +1,15 @@
 from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404
-from apps.post.forms import SocialPostForm, StoryForm
-from apps.post.models import SocialPost, Story, Comment
-from django.http import JsonResponse
+from apps.post.models import SocialPost, Story, Comment, Notification
+from rest_framework.response import Response
 from apps.post.models import Comment
 from django.utils import timezone
-from django.views import View
 from rest_framework import viewsets, permissions
-from .serializers import SocialPostSerializer, CommentSerializer
+from rest_framework.decorators import action
+from .serializers import SocialPostSerializer, CommentSerializer, NotificationSerializer, StorySerializer
 # Create your views here.
 
-class Post(viewsets.ModelViewSet):
+class PostViewset(viewsets.ModelViewSet):
     """
     Render or process the submission form for publishing a new entry.
     Binds the incoming upload assets and text values directly to the active session user.
@@ -25,13 +24,28 @@ class Post(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return JsonResponse(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
+    
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+            liked = False
+        else:
+            post.likes.add(request.user)
+            liked = True
+        return Response({
+            'success': True,
+            'liked': liked,
+            'total_likes': post.likes.count()
+        })
 
-class Comment(viewsets.ModelViewSet):
+class CommentViewset(viewsets.ModelViewSet):
     """
     Render or process the submission form for publishing a new entry.
     Binds the incoming upload assets and text values directly to the active session user.
@@ -46,7 +60,7 @@ class Comment(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         comment = self.get_object()        
         if comment.user != request.user:
-            return JsonResponse({'success': False, 
+            return Response({'success': False, 
                 'error': 'You are not allowed to delete this comment.'
             }, status=403)
 
@@ -55,7 +69,7 @@ class Comment(viewsets.ModelViewSet):
         comment.likes.clear()
         comment.timestamp = timezone.now()
         comment.save()
-        return JsonResponse({
+        return Response({
             'success': True,
             'id': comment.id,
             'content': comment.content,
@@ -67,3 +81,41 @@ class Comment(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
+
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+        comment = self.get_object()
+        if comment.likes.filter(id=request.user.id).exists():
+            comment.likes.remove(request.user)
+            liked = False
+        else:
+            comment.likes.add(request.user)
+            liked = True
+        return Response({
+            "success": True, 
+            "liked": liked, 
+            "total_likes": comment.likes.count()
+        })
+
+
+
+class NotificationListView(viewsets.ModelViewSet):
+    """
+    Fetch comprehensive system event streams and relation trackers for rendering.
+    """
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class StoryViewset(viewsets.ModelViewSet):
+    queryset = Story.objects.all()
+    serializer_class = StorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+            serializer.save(author=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)

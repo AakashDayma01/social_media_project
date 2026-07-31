@@ -75,3 +75,5 @@ class Story(models.Model):
     viewers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='story_viewers', blank=True)
     class Meta:
         ordering = ['-timestamp']
+
+
