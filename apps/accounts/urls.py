@@ -17,15 +17,16 @@ Routes:
 """
 from django.urls import path
 from . import views
+from . import class_view
 
 urlpatterns = [
-    path('home/', views.home_view, name='home'), 
-    path('logout/', views.logout_view, name='logout'),
-    path('register/', views.register_view, name='register'),
-    path('login/', views.login_view, name='login'),
-    path('request-otp/', views.request_otp, name='request_otp'),
-    path('request-otp/verify-otp/', views.verify_otp, name='verify_otp'),
-    path('user/toggle-follow/', views.toggle_follow, name='toggle_follow'),
-    path("profile/edit/", views.edit_profile_view, name="edit_profile"),
-    path('profile/<str:username>/', views.profile_view, name='profile_view'),
+    path('home/', class_view.HomeView.as_view(), name='home'), 
+    path('logout/', class_view.LogoutView.as_view(), name='logout'),
+    path('register/', class_view.RegisterView.as_view(), name='register'),
+    path('login/', class_view.LoginVIew.as_view(), name='login'),
+    path('request-otp/', class_view.RequestOtp.as_view(), name='request_otp'),
+    path('request-otp/verify-otp/', class_view.VerifyOtp.as_view(), name='verify_otp'),
+    path('user/toggle-follow/', class_view.ToggleFollow.as_view(), name='toggle_follow'),
+    path("profile/edit/", class_view.EditProfileView.as_view(), name="edit_profile"),
+    path('profile/<str:username>/', class_view.ProfileView.as_view(), name='profile_view'),
 ]

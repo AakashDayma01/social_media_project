@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileInput = document.getElementById("story-file-input");
   const storiesList = document.getElementById("active-stories-list");
   const bodyEl = document.body;
-  const currentUsername = bodyEl.dataset.currentUser || "You";
+  const currentUsername = bodyEl.dataset.currentUser || ""; 
   const addStoryTrigger = document.getElementById("add-story-trigger");
 
   if (addStoryTrigger) {
@@ -185,23 +185,19 @@ document.addEventListener("DOMContentLoaded", function () {
     fileInput.addEventListener("change", function () {
       const file = this.files[0];
       if (!file) return;
-
       const formData = new FormData();
       formData.append("image", file);
-
       const csrfElement = document.querySelector('[name=csrfmiddlewaretoken]');
       const csrfToken = csrfElement ? csrfElement.value : '';
       
       if (csrfToken) {
         formData.append("csrfmiddlewaretoken", csrfToken); 
       }
-
       const uploadUrl = this.dataset.uploadUrl;
       if (!uploadUrl) {
           console.error("Upload URL is missing from file input data attributes.");
           return;
       }
-
       $.ajax({
           url: uploadUrl,
           type: 'POST',
@@ -215,20 +211,16 @@ document.addEventListener("DOMContentLoaded", function () {
               if (response.success && response.image_url) {
                   const storyId = response.story_id;
                   const imageUrl = response.image_url;
-
                   const existingCircle = document.querySelector(`.active-story[data-username="${currentUsername}"]`);
-
                   if (existingCircle) {
                       let currentIds = existingCircle.getAttribute("data-story-ids") ? existingCircle.getAttribute("data-story-ids").split('|') : [];
                       let currentUrls = existingCircle.getAttribute("data-story-urls") ? existingCircle.getAttribute("data-story-urls").split('|') : [];
-
                       currentIds.push(storyId);
                       currentUrls.push(imageUrl);
                       existingCircle.setAttribute("data-story-ids", currentIds.join('|'));
                       existingCircle.setAttribute("data-story-urls", currentUrls.join('|'));
                       const imgNode = existingCircle.querySelector(".story-img-wrapper img");
                       if (imgNode) imgNode.setAttribute("src", imageUrl);
-
                   } else {
                       const newStoryHtml = `
                         <div class="story-circle text-center active-story" 
@@ -239,8 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <img src="${imageUrl}" alt="Story">
                             </div>
                             <small class="story-username d-block text-truncate mt-1">${currentUsername}</small>
-                        </div>`;
-                      
+                        </div>`;                 
                       if (storiesList) {
                           storiesList.insertAdjacentHTML('afterbegin', newStoryHtml);
                       }
@@ -263,12 +254,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const deleteBtn = document.getElementById("delete-story-btn");
     const prevBtn = document.getElementById("prev-story-btn");
     const nextBtn = document.getElementById("next-story-btn");
-
     let activeStoryIds = [];
     let activeStoryUrls = [];
     let currentStoryIndex = 0;
     let currentActiveCircle = null;
-
     function updateModalStory() {
         if (!activeStoryIds.length) return;
         const activeStory_user = document.getElementById("storyModalAuthor").textContent;
@@ -279,7 +268,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentUrl = activeStoryUrls[currentStoryIndex];
         if (imgEl) imgEl.setAttribute("src", currentUrl);
         if (deleteBtn) deleteBtn.setAttribute("data-id", currentId);
-
         if (prevBtn) prevBtn.style.setProperty("display", currentStoryIndex === 0 ? "none" : "block", "important");
         if (nextBtn) nextBtn.style.setProperty("display", currentStoryIndex === activeStoryIds.length - 1 ? "none" : "block", "important");
     }
@@ -290,12 +278,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const username = activeStory.dataset.username;
             const authorEl = document.getElementById("storyModalAuthor");
             if (authorEl) authorEl.textContent = username;
-
             currentActiveCircle = activeStory;
             activeStoryIds = activeStory.dataset.storyIds.split('|');
             activeStoryUrls = activeStory.dataset.storyUrls.split('|');
             currentStoryIndex = 0; 
-
             updateModalStory();
             if (storyModal) storyModal.show();
         }

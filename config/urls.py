@@ -28,10 +28,12 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('post/', include('apps.post.urls')),
 
-    #Swagger URLS
-    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-] + static(
+    # #Swagger URLS
+    # path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    
+    path("api/", include(("apps.accounts.api.urls", "accounts"), namespace="rest_framework")),
+] + static(     
     settings.MEDIA_URL,
     document_root = settings.MEDIA_ROOT
 )
