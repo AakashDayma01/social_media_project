@@ -207,13 +207,25 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    
     "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
-    
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": True,
 }
+
+
+# REST_FRAMEWORK = {
+#     # 'DEFAULT_THROTTLE_CLASSES': [
+#     #     'rest_framework.throttling.AnonRateThrottle',
+#     #     'rest_framework.throttling.UserRateThrottle'
+#     # ],
+#     'DEFAULT_THROTTLE_RATES': {
+#         'anon': '10/day',
+#         'user': '1000/day'
+#     }
+# }
+
+
 # REST_FRAMEWORK = {
 #     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 # }

@@ -22,7 +22,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken 
 from rest_framework.response import Response
-
+from apps.accounts.throttling import LoginFailThrottle
+from django.core.cache import cache
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -43,21 +44,31 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
-    authentication_classes = [] 
+    throttle_classes = [LoginFailThrottle]
     def post(self, request):
+        username = request.data.get('username') or request.data.get('email')
+        ident = username if username else LoginFailThrottle().get_ident(request)
+        cache_key = f"login_failures_{ident}"
         form = UniversalLoginForm(request=request, data=request.data)
         if form.is_valid():
             user = form.user_cache
             refresh = RefreshToken.for_user(user)
+            cache.delete(cache_key)
             return JsonResponse({
                 "success": True,
                 "access": str(refresh.access_token),
                 "refresh": str(refresh),
                 "redirect_url": "/home"
             }, status=status.HTTP_200_OK)
+        current_failures = cache.get(cache_key, 0)
+        new_failures = current_failures + 1
+        cache.set(cache_key, new_failures, timeout=3600)
+        attempts_left = 3 - new_failures
+        errors = form.errors.get_json_data()
+        errors['attempts_remaining'] = [attempts_left]
         return JsonResponse({
             "success": False, 
-            "errors": form.errors.get_json_data()
+            "errors": errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
 

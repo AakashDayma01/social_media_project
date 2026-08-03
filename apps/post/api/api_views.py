@@ -1,10 +1,10 @@
-from datetime import timedelta
 from django.shortcuts import render, redirect, get_object_or_404
 from apps.post.models import SocialPost, Story, Comment, Notification
 from rest_framework.response import Response
 from apps.post.models import Comment
 from django.utils import timezone
 from rest_framework import viewsets, permissions
+from apps.post.pagination import PostPagination, CommentPagination
 from rest_framework.decorators import action
 from .serializers import SocialPostSerializer, CommentSerializer, NotificationSerializer, StorySerializer
 # Create your views here.
@@ -17,6 +17,7 @@ class PostViewset(viewsets.ModelViewSet):
     queryset = SocialPost.objects.all()
     serializer_class = SocialPostSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = PostPagination
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -49,11 +50,11 @@ class CommentViewset(viewsets.ModelViewSet):
     """
     Render or process the submission form for publishing a new entry.
     Binds the incoming upload assets and text values directly to the active session user.
-    """
+    """ 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    pagination_class = CommentPagination
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
