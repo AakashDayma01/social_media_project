@@ -176,8 +176,7 @@ def get_comments(request, post_id):
             if comment.parent_id not in comment_tree:
                 comment_tree[comment.parent_id] = []
             comment_tree[comment.parent_id].append(data)
-
-
+            
     def attach_replies(parent_comment):
         parent_id = parent_comment['id']
         if parent_id in comment_tree:

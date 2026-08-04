@@ -16,10 +16,8 @@ from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 from .models import PasswordResetOTP 
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
 from apps.post.models import SocialPost, Story
 from .models import CustomUser, Contact
-from django.views.decorators.http import require_POST
 from django.utils import timezone
 from datetime import timedelta
 from django.views import View
@@ -236,15 +234,20 @@ class LogoutView(View):
         logout(request)
         return redirect('login') 
 
+from django.core.paginator import Paginator
+
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
         """
         Render central dashboard feed populated with global social post data.
         """
-        posts = SocialPost.objects.all() 
+        posts_list = SocialPost.objects.all().order_by('-id') 
+        paginator = Paginator(posts_list, 10) 
+        page_number = request.GET.get('page')
+        posts_page = paginator.get_page(page_number)
         time_threshold = timezone.now() - timedelta(hours=24)
         stories = Story.objects.filter(timestamp__gte=time_threshold).order_by('-timestamp')
-        return render(request, 'home.html', {'posts': posts, 'stories':stories})
+        return render(request, 'home.html', {'posts': posts_page, 'stories': stories})
 
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
