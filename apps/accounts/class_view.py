@@ -242,7 +242,7 @@ class HomeView(LoginRequiredMixin, View):
         Render central dashboard feed populated with global social post data.
         """
         posts_list = SocialPost.objects.all().order_by('-id') 
-        paginator = Paginator(posts_list, 10) 
+        paginator = Paginator(posts_list, 2) 
         page_number = request.GET.get('page')
         posts_page = paginator.get_page(page_number)
         time_threshold = timezone.now() - timedelta(hours=24)

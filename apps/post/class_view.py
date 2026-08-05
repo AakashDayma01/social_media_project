@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from .models import Comment
 from django.utils import timezone
 from django.views import View
+from .tasks import send_post_created_confirmation
 # Create your views here.
 
 class CreatePost(View):
@@ -30,6 +31,7 @@ class CreatePost(View):
                 post = form.save(commit=False)
                 post.author = request.user
                 post.save()
+                send_post_created_confirmation.delay(post.id, request.user.email)
                 return redirect('home')  
 
 
@@ -120,7 +122,7 @@ class AddComment(View):
                 'type': 'add'
             })
 
-
+    
 class EditComments(View):
     """
     Update text components of an existing user-authored conversation entry.
