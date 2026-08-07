@@ -6,6 +6,7 @@ universal identifier login, password resets via OTP tokens, session management,
 profile modifications, and social follow networks.
 """
 from django.core.mail import send_mail
+from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.http import JsonResponse
 from apps.accounts.forms import OTPRequestForm, UniversalLoginForm
@@ -116,16 +117,20 @@ class ToggleFollow(APIView):
         target_user = get_object_or_404(CustomUser, id=target_user_id)
         if request.user == target_user:
             return JsonResponse({'status': 'error', 'message': 'You cannot follow yourself.'}, status=400)
+        try:
+            with transaction.atomic():
+                contact, created = Contact.objects.get_or_create(
+                    user_from=request.user, user_to=target_user
+                )
+                if created:
+                    action = 'follow'
+                else:
+                    contact.delete()
+                    action = 'unfollow'    
 
-        contact, created = Contact.objects.get_or_create(
-            user_from=request.user, user_to=target_user
-        )
-        if created:
-            action = 'follow'
-        else:
-            contact.delete()
-            action = 'unfollow'    
-
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': 'Database operation failed.'}, status=500)
+    
         return JsonResponse({'status': 'success',
             'action': action, 'follower_count': target_user.followers.count() 
         })
@@ -137,26 +142,27 @@ class EditProfileView(APIView):
     """
     permission_classes = [IsAuthenticated] 
     def post(self, request, user_id):
-        target_user = get_object_or_404(CustomUser, pk=user_id)
-        if request.user != target_user:
+        if str(request.user.pk) != str(user_id):
             return Response(
                 {"detail": "You do not have permission to edit this profile."}, 
                 status=status.HTTP_403_FORBIDDEN
             )
-        user = request.user
-        user.full_name = request.data.get("full_name", "").strip()
-        user.bio = request.data.get("bio", "").strip()
-        user.website = request.data.get("website", "").strip()
-        user.phone_number = request.data.get("phone_number", "").strip()
-        user.gender = request.data.get("gender", "")
-        dob = request.data.get("date_of_birth")
-        if dob:
-            user.date_of_birth = dob
-        if request.FILES.get("profile_pic"):
-            user.profile_pic = request.FILES["profile_pic"]
-        user.save()
-        return JsonResponse({'success': True, 'username':user.full_name})
-
+        with transaction.atomic():
+            target_user = CustomUser.objects.select_for_update().get(pk=user_id)
+            target_user.full_name = request.data.get("full_name", "").strip()
+            target_user.bio = request.data.get("bio", "").strip()
+            target_user.website = request.data.get("website", "").strip()
+            target_user.phone_number = request.data.get("phone_number", "").strip()
+            target_user.gender = request.data.get("gender", "") 
+            dob = request.data.get("date_of_birth")
+            
+            if dob:
+                target_user.date_of_birth = dob
+            if request.FILES.get("profile_pic"):
+                target_user.profile_pic = request.FILES["profile_pic"]
+            target_user.save()
+            return JsonResponse({'success': True, 'username': target_user.full_name})
+        
 class LogoutAPIView(APIView):
     """
     Blacklists the active JWT refresh token and clears Django sessions.

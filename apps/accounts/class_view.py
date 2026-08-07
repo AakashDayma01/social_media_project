@@ -120,46 +120,46 @@ class RequestOtp(View):
                     'errors': form.errors.get_json_data()
                 }, status=400)
 
-class RequestOtp(View):
-    """
-    Validate target user emails and distribute short-lived OTP tokens via SMTP.
-    Persists targeted credentials to the current user tracking session.
-    """
-    User = get_user_model()
-    def get(self, request):
-        form = OTPRequestForm()
-        return render(request, 'accounts/request_otp.html', {'form': form})
-    def post(self, request):
-        if request.method == 'POST':
-            form = OTPRequestForm(request.POST)
+# class RequestOtp(View):
+#     """
+#     Validate target user emails and distribute short-lived OTP tokens via SMTP.
+#     Persists targeted credentials to the current user tracking session.
+#     """
+#     User = get_user_model()
+#     def get(self, request):
+#         form = OTPRequestForm()
+#         return render(request, 'accounts/request_otp.html', {'form': form})
+#     def post(self, request):
+#         if request.method == 'POST':
+#             form = OTPRequestForm(request.POST)
             
-            if form.is_valid():
-                email = form.cleaned_data['email'].strip()
-                user = self.User.objects.filter(email__iexact=email).first()
-                if user is not None:
-                    otp_obj = PasswordResetOTP.generate_otp(user)
-                    send_mail(
-                        'Your Pasjsword Reset OTP',
-                        f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-                        settings.DEFAULT_FROM_EMAIL, 
-                        [email],
-                        fail_silently=False,
-                    )
-                    request.session['reset_email'] = email
-                    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                        return JsonResponse({
-                            'success': True,
-                            'redirect_url': 'verify-otp/'
-                        })
-                    return redirect(settings.LOGIN_REDIRECT_URL)
+#             if form.is_valid():
+#                 email = form.cleaned_data['email'].strip()
+#                 user = self.User.objects.filter(email__iexact=email).first()
+#                 if user is not None:
+#                     otp_obj = PasswordResetOTP.generate_otp(user)
+#                     send_mail(
+#                         'Your Pasjsword Reset OTP',
+#                         f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
+#                         settings.DEFAULT_FROM_EMAIL, 
+#                         [email],
+#                         fail_silently=False,
+#                     )
+#                     request.session['reset_email'] = email
+#                     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#                         return JsonResponse({
+#                             'success': True,
+#                             'redirect_url': 'verify-otp/'
+#                         })
+#                     return redirect(settings.LOGIN_REDIRECT_URL)
 
-                else:
-                    form.add_error('email', 'No user found with this email.')
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': False, 
-                    'errors': form.errors.get_json_data()
-                }, status=400)
+#                 else:
+#                     form.add_error('email', 'No user found with this email.')
+#             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#                 return JsonResponse({
+#                     'success': False, 
+#                     'errors': form.errors.get_json_data()
+#                 }, status=400)
 
 
 class VerifyOtp(View):

@@ -67,6 +67,7 @@ def create_follow_notification(sender, instance, created, **kwargs):
     Generates a social connectivity notification whenever a user follows an account.
     """
     if created:
+        # raise Exception("Simulated database failure for atomic testing!")
         Notification.objects.create(
             recipient=instance.user_to,   
             sender=instance.user_from,    

@@ -16,7 +16,6 @@ Routes:
     - profile/<username>/ : Dynamic routing to display a specific user's public page.
 """
 from django.urls import path
-from . import views
 from . import class_view
 
 urlpatterns = [

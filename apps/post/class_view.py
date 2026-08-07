@@ -32,8 +32,7 @@ class CreatePost(View):
                 post.author = request.user
                 post.save()
                 send_post_created_confirmation.delay(post.id, request.user.email)
-                return redirect('home')  
-
+                return redirect('home')
 
 class EditPost(View):
     """
