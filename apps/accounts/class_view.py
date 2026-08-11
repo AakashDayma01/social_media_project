@@ -22,6 +22,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.views import View
 from django.urls import reverse
+from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class RegisterView(View):
@@ -120,48 +121,6 @@ class RequestOtp(View):
                     'errors': form.errors.get_json_data()
                 }, status=400)
 
-# class RequestOtp(View):
-#     """
-#     Validate target user emails and distribute short-lived OTP tokens via SMTP.
-#     Persists targeted credentials to the current user tracking session.
-#     """
-#     User = get_user_model()
-#     def get(self, request):
-#         form = OTPRequestForm()
-#         return render(request, 'accounts/request_otp.html', {'form': form})
-#     def post(self, request):
-#         if request.method == 'POST':
-#             form = OTPRequestForm(request.POST)
-            
-#             if form.is_valid():
-#                 email = form.cleaned_data['email'].strip()
-#                 user = self.User.objects.filter(email__iexact=email).first()
-#                 if user is not None:
-#                     otp_obj = PasswordResetOTP.generate_otp(user)
-#                     send_mail(
-#                         'Your Pasjsword Reset OTP',
-#                         f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-#                         settings.DEFAULT_FROM_EMAIL, 
-#                         [email],
-#                         fail_silently=False,
-#                     )
-#                     request.session['reset_email'] = email
-#                     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-#                         return JsonResponse({
-#                             'success': True,
-#                             'redirect_url': 'verify-otp/'
-#                         })
-#                     return redirect(settings.LOGIN_REDIRECT_URL)
-
-#                 else:
-#                     form.add_error('email', 'No user found with this email.')
-#             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-#                 return JsonResponse({
-#                     'success': False, 
-#                     'errors': form.errors.get_json_data()
-#                 }, status=400)
-
-
 class VerifyOtp(View):
     """
     Verify incoming user-supplied safety tokens against database OTP instances.
@@ -234,7 +193,6 @@ class LogoutView(View):
         logout(request)
         return redirect('login') 
 
-from django.core.paginator import Paginator
 
 class HomeView(LoginRequiredMixin, View):
     def get(self, request):
@@ -256,7 +214,6 @@ class ProfileView(LoginRequiredMixin, View):
         """
         if request.user.username != username:
             return redirect('profile_view', username=request.user.username)
-        
         posts = SocialPost.objects.filter(author=request.user)
         
         return render(request, 'accounts/profile.html', {
@@ -297,11 +254,9 @@ class ToggleFollow(View):
         target_user_id = request.POST.get('id')
         if not target_user_id:
             return JsonResponse({'status': 'error', 'message': 'Missing user ID.'}, status=400)
-
         target_user = get_object_or_404(CustomUser, id=target_user_id)
         if request.user == target_user:
             return JsonResponse({'status': 'error', 'message': 'You cannot follow yourself.'}, status=400)
-
         contact, created = Contact.objects.get_or_create(
             user_from=request.user, user_to=target_user
         )
@@ -314,3 +269,5 @@ class ToggleFollow(View):
         return JsonResponse({'status': 'success',
             'action': action, 'follower_count': target_user.followers.count() 
         })
+    
+
