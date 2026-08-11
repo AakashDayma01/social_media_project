@@ -3,7 +3,7 @@ from apps.post.models import SocialPost, Story, Comment, Notification
 from rest_framework.response import Response
 from apps.post.models import Comment
 from django.utils import timezone
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from apps.post.pagination import PostPagination, CommentPagination
 from rest_framework.decorators import action
 from .serializers import SocialPostSerializer, CommentSerializer, NotificationSerializer, StorySerializer
@@ -97,7 +97,47 @@ class CommentViewset(viewsets.ModelViewSet):
             "liked": liked, 
             "total_likes": comment.likes.count()
         })
+    
+    @action(detail=True, methods=['get'])
+    def get_comments(self, request, pk=None):
+        """
+        Retrieve and construct an algorithmic nested tree of message data components.
+        """
+        post = get_object_or_404(SocialPost, id=pk)
+        all_comments = post.comments.select_related('user').prefetch_related('likes').order_by('timestamp')
+        comment_tree = {}
+        root_comments = []
 
+        for comment in all_comments:
+            data = {
+                'id': comment.id,
+                'username': comment.user.username,
+                'content': comment.content,
+                'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+                'liked_by_user': request.user in comment.likes.all(),
+                'total_likes': comment.likes.count(),
+                'is_deleted': comment.is_deleted,
+                'likes': [user.username for user in comment.likes.all()],
+                'replies': [] 
+            }
+            
+            if comment.parent_id is None:
+                root_comments.append(data)
+            else:
+                if comment.parent_id not in comment_tree:
+                    comment_tree[comment.parent_id] = []
+                comment_tree[comment.parent_id].append(data)
+        def attach_replies(parent_comment):
+            parent_id = parent_comment['id']
+            if parent_id in comment_tree:
+                for reply in comment_tree[parent_id]:
+                    parent_comment['replies'].append(reply)
+                    attach_replies(reply)
+    
+        for root_comment in root_comments:
+            attach_replies(root_comment)
+        return Response({'success': True, 'comments': root_comments})
+        
 
 
 class NotificationListView(viewsets.ModelViewSet):

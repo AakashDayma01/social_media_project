@@ -9,7 +9,6 @@ class LoginFailThrottle(BaseThrottle):
         failure_count = cache.get(self.cache_key, 0)
         if failure_count >= 3:
             return False
-            
         return True
 
     def wait(self):

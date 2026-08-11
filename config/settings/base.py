@@ -84,7 +84,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -213,7 +213,7 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
 }
 
-
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 # REST_FRAMEWORK = {
 #     # 'DEFAULT_THROTTLE_CLASSES': [
 #     #     'rest_framework.throttling.AnonRateThrottle',
