@@ -25,7 +25,7 @@
 
         <form method="post" novalidate id="login-form">
             {% csrf_token %}
-            <span class="error" id="non-field-errors">{{ form.non_field_errors }}</span>   
+            <span class="error" id="non-field-errors">{{ form.non_field_errors }}</span>
 
             {% for field in form %}
                 <div class="form-group">
@@ -46,11 +46,11 @@
         <form action="{% provider_login_url 'github' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
             {% csrf_token %}
             <button class="outh-button" type="submit">Log in with Github</button>
-        </form>  
+        </form>
         <form action="{% provider_login_url 'openid_connect' id='linkedin' %}" method="post" style="display: block; margin: 0; padding: 0; width: 100%;">
             {% csrf_token %}
             <button class="outh-button" type="submit">Log in with LinkedIn</button>
-        </form> 
+        </form>
 
         <button id="register-button" onclick="go_to_register()">Create new account</button>
 </div>

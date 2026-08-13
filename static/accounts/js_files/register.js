@@ -9,7 +9,7 @@ document.getElementById('register-form').addEventListener('submit', function(e){
     headers: {
         'X-Request-With': 'XMLHttpRequest'
     }
-    }) 
+    })
     .then(response => response.json().then(data => ({status: response.status,body:data})))
     .then(res =>{
     if (res.status === 200 && res.body.success){

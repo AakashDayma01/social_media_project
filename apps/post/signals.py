@@ -1,7 +1,7 @@
 """
 Database signal receivers for the post and interaction social infrastructure.
 
-This module listens to model lifecycle actions—such as many-to-many relationship modifications, 
+This module listens to model lifecycle actions—such as many-to-many relationship modifications,
 database record saves, and target removals—to automatically distribute, clean up, or synchronize
 in-app user activity notifications.
 """
@@ -14,7 +14,7 @@ from .models import Notification, SocialPost, Comment
 def social_post_likes_changed(sender, instance, action, pk_set, **kwargs):
     """
     Tracks modifications to a post's like metric and handles target notification alerts.
-    Generates real-time notifications when users add positive interactions, and 
+    Generates real-time notifications when users add positive interactions, and
     silently cleans up related entries when likes are removed.
     """
     if action == "post_add":
@@ -40,13 +40,13 @@ def social_post_likes_changed(sender, instance, action, pk_set, **kwargs):
 def create_comment_notification(sender, instance, created, **kwargs):
     """
     Triggers structured notification alerts when a user interacts through comments.
-    Differentiates automatically between top-level additions aimed at the post author 
+    Differentiates automatically between top-level additions aimed at the post author
     and nested conversational replies directed towards a parent commenter.
     """
     if created:
         if instance.parent:
             recipient = instance.parent.user
-            notif_type = 'comment' 
+            notif_type = 'comment'
         else:
             recipient = instance.post.author
             notif_type = 'comment'
@@ -69,8 +69,8 @@ def create_follow_notification(sender, instance, created, **kwargs):
     if created:
         # raise Exception("Simulated database failure for atomic testing!")
         Notification.objects.create(
-            recipient=instance.user_to,   
-            sender=instance.user_from,    
+            recipient=instance.user_to,
+            sender=instance.user_from,
             notification_type='follow'
         )
 

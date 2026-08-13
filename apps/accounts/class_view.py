@@ -1,8 +1,8 @@
 """
 Authentication and profile class based views for the accounts application.
 
-This module contains class based views managing user workflows including registration, 
-universal identifier login, password resets via OTP tokens, session management, 
+This module contains class based views managing user workflows including registration,
+universal identifier login, password resets via OTP tokens, session management,
 profile modifications, and social follow networks.
 """
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,7 +14,7 @@ from .forms import UniversalLoginForm, OTPRequestForm
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
-from .models import PasswordResetOTP 
+from .models import PasswordResetOTP
 from django.contrib.auth import logout
 from apps.post.models import SocialPost, Story
 from .models import CustomUser, Contact
@@ -31,7 +31,7 @@ class RegisterView(View):
 
     Accepts standard browser requests as well as structured AJAX POST elements.
     Returns JSON response strings containing routing context when successful.
-    """ 
+    """
     def get(self, request):
         form = CustomUserCreationForm()
         return render(request, 'accounts/registration.html', {'form': form})
@@ -43,13 +43,13 @@ class RegisterView(View):
                 form.save()
                 return JsonResponse({'success': True, 'redirect_url': '/login/'})
             else:
-                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
+                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
 
 class LoginVIew(View):
     """
     Authenticate users utilizing a multi-identifier universal login form.
 
-    Populates standard session structures or transmits payload data objects 
+    Populates standard session structures or transmits payload data objects
     back to asynchronous frontend fetch/XMLHttpRequest handlers.
     """
     #if request.user.is_authenticated:
@@ -65,7 +65,7 @@ class LoginVIew(View):
                 password = form.cleaned_data.get('password')
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
-                    login(request, user) 
+                    login(request, user)
                     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                         return JsonResponse({
                             'success': True,
@@ -75,7 +75,7 @@ class LoginVIew(View):
                 else:
                     form.add_error(None, "Invalid credentials. Please verify your entries.")
             else:
-                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
+                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
 
 
 
@@ -92,7 +92,7 @@ class RequestOtp(View):
     def post(self, request):
         if request.method == 'POST':
             form = OTPRequestForm(request.POST)
-            
+
             if form.is_valid():
                 email = form.cleaned_data['email'].strip()
                 user = self.User.objects.filter(email__iexact=email).first()
@@ -101,7 +101,7 @@ class RequestOtp(View):
                     send_mail(
                         'Your Pasjsword Reset OTP',
                         f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-                        settings.DEFAULT_FROM_EMAIL, 
+                        settings.DEFAULT_FROM_EMAIL,
                         [email],
                         fail_silently=False,
                     )
@@ -117,7 +117,7 @@ class RequestOtp(View):
                     form.add_error('email', 'No user found with this email.')
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({
-                    'success': False, 
+                    'success': False,
                     'errors': form.errors.get_json_data()
                 }, status=400)
 
@@ -186,12 +186,12 @@ class VerifyOtp(View):
 
 class LogoutView(View):
     """
-    Clears the session cookies and logs the user out entirely from 
+    Clears the session cookies and logs the user out entirely from
     Django and allauth social providers.
     """
     def post(self, request):
         logout(request)
-        return redirect('login') 
+        return redirect('login')
 
 
 class HomeView(LoginRequiredMixin, View):
@@ -199,8 +199,8 @@ class HomeView(LoginRequiredMixin, View):
         """
         Render central dashboard feed populated with global social post data.
         """
-        posts_list = SocialPost.objects.all().order_by('-id') 
-        paginator = Paginator(posts_list, 2) 
+        posts_list = SocialPost.objects.all().order_by('-id')
+        paginator = Paginator(posts_list, 2)
         page_number = request.GET.get('page')
         posts_page = paginator.get_page(page_number)
         time_threshold = timezone.now() - timedelta(hours=24)
@@ -215,7 +215,7 @@ class ProfileView(LoginRequiredMixin, View):
         if request.user.username != username:
             return redirect('profile_view', username=request.user.username)
         posts = SocialPost.objects.filter(author=request.user)
-        
+
         return render(request, 'accounts/profile.html', {
             'profile_user': request.user,
             'posts': posts,
@@ -228,7 +228,7 @@ class EditProfileView(View):
     """
     def get(self, request):
         return render(request, "accounts/edit_profile.html")
-    
+
     def post(self, request):
         user = request.user
         user.full_name = request.POST.get("full_name", "").strip()
@@ -264,10 +264,8 @@ class ToggleFollow(View):
             action = 'follow'
         else:
             contact.delete()
-            action = 'unfollow'    
+            action = 'unfollow'
 
         return JsonResponse({'status': 'success',
-            'action': action, 'follower_count': target_user.followers.count() 
+            'action': action, 'follower_count': target_user.followers.count()
         })
-    
-

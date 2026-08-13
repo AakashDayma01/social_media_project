@@ -28,11 +28,11 @@
                 </button>
             </form>
         </div>
-    </nav> 
+    </nav>
 
     <!--Comments Popup code -->
     <div class="modal fade" id="commentsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg"> 
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Comments</h5>
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="feed-wrapper" style="overflow-y: auto; height: 100vh;">
         <div class="feed-container" id="infinite-feed-container">
             <div class="stories-tray d-flex align-items-center gap-3 p-3 mb-3 bg-white border rounded">
@@ -70,17 +70,17 @@
                     <small class="story-username d-block text-truncate mt-1 text-muted">Your Story</small>
                     <input type="file" id="story-file-input" accept="image/*" style="display: none;" data-upload-url="{% url 'create_story' %}">
                 </div>
-                
+
                 <div id="active-stories-list" class="d-flex gap-3">
                     {% regroup stories by author as author_story_list %}
-                    
+
                     {% for group in author_story_list %}
                         {% with first_story=group.list.0 %}
-                        <div class="story-circle text-center active-story" 
-                            data-username="{{ group.grouper.username }}" 
+                        <div class="story-circle text-center active-story"
+                            data-username="{{ group.grouper.username }}"
                             data-story-ids="{% for s in group.list %}{{ s.id }}{% if not forloop.last %}|{% endif %}{% endfor %}"
                             data-story-urls="{% for s in group.list %}{{ s.image.url }}{% if not forloop.last %}|{% endif %}{% endfor %}">
-                            
+
                             <div class="story-img-wrapper">
                                 <img src="{{ first_story.image.url }}" alt="Story">
                             </div>
@@ -156,7 +156,7 @@
                 <p> No posts visible right now. Share something with the network above! </p>
             </div>
             {% endfor %}
-            
+
             <div id="feed-end-trigger" style="height: 10px; width: 100%;"></div>
         </div>
     </div>
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileInput = document.getElementById("story-file-input");
   const storiesList = document.getElementById("active-stories-list");
   const bodyEl = document.body;
-  const currentUsername = bodyEl.dataset.currentUser || ""; 
+  const currentUsername = bodyEl.dataset.currentUser || "";
   const addStoryTrigger = document.getElementById("add-story-trigger");
 
   if (addStoryTrigger) {
@@ -189,9 +189,9 @@ document.addEventListener("DOMContentLoaded", function () {
       formData.append("image", file);
       const csrfElement = document.querySelector('[name=csrfmiddlewaretoken]');
       const csrfToken = csrfElement ? csrfElement.value : '';
-      
+
       if (csrfToken) {
-        formData.append("csrfmiddlewaretoken", csrfToken); 
+        formData.append("csrfmiddlewaretoken", csrfToken);
       }
       const uploadUrl = this.dataset.uploadUrl;
       if (!uploadUrl) {
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
           processData: false,
           contentType: false,
           headers: {
-              'X-CSRFToken': csrfToken 
+              'X-CSRFToken': csrfToken
           },
           success: function (response) {
               if (response.success && response.image_url) {
@@ -223,20 +223,20 @@ document.addEventListener("DOMContentLoaded", function () {
                       if (imgNode) imgNode.setAttribute("src", imageUrl);
                   } else {
                       const newStoryHtml = `
-                        <div class="story-circle text-center active-story" 
-                             data-username="${currentUsername}" 
-                             data-story-ids="${storyId}" 
+                        <div class="story-circle text-center active-story"
+                             data-username="${currentUsername}"
+                             data-story-ids="${storyId}"
                              data-story-urls="${imageUrl}">
                             <div class="story-img-wrapper">
                                 <img src="${imageUrl}" alt="Story">
                             </div>
                             <small class="story-username d-block text-truncate mt-1">${currentUsername}</small>
-                        </div>`;                 
+                        </div>`;
                       if (storiesList) {
                           storiesList.insertAdjacentHTML('afterbegin', newStoryHtml);
                       }
                   }
-                  fileInput.value = ''; 
+                  fileInput.value = '';
               } else {
                   alert('Upload failed: ' + JSON.stringify(response.errors));
               }
@@ -281,7 +281,7 @@ document.addEventListener("DOMContentLoaded", function () {
             currentActiveCircle = activeStory;
             activeStoryIds = activeStory.dataset.storyIds.split('|');
             activeStoryUrls = activeStory.dataset.storyUrls.split('|');
-            currentStoryIndex = 0; 
+            currentStoryIndex = 0;
             updateModalStory();
             if (storyModal) storyModal.show();
         }
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
-                    'X-CSRFToken': csrfToken 
+                    'X-CSRFToken': csrfToken
                 }
             })
             .then(response => {

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         originalPosts.each(function(){
             const clonedPost = $(this).clone(true);
             let oldId = clonedPost.attr("id");
-            
+
             $(endTrigger).before(clonedPost);
         });
         loading = false;
@@ -49,7 +49,7 @@ function handleLike(button){
         method: "POST",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
-            'X-CSRFToken': csrfToken 
+            'X-CSRFToken': csrfToken
         }
     })
     .then(response => response.json())
@@ -78,7 +78,7 @@ function handleDelete(button){
         method: "POST",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
-            'X-CSRFToken': csrfToken 
+            'X-CSRFToken': csrfToken
         }
     })
     .then(response => response.json())
@@ -96,7 +96,7 @@ function handleDelete(button){
 
 
 function handleFollow(button){
-    const targetUserId = button.dataset.id; 
+    const targetUserId = button.dataset.id;
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const formData = new FormData();
     formData.append('id', targetUserId);
@@ -106,7 +106,7 @@ function handleFollow(button){
         body: formData,
         headers: {
             "X-Requested-With": "XMLHttpRequest",
-            'X-CSRFToken': csrfToken 
+            'X-CSRFToken': csrfToken
         }
     })
     .then(response => response.json())
@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
-                    'X-CSRFToken': csrfToken 
+                    'X-CSRFToken': csrfToken
                 }
             })
             .then(response => response.json())
@@ -245,15 +245,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (repliesContainer) {
                 const replyCount = repliesContainer.querySelectorAll('.reply-block').length;
                 if (repliesContainer.style.display === "none" || repliesContainer.style.display === "") {
-                    repliesContainer.style.display = "block"; 
+                    repliesContainer.style.display = "block";
                 } else {
-                    repliesContainer.style.display = "none";  
+                    repliesContainer.style.display = "none";
                     document.getElementById(`comments-count-${elementId}`).textContent = `${replyCount}` > 0 ? `${replyCount} replies` : '';
                 }
             }
         }
     });
-    
+
 });
 
 function generateCommentHtml(comment, isReply=false) {
@@ -300,7 +300,7 @@ function generateCommentHtml(comment, isReply=false) {
             </button>
             ${editButton}
             <small class="text-muted" id="comments-count-${comment.id}">${replyCountText}</small>
-                                        
+
             <div id="replies-container-${comment.id}" class="replies-section ms-4 ps-2 border-start text-secondary" style="display: none;">
     `;
     comment.replies.forEach(reply => {
@@ -400,7 +400,7 @@ document.getElementById("commentForm").addEventListener("submit", function(e){
                         </div>
                     `);
                 }
-                
+
             }else{
                 if (data.type === "edit"){
                     document.getElementById(`comment-${data.id}`).querySelector('p').textContent = data.content;
@@ -425,10 +425,10 @@ document.getElementById("commentForm").addEventListener("submit", function(e){
                             </button>
                             <button class="btn btn-sm btn-link edit-btn" data-id="${data.id}" data-user="${data.username}">
                                 Edit
-                            </button>    
+                            </button>
                             <button class="btn btn-sm btn-link delete-comment-btn" data-id="${data.id}" data-user="${data.username}">
                                 Delete
-                            </button>                              
+                            </button>
                             <div id="replies-container-${data.id}" class="replies-section ms-4 ps-2 border-start text-secondary"></div>
                         </div>
                     `);
@@ -439,7 +439,7 @@ document.getElementById("commentForm").addEventListener("submit", function(e){
             document.getElementById("replyingTo").innerHTML = "";
         }else{
             alert(data.error);
-        }   
+        }
     })
     .catch(error => {
         console.log(error);

@@ -30,10 +30,10 @@
 #             post = form.save(commit=False)
 #             post.author = request.user
 #             post.save()
-#             return redirect('home')  
+#             return redirect('home')
 #     else:
 #         form = SocialPostForm()
-        
+
 #     return render(request, 'posts/create_post.html', {'form': form})
 
 
@@ -135,7 +135,7 @@
 
 #         content = request.POST.get('content')
 #         comment.content = content
-#         comment.timestamp = timezone.now() 
+#         comment.timestamp = timezone.now()
 #         comment.save()
 #         return JsonResponse({
 #             'success': True,
@@ -167,16 +167,16 @@
 #             'liked_by_user': request.user in comment.likes.all(),
 #             'total_likes': comment.likes.count(),
 #             'is_deleted': comment.is_deleted,
-#             'replies': [] 
+#             'replies': []
 #         }
-        
+
 #         if comment.parent_id is None:
 #             root_comments.append(data)
 #         else:
 #             if comment.parent_id not in comment_tree:
 #                 comment_tree[comment.parent_id] = []
 #             comment_tree[comment.parent_id].append(data)
-            
+
 #     def attach_replies(parent_comment):
 #         parent_id = parent_comment['id']
 #         if parent_id in comment_tree:
@@ -274,8 +274,8 @@
 #         if story.author == request.user:
 #             story.delete()
 #             return JsonResponse({
-#                 "success": True, 
-#                 "image_url": story.image.url, 
+#                 "success": True,
+#                 "image_url": story.image.url,
 #                 "story_id": story.id
 #             })
 
@@ -283,5 +283,3 @@
 #             "message": "You are not allowed to delete this post."
 #         }, status=403)
 #     return JsonResponse({"success": False}, status=400)
-
-

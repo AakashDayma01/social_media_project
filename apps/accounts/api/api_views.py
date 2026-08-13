@@ -1,8 +1,8 @@
 """
 Authentication and profile class based views for the accounts application.
 
-This module contains class based views managing user workflows including registration, 
-universal identifier login, password resets via OTP tokens, session management, 
+This module contains class based views managing user workflows including registration,
+universal identifier login, password resets via OTP tokens, session management,
 profile modifications, and social follow networks.
 """
 from django.core.mail import send_mail
@@ -21,7 +21,7 @@ from .serializers import CustomUserSerializer, SocialPostSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken 
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from apps.accounts.throttling import LoginFailThrottle
 from django.core.cache import cache
@@ -37,7 +37,7 @@ class RegisterView(APIView):
                 "success": True,
                 "redirect_url": "/login/"
             }, status=status.HTTP_201_CREATED)
-        
+
         return JsonResponse({
             "success": False,
             "errors": serializer.errors
@@ -68,7 +68,7 @@ class LoginView(APIView):
         errors = form.errors.get_json_data()
         errors['attempts_remaining'] = [attempts_left]
         return JsonResponse({
-            "success": False, 
+            "success": False,
             "errors": errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
@@ -79,7 +79,7 @@ class HomeView(APIView):
         """
         Render central dashboard feed populated with global social post data.
         """
-        posts = SocialPost.objects.all() 
+        posts = SocialPost.objects.all()
         time_threshold = timezone.now() - timedelta(hours=24)
         stories = Story.objects.filter(timestamp__gte=time_threshold).order_by('-timestamp')
         post_serializers = SocialPostSerializer(posts, many=True)
@@ -95,11 +95,11 @@ class ProfileView(APIView):
         """
         if request.user.username != username:
             return redirect('profile_view', username=request.user.username)
-        
+
         posts = SocialPost.objects.filter(author=request.user)
         post_serializers = SocialPostSerializer(posts, many=True)
         return JsonResponse({
-            "success": True, 
+            "success": True,
             'profile_user': request.user.username,
             'posts': post_serializers.data,
         }, status=status.HTTP_200_OK)
@@ -126,13 +126,13 @@ class ToggleFollow(APIView):
                     action = 'follow'
                 else:
                     contact.delete()
-                    action = 'unfollow'    
+                    action = 'unfollow'
 
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': 'Database operation failed.'}, status=500)
-    
+
         return JsonResponse({'status': 'success',
-            'action': action, 'follower_count': target_user.followers.count() 
+            'action': action, 'follower_count': target_user.followers.count()
         })
 
 
@@ -140,11 +140,11 @@ class EditProfileView(APIView):
     """
     Process custom multi-field user profile changes from direct POST submissions.
     """
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [IsAuthenticated]
     def post(self, request, user_id):
         if str(request.user.pk) != str(user_id):
             return Response(
-                {"detail": "You do not have permission to edit this profile."}, 
+                {"detail": "You do not have permission to edit this profile."},
                 status=status.HTTP_403_FORBIDDEN
             )
         with transaction.atomic():
@@ -153,16 +153,16 @@ class EditProfileView(APIView):
             target_user.bio = request.data.get("bio", "").strip()
             target_user.website = request.data.get("website", "").strip()
             target_user.phone_number = request.data.get("phone_number", "").strip()
-            target_user.gender = request.data.get("gender", "") 
+            target_user.gender = request.data.get("gender", "")
             dob = request.data.get("date_of_birth")
-            
+
             if dob:
                 target_user.date_of_birth = dob
             if request.FILES.get("profile_pic"):
                 target_user.profile_pic = request.FILES["profile_pic"]
             target_user.save()
             return JsonResponse({'success': True, 'username': target_user.full_name})
-        
+
 class LogoutAPIView(APIView):
     """
     Blacklists the active JWT refresh token and clears Django sessions.
@@ -170,9 +170,9 @@ class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
         logout(request)
-        
+
         response = Response(
-            {"detail": "Successfully logged out on server."}, 
+            {"detail": "Successfully logged out on server."},
             status=status.HTTP_200_OK
         )
         response.delete_cookie('access_token')
@@ -190,7 +190,7 @@ class RequestOtp(APIView):
         form = OTPRequestForm(request.POST)
         if not form.is_valid():
             return Response({
-                'success': False, 
+                'success': False,
                 'errors': form.errors.get_json_data() if hasattr(form.errors, 'get_json_data') else form.errors
             }, status=status.HTTP_400_BAD_REQUEST)
         email = form.cleaned_data['email'].strip()
@@ -200,14 +200,14 @@ class RequestOtp(APIView):
             send_mail(
                 'Your Pasjsword Reset OTP',
                 f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-                settings.DEFAULT_FROM_EMAIL, 
+                settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
             request.session['reset_email'] = email
 
         return Response({
-            'success': True, 
+            'success': True,
             'message': 'If a matching account exists, an OTP has been sent successfully.',
             'redirect_url': 'verify-otp/'
         }, status=status.HTTP_200_OK)

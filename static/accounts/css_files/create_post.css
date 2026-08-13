@@ -64,14 +64,14 @@ body{
 
 }
 
-.navbar-custom { 
-    background: white; 
-    border-bottom: 1px solid #dbdbdb; 
-    height: 60px; 
-    position: fixed; 
-    top: 0; 
-    width: 100%; 
-    z-index: 1000; 
+.navbar-custom {
+    background: white;
+    border-bottom: 1px solid #dbdbdb;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .post-card{

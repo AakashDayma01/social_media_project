@@ -9,15 +9,15 @@
 }
 
 #login_button{
-    padding: 8px 20px; 
-    border: 1px solid #dbdbdb; 
-    border-radius: 20px; 
-    font-weight: bold; 
+    padding: 8px 20px;
+    border: 1px solid #dbdbdb;
+    border-radius: 20px;
+    font-weight: bold;
     cursor: pointer;
     background-color: white;
     width: 100%;
     height: 45px;
-    transition: color 0.2s ease-in-out; 
+    transition: color 0.2s ease-in-out;
 }
 #heading-label{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -27,41 +27,41 @@
 }
 
 #login_button:hover {
-    background-color: #f2f2f2; 
+    background-color: #f2f2f2;
 }
 
 .form-group{
-    margin-bottom: 15px; 
-    display: flex; 
-    flex-direction: column; 
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
     margin-right: 5px;
     width: 100%;
 }
 
 #submit_button{
-    padding: 8px 20px; 
+    padding: 8px 20px;
     border: none;
     margin-top: 10px;
-    background-color: #0352fc; 
+    background-color: #0352fc;
     color: white;
-    border: 3px solid #dbdbdb; 
-    border-radius: 20px; 
+    border: 3px solid #dbdbdb;
+    border-radius: 20px;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     height: 50px;
     width: 100%;
-    transition: color 0.2s ease-in-out; 
+    transition: color 0.2s ease-in-out;
 }
 
 #submit_button:hover {
-    background-color: #034afc; 
+    background-color: #034afc;
 }
 
 
 
 .error{
-    color: red; 
+    color: red;
     font-size: 13px;
 }
 
@@ -73,7 +73,7 @@
 .form-group input {
     margin-top: 5px;
     padding-left: 10px;
-    border: 1px solid #dbdbdb; 
+    border: 1px solid #dbdbdb;
     border-radius: 10px;
     background-color: #fafafa;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -170,4 +170,3 @@
 #otp-reset-form button[type="submit"]:active {
     transform: scale(0.98);
 }
-

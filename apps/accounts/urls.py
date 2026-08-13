@@ -1,7 +1,7 @@
 """
 URL configuration for the accounts application.
 
-This module maps incoming HTTP request routes to their corresponding view functions 
+This module maps incoming HTTP request routes to their corresponding view functions
 handling user sessions, profile management, OTP verification, and social interactions.
 
 Routes:
@@ -19,7 +19,7 @@ from django.urls import path
 from . import class_view
 
 urlpatterns = [
-    path('home/', class_view.HomeView.as_view(), name='home'), 
+    path('home/', class_view.HomeView.as_view(), name='home'),
     path('logout/', class_view.LogoutView.as_view(), name='logout'),
     path('register/', class_view.RegisterView.as_view(), name='register'),
     path('login/', class_view.LoginVIew.as_view(), name='login'),

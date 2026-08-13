@@ -1,0 +1,122 @@
+INFO 2026-08-13 11:04:00,747 autoreload 22963 127961712390272 Watching for file changes with StatReloader
+INFO 2026-08-13 11:04:15,333 autoreload 22963 127961712390272 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:04:15,993 autoreload 23020 132067230593152 Watching for file changes with StatReloader
+INFO 2026-08-13 11:04:40,989 autoreload 23020 132067230593152 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:04:41,704 autoreload 23094 138232520802432 Watching for file changes with StatReloader
+INFO 2026-08-13 11:04:45,615 log 23094 138232314459840 "GET /home/ HTTP/1.1" 200 16768
+WARNING 2026-08-13 11:05:14,992 log 23094 138232314459840 Not Found: /home/dfddf
+WARNING 2026-08-13 11:05:14,993 log 23094 138232314459840 "GET /home/dfddf HTTP/1.1" 404 5203
+INFO 2026-08-13 11:05:38,754 log 23094 138232314459840 "GET /post/add/ HTTP/1.1" 200 2105
+WARNING 2026-08-13 11:05:38,766 log 23094 138232314459840 "GET /static/accounts/css_files/create_post.css HTTP/1.1" 404 1916
+INFO 2026-08-13 11:05:53,212 log 23094 138232314459840 "POST /post/add/ HTTP/1.1" 302 0
+INFO 2026-08-13 11:05:53,244 log 23094 138232314459840 "GET /home/ HTTP/1.1" 200 16723
+INFO 2026-08-13 11:05:53,302 log 23094 138232314459840 "GET /media/posts/instapic.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 11:07:40,650 autoreload 23094 138232520802432 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:07:41,435 autoreload 23665 125484476141696 Watching for file changes with StatReloader
+INFO 2026-08-13 11:07:44,054 log 23665 125484345063104 "POST /post/delete-post/58/ HTTP/1.1" 200 17
+INFO 2026-08-13 11:08:22,061 autoreload 23665 125484476141696 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:08:22,720 autoreload 23810 134375348265088 Watching for file changes with StatReloader
+INFO 2026-08-13 11:32:41,559 autoreload 28048 140153728987264 Watching for file changes with StatReloader
+INFO 2026-08-13 11:32:45,754 log 28048 140153597195968 "GET /home/ HTTP/1.1" 200 17441
+INFO 2026-08-13 11:32:56,858 log 28048 140153597195968 "POST /post/story-create/ HTTP/1.1" 200 83
+INFO 2026-08-13 11:32:56,868 log 28048 140153597195968 "GET /media/story/instapic_TdyQhW0.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 11:33:14,767 log 28048 140153597195968 "POST /post/story-delete/51/ HTTP/1.1" 200 85
+INFO 2026-08-13 11:33:17,586 log 28048 140153597195968 "POST /post/story-delete/52/ HTTP/1.1" 200 85
+INFO 2026-08-13 11:37:16,407 autoreload 28048 140153728987264 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:37:17,081 autoreload 29479 137739195756672 Watching for file changes with StatReloader
+INFO 2026-08-13 11:37:59,498 autoreload 29479 137739195756672 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:38:00,150 autoreload 29934 130628102959232 Watching for file changes with StatReloader
+INFO 2026-08-13 11:38:36,247 autoreload 29934 130628102959232 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:38:36,911 autoreload 30466 131217566826624 Watching for file changes with StatReloader
+INFO 2026-08-13 11:39:00,790 autoreload 30466 131217566826624 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:39:01,434 autoreload 30588 126718943264896 Watching for file changes with StatReloader
+INFO 2026-08-13 11:39:26,309 autoreload 30588 126718943264896 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:39:26,961 autoreload 30685 128606299373696 Watching for file changes with StatReloader
+INFO 2026-08-13 11:39:49,810 autoreload 30685 128606299373696 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:39:50,493 autoreload 30807 125291880276096 Watching for file changes with StatReloader
+INFO 2026-08-13 11:40:09,151 autoreload 30807 125291880276096 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 11:40:09,896 autoreload 30951 129800422756480 Watching for file changes with StatReloader
+INFO 2026-08-13 11:40:15,003 autoreload 30956 139672847298688 Watching for file changes with StatReloader
+INFO 2026-08-13 12:19:02,935 autoreload 30956 139672847298688 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 12:19:03,637 autoreload 37077 123431888900224 Watching for file changes with StatReloader
+INFO 2026-08-13 12:19:52,300 autoreload 37077 123431888900224 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 12:19:53,018 autoreload 37252 131898572726400 Watching for file changes with StatReloader
+INFO 2026-08-13 12:21:43,610 autoreload 37252 131898572726400 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 12:21:44,320 autoreload 37847 127655309090944 Watching for file changes with StatReloader
+INFO 2026-08-13 12:21:59,918 autoreload 37847 127655309090944 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 12:22:00,636 autoreload 37991 128164670288000 Watching for file changes with StatReloader
+INFO 2026-08-13 12:28:13,362 autoreload 37991 128164670288000 /home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py changed, reloading.
+INFO 2026-08-13 12:35:06,531 autoreload 40284 136476292849792 Watching for file changes with StatReloader
+WARNING 2026-08-13 12:35:21,312 log 40284 136476152035008 Not Found: /sentry-debug/
+WARNING 2026-08-13 12:35:21,332 log 40284 136476152035008 "GET /sentry-debug/ HTTP/1.1" 404 5212
+ERROR 2026-08-13 12:35:30,857 log 40284 136476152035008 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 12:35:30,860 log 40284 136476152035008 "GET /post/sentry-debug/ HTTP/1.1" 500 79063
+INFO 2026-08-13 14:17:08,498 autoreload 40284 136476292849792 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 14:17:09,316 autoreload 56645 138553695527040 Watching for file changes with StatReloader
+INFO 2026-08-13 14:17:52,792 autoreload 56645 138553695527040 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 14:17:53,607 autoreload 56890 133917147779200 Watching for file changes with StatReloader
+ERROR 2026-08-13 14:18:33,184 log 56890 133916939777728 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 14:18:33,188 log 56890 133916939777728 "GET /post/sentry-debug/ HTTP/1.1" 500 79328
+WARNING 2026-08-13 14:18:33,249 log 56890 133916939777728 Not Found: /favicon.ico
+WARNING 2026-08-13 14:18:33,267 log 56890 133916939777728 "GET /favicon.ico HTTP/1.1" 404 5206
+ERROR 2026-08-13 14:21:18,133 log 56890 133916939777728 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 14:21:18,136 log 56890 133916939777728 "GET /post/sentry-debug/ HTTP/1.1" 500 79063
+INFO 2026-08-13 14:58:39,688 autoreload 56890 133917147779200 /home/lenovo/Desktop/social_media_project/instagram/apps/post/api/urls.py changed, reloading.
+INFO 2026-08-13 14:58:42,037 autoreload 68023 131413143220352 Watching for file changes with StatReloader
+INFO 2026-08-13 14:59:35,941 log 68023 131413002155712 "GET /home/ HTTP/1.1" 200 16682
+INFO 2026-08-13 14:59:35,971 log 68023 131413002155712 "GET /static/accounts/css_files/home.css HTTP/1.1" 200 5375
+INFO 2026-08-13 14:59:35,990 log 68023 131412993763008 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:35,991 log 68023 131412745238208 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:36,033 log 68023 131412993763008 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
+WARNING 2026-08-13 14:59:36,364 log 68023 131412993763008 Not Found: /favicon.ico
+WARNING 2026-08-13 14:59:36,387 log 68023 131412993763008 "GET /favicon.ico HTTP/1.1" 404 5206
+INFO 2026-08-13 14:59:36,805 log 68023 131412993763008 "GET /home/ HTTP/1.1" 200 16682
+INFO 2026-08-13 14:59:36,817 log 68023 131412993763008 "GET /static/accounts/css_files/home.css HTTP/1.1" 200 5375
+INFO 2026-08-13 14:59:36,840 log 68023 131413002155712 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:36,845 log 68023 131412745238208 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:36,851 log 68023 131412745238208 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
+INFO 2026-08-13 14:59:37,012 log 68023 131412745238208 "GET /home/ HTTP/1.1" 200 16682
+INFO 2026-08-13 14:59:37,033 log 68023 131412745238208 "GET /static/accounts/css_files/home.css HTTP/1.1" 200 5375
+INFO 2026-08-13 14:59:37,050 log 68023 131412993763008 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:37,052 log 68023 131413002155712 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:37,058 log 68023 131413002155712 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
+INFO 2026-08-13 14:59:37,218 log 68023 131413002155712 "GET /home/ HTTP/1.1" 200 16682
+INFO 2026-08-13 14:59:37,236 log 68023 131413002155712 "GET /static/accounts/css_files/home.css HTTP/1.1" 200 5375
+INFO 2026-08-13 14:59:37,258 log 68023 131412993763008 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:37,260 log 68023 131412745238208 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 14:59:37,266 log 68023 131412745238208 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
+WARNING 2026-08-13 14:59:37,585 log 68023 131412745238208 Not Found: /favicon.ico
+WARNING 2026-08-13 14:59:37,602 log 68023 131412745238208 "GET /favicon.ico HTTP/1.1" 404 5206

@@ -1,0 +1,39 @@
+ERROR 2026-08-13 12:35:30,857 log 40284 136476152035008 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 12:35:30,860 log 40284 136476152035008 "GET /post/sentry-debug/ HTTP/1.1" 500 79063
+ERROR 2026-08-13 14:18:33,184 log 56890 133916939777728 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 14:18:33,188 log 56890 133916939777728 "GET /post/sentry-debug/ HTTP/1.1" 500 79328
+ERROR 2026-08-13 14:21:18,133 log 56890 133916939777728 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 14:21:18,136 log 56890 133916939777728 "GET /post/sentry-debug/ HTTP/1.1" 500 79063

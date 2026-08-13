@@ -9,9 +9,9 @@ document.getElementById('login-form').addEventListener('submit', function(e){
     body: formData,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRFToken': csrfToken 
+        'X-CSRFToken': csrfToken
     }
-    }) 
+    })
     .then(response => response.json().then(data => ({status: response.status,body:data})))
     .then(res =>{
         if (res.status === 200 && res.body.success){

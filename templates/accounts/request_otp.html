@@ -8,14 +8,14 @@
 <label id="heading-label">Find your account</label>
 <form method="post" novalidate id="request-otp-form" >
     {% csrf_token %}
-    
+
     <span class="error" id="non-field-errors"></span>
 
     {% for field in form %}
         <div class="form-group" >
             <label class="labels">{{ field.label }}</label>
             {{ field }}
-            
+
             <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
         </div>
     {% endfor %}
@@ -118,10 +118,10 @@ document.addEventListener('submit', function(e){
                 document.querySelectorAll('.error').forEach(span => {
                     let id = span.id;
                     let fieldName = id.replace('error_', '');
-                    if (id === 'non-field-errors'){ 
+                    if (id === 'non-field-errors'){
                         fieldName = '__all__';
                     }
-                    
+
                     if (!fieldsWithNewErrors[fieldName]) {
                         span.textContent = '';
                         console.log('span',span)
@@ -134,4 +134,3 @@ document.addEventListener('submit', function(e){
     }
 });
 </script>
-

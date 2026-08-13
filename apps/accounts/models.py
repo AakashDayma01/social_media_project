@@ -1,6 +1,6 @@
 """
 Database models for the accounts application.
-This module defines the schema and business logic for user profiles, 
+This module defines the schema and business logic for user profiles,
 social relationships (followers/following), and security tokens.
 
 Models:
@@ -44,16 +44,16 @@ class CustomUser(AbstractUser):
         Returns the string representation of the user.
         """
         return self.username
-    
+
 
 class Contact(models.Model):
     """
     Intermediary M2M model representing follow relationships between users.
     """
-    user_from = models.ForeignKey(settings.AUTH_USER_MODEL, 
+    user_from = models.ForeignKey(settings.AUTH_USER_MODEL,
         related_name='rel_from_set', on_delete=models.CASCADE
     )
-    user_to = models.ForeignKey(settings.AUTH_USER_MODEL, 
+    user_to = models.ForeignKey(settings.AUTH_USER_MODEL,
         related_name='rel_to_set', on_delete=models.CASCADE
     )
     created = models.DateTimeField(auto_now_add=True)
@@ -75,7 +75,7 @@ class PasswordResetOTP(models.Model):
     """
     Stores temporary short-lived OTP tokens used for account verification.
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -97,6 +97,3 @@ class PasswordResetOTP(models.Model):
         cls.objects.filter(user=user).delete()
         otp_code = f"{random.randint(100000, 999999)}"
         return cls.objects.create(user=user, otp=otp_code)
-    
-
-
