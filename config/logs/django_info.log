@@ -120,3 +120,613 @@ INFO 2026-08-13 14:59:37,260 log 68023 131412745238208 "GET /media/posts/instapi
 INFO 2026-08-13 14:59:37,266 log 68023 131412745238208 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
 WARNING 2026-08-13 14:59:37,585 log 68023 131412745238208 Not Found: /favicon.ico
 WARNING 2026-08-13 14:59:37,602 log 68023 131412745238208 "GET /favicon.ico HTTP/1.1" 404 5206
+INFO 2026-08-13 15:18:21,344 autoreload 68023 131413143220352 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:18:22,243 autoreload 72947 138382888865920 Watching for file changes with StatReloader
+INFO 2026-08-13 15:18:35,782 autoreload 72947 138382888865920 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:18:36,585 autoreload 73059 137544464146560 Watching for file changes with StatReloader
+INFO 2026-08-13 15:19:40,595 autoreload 73059 137544464146560 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:19:41,475 autoreload 73350 129079697211520 Watching for file changes with StatReloader
+INFO 2026-08-13 15:19:56,344 log 73350 129079556699840 "GET /home/ HTTP/1.1" 200 16682
+INFO 2026-08-13 15:19:56,374 log 73350 129079556699840 "GET /static/accounts/css_files/home.css HTTP/1.1" 200 5375
+INFO 2026-08-13 15:19:56,390 log 73350 129079302928064 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 15:19:56,392 log 73350 129079336498880 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 15:19:56,400 log 73350 129079302928064 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
+WARNING 2026-08-13 15:19:56,804 log 73350 129079302928064 Not Found: /favicon.ico
+WARNING 2026-08-13 15:19:56,822 log 73350 129079302928064 "GET /favicon.ico HTTP/1.1" 404 5206
+INFO 2026-08-13 15:21:42,787 autoreload 73350 129079697211520 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:21:43,664 autoreload 73979 125561799979136 Watching for file changes with StatReloader
+INFO 2026-08-13 15:22:19,750 autoreload 73979 125561799979136 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:22:20,553 autoreload 74225 127889644511360 Watching for file changes with StatReloader
+INFO 2026-08-13 15:28:59,145 autoreload 74225 127889644511360 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:28:59,965 autoreload 75887 127426218561664 Watching for file changes with StatReloader
+INFO 2026-08-13 15:29:36,152 autoreload 75887 127426218561664 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 15:29:37,054 autoreload 75997 138820393640064 Watching for file changes with StatReloader
+INFO 2026-08-13 15:32:36,425 autoreload 76649 123889563607168 Watching for file changes with StatReloader
+WARNING 2026-08-13 15:33:05,315 log 76649 123889423218368 Not Found: /
+WARNING 2026-08-13 15:33:05,318 log 76649 123889423218368 "GET / HTTP/1.1" 404 5155
+INFO 2026-08-13 15:33:45,728 log 76649 123889423218368 "GET /register/ HTTP/1.1" 200 2002
+INFO 2026-08-13 15:36:06,640 autoreload 76649 123889563607168 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/api/api_views.py changed, reloading.
+INFO 2026-08-13 15:36:07,438 autoreload 77484 140340242444416 Watching for file changes with StatReloader
+WARNING 2026-08-13 15:38:25,067 log 77484 140340102166208 Unauthorized: /api/register/
+WARNING 2026-08-13 15:38:25,073 log 77484 140340102166208 "POST /api/register/ HTTP/1.1" 401 172
+INFO 2026-08-13 15:39:03,088 autoreload 77484 140340242444416 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/api/api_views.py changed, reloading.
+INFO 2026-08-13 15:39:03,948 autoreload 78509 139619239301248 Watching for file changes with StatReloader
+WARNING 2026-08-13 15:39:55,763 log 78509 139619099211456 Unauthorized: /api/register/
+WARNING 2026-08-13 15:39:55,768 log 78509 139619099211456 "POST /api/register/ HTTP/1.1" 401 172
+WARNING 2026-08-13 15:42:26,290 log 78509 139618716481216 Bad Request: /api/register/
+WARNING 2026-08-13 15:42:26,293 log 78509 139618716481216 "POST /api/register/ HTTP/1.1" 400 151
+WARNING 2026-08-13 15:42:47,048 log 78509 139618708088512 Method Not Allowed: /api/register/
+WARNING 2026-08-13 15:42:47,050 log 78509 139618708088512 "GET /api/register/ HTTP/1.1" 405 40
+INFO 2026-08-13 15:43:57,983 log 78509 139618708088512 "OPTIONS /api/register/ HTTP/1.1" 200 0
+WARNING 2026-08-13 15:43:58,042 log 78509 139618708088512 Bad Request: /api/register/
+WARNING 2026-08-13 15:43:58,045 log 78509 139618708088512 "POST /api/register/ HTTP/1.1" 400 69
+WARNING 2026-08-13 16:00:52,726 log 78509 139618708088512 Not Found: /favicon.ico
+WARNING 2026-08-13 16:00:52,745 log 78509 139618708088512 "GET /favicon.ico HTTP/1.1" 404 5206
+WARNING 2026-08-13 16:02:54,737 log 78509 139618708088512 Not Found: /post/sentry-debug//
+WARNING 2026-08-13 16:02:54,756 log 78509 139618708088512 "GET /post/sentry-debug// HTTP/1.1" 404 9010
+ERROR 2026-08-13 16:02:59,972 log 78509 139618708088512 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 16:02:59,975 log 78509 139618708088512 "GET /post/sentry-debug/ HTTP/1.1" 500 79477
+INFO 2026-08-13 16:04:06,274 log 78509 139618691303104 "GET /home/ HTTP/1.1" 302 0
+INFO 2026-08-13 16:04:06,355 log 78509 139618691303104 "GET /login/?next=/home/ HTTP/1.1" 200 3158
+INFO 2026-08-13 16:04:06,441 log 78509 139618691303104 "GET /static/accounts/css_files/login.css HTTP/1.1" 200 3609
+INFO 2026-08-13 16:04:06,454 log 78509 139618682910400 "GET /static/accounts/instapic.jpg HTTP/1.1" 200 576680
+INFO 2026-08-13 16:04:06,456 log 78509 139618674517696 "GET /static/accounts/js_files/login.js HTTP/1.1" 200 1555
+INFO 2026-08-13 16:04:09,540 log 78509 139618691303104 "POST /accounts/google/login/?next=%2Fhome%2F HTTP/1.1" 302 0
+WARNING 2026-08-13 16:04:33,008 log 78509 139618691303104 Bad Request: /login/
+WARNING 2026-08-13 16:04:33,015 log 78509 139618691303104 "POST /login/?next=/home/ HTTP/1.1" 400 116
+WARNING 2026-08-13 16:04:37,258 log 78509 139618691303104 Bad Request: /login/
+WARNING 2026-08-13 16:04:37,264 log 78509 139618691303104 "POST /login/?next=/home/ HTTP/1.1" 400 116
+WARNING 2026-08-13 16:04:54,520 log 78509 139618691303104 Bad Request: /login/
+WARNING 2026-08-13 16:04:54,527 log 78509 139618691303104 "POST /login/?next=/home/ HTTP/1.1" 400 116
+INFO 2026-08-13 16:05:01,424 log 78509 139618708088512 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-13 16:05:01,451 log 78509 139618708088512 "GET /login/ HTTP/1.1" 200 3106
+WARNING 2026-08-13 16:05:18,157 log 78509 139618708088512 Bad Request: /login/
+WARNING 2026-08-13 16:05:18,161 log 78509 139618708088512 "POST /login/ HTTP/1.1" 400 116
+WARNING 2026-08-13 16:05:19,021 log 78509 139618699695808 Bad Request: /login/
+WARNING 2026-08-13 16:05:19,025 log 78509 139618699695808 "POST /login/ HTTP/1.1" 400 116
+WARNING 2026-08-13 16:05:24,997 log 78509 139618699695808 Bad Request: /login/
+WARNING 2026-08-13 16:05:25,002 log 78509 139618699695808 "POST /login/ HTTP/1.1" 400 116
+INFO 2026-08-13 16:05:27,011 log 78509 139618699695808 "POST /accounts/google/login/ HTTP/1.1" 302 0
+INFO 2026-08-13 16:05:34,069 log 78509 139618699695808 "GET /accounts/google/login/callback/?state=3D2M9fPKDgHgLrmJ&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0AXEQxIDaLfHZLP5shM-1oRYem2PuYaOafQ-ZEznV66btqnMDWIhu9HSNtvheU0uF65tTeg&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&authuser=0&hd=thoughtwin.com&prompt=none HTTP/1.1" 302 0
+INFO 2026-08-13 16:05:34,112 log 78509 139618699695808 "GET /home/ HTTP/1.1" 200 16594
+INFO 2026-08-13 16:05:34,206 log 78509 139618699695808 "GET /static/accounts/js_files/home.js HTTP/1.1" 304 0
+ERROR 2026-08-13 16:05:48,942 log 78509 139618699695808 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 16:05:48,945 log 78509 139618699695808 "GET /post/sentry-debug/ HTTP/1.1" 500 79739
+INFO 2026-08-13 16:15:16,742 autoreload 78509 139619239301248 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 16:15:17,636 autoreload 85735 136128632369280 Watching for file changes with StatReloader
+INFO 2026-08-13 16:15:31,208 autoreload 85735 136128632369280 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 16:15:32,031 autoreload 85754 134679495516288 Watching for file changes with StatReloader
+INFO 2026-08-13 16:16:25,952 log 85754 134679355193024 "OPTIONS /api/register/ HTTP/1.1" 200 0
+INFO 2026-08-13 16:17:29,577 autoreload 85754 134679495516288 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 16:17:30,425 autoreload 86106 127760545140864 Watching for file changes with StatReloader
+INFO 2026-08-13 16:17:36,094 log 86106 127760405100224 "OPTIONS /api/register/ HTTP/1.1" 200 0
+WARNING 2026-08-13 16:17:36,153 log 86106 127760405100224 Bad Request: /api/register/
+WARNING 2026-08-13 16:17:36,156 log 86106 127760405100224 "POST /api/register/ HTTP/1.1" 400 69
+INFO 2026-08-13 16:33:51,778 autoreload 86106 127760545140864 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-13 16:33:52,525 autoreload 89029 127478214209664 Watching for file changes with StatReloader
+INFO 2026-08-14 09:11:08,385 autoreload 4405 129713195036800 Watching for file changes with StatReloader
+INFO 2026-08-14 09:11:18,737 log 4405 129713054938816 "GET /home/ HTTP/1.1" 200 16610
+INFO 2026-08-14 09:11:18,779 log 4405 129713054938816 "GET /static/accounts/js_files/home.js HTTP/1.1" 304 0
+WARNING 2026-08-14 09:11:18,927 log 4405 129713054938816 Not Found: /favicon.ico
+WARNING 2026-08-14 09:11:18,947 log 4405 129713054938816 "GET /favicon.ico HTTP/1.1" 404 5206
+INFO 2026-08-14 10:46:44,052 autoreload 4405 129713195036800 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-14 10:46:44,912 autoreload 20146 133173254570112 Watching for file changes with StatReloader
+INFO 2026-08-14 11:10:40,090 autoreload 20146 133173254570112 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-14 11:10:40,918 autoreload 23826 135204229615744 Watching for file changes with StatReloader
+INFO 2026-08-14 11:59:30,662 autoreload 23826 135204229615744 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/models.py changed, reloading.
+INFO 2026-08-14 11:59:31,513 autoreload 32050 124593685704832 Watching for file changes with StatReloader
+INFO 2026-08-14 15:47:19,170 autoreload 32050 124593685704832 /home/lenovo/Desktop/social_media_project/instagram/config/settings/base.py changed, reloading.
+INFO 2026-08-14 15:47:20,106 autoreload 69782 128890797473920 Watching for file changes with StatReloader
+INFO 2026-08-17 09:05:55,015 autoreload 4457 131774507462784 Watching for file changes with StatReloader
+ERROR 2026-08-17 09:06:12,640 log 4457 131774294259392 Internal Server Error: /home/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/mixins.py", line 72, in dispatch
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/__init__.py", line 328, in get_user
+    user = backend.get_user(user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/utils.py", line 1886, in runner
+    return sentry_patched_function(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/__init__.py", line 737, in execute
+    result = real_execute(self, sql, params)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+ERROR 2026-08-17 09:06:12,659 log 4457 131774294259392 "GET /home/ HTTP/1.1" 500 196418
+WARNING 2026-08-17 09:06:12,964 log 4457 131774294259392 Not Found: /favicon.ico
+WARNING 2026-08-17 09:06:12,986 log 4457 131774294259392 "GET /favicon.ico HTTP/1.1" 404 5206
+ERROR 2026-08-17 09:06:24,976 log 4457 131774294259392 Internal Server Error: /home/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/mixins.py", line 72, in dispatch
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/__init__.py", line 328, in get_user
+    user = backend.get_user(user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/utils.py", line 1886, in runner
+    return sentry_patched_function(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/__init__.py", line 737, in execute
+    result = real_execute(self, sql, params)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+ERROR 2026-08-17 09:06:24,983 log 4457 131774294259392 "GET /home/ HTTP/1.1" 500 196683
+WARNING 2026-08-17 09:06:25,059 log 4457 131774294259392 Not Found: /favicon.ico
+WARNING 2026-08-17 09:06:25,076 log 4457 131774294259392 "GET /favicon.ico HTTP/1.1" 404 5206
+INFO 2026-08-17 09:07:06,085 autoreload 4457 131774507462784 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/models.py changed, reloading.
+INFO 2026-08-17 09:07:06,993 autoreload 5150 138696567484544 Watching for file changes with StatReloader
+INFO 2026-08-17 09:07:10,140 log 5150 138696357574336 "GET /home/ HTTP/1.1" 200 16612
+INFO 2026-08-17 09:07:10,166 log 5150 138696357574336 "GET /static/accounts/css_files/home.css HTTP/1.1" 200 5375
+INFO 2026-08-17 09:07:10,187 log 5150 138696340788928 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-17 09:07:10,189 log 5150 138695969601216 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-17 09:07:10,196 log 5150 138695969601216 "GET /static/accounts/js_files/home.js HTTP/1.1" 200 19634
+WARNING 2026-08-17 09:07:10,894 log 5150 138695969601216 Not Found: /favicon.ico
+WARNING 2026-08-17 09:07:10,914 log 5150 138695969601216 "GET /favicon.ico HTTP/1.1" 404 5206
+INFO 2026-08-17 12:16:48,237 autoreload 42782 126354588737664 Watching for file changes with StatReloader
+INFO 2026-08-17 12:20:16,019 autoreload 42782 126354588737664 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/models.py changed, reloading.
+INFO 2026-08-17 12:20:16,823 autoreload 43597 134190408249472 Watching for file changes with StatReloader
+INFO 2026-08-17 12:23:50,872 autoreload 43597 134190408249472 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/models.py changed, reloading.
+INFO 2026-08-17 12:23:51,807 autoreload 44272 134927161790592 Watching for file changes with StatReloader
+INFO 2026-08-17 12:26:00,620 autoreload 44272 134927161790592 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:26:01,431 autoreload 45511 133750164758656 Watching for file changes with StatReloader
+INFO 2026-08-17 12:26:19,114 autoreload 45511 133750164758656 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:26:19,957 autoreload 45666 135649351598208 Watching for file changes with StatReloader
+INFO 2026-08-17 12:27:41,381 autoreload 45666 135649351598208 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/urls.py changed, reloading.
+INFO 2026-08-17 12:27:42,191 autoreload 45985 135229986873472 Watching for file changes with StatReloader
+INFO 2026-08-17 12:27:47,658 autoreload 45985 135229986873472 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/urls.py changed, reloading.
+INFO 2026-08-17 12:27:48,471 autoreload 45997 128311967264896 Watching for file changes with StatReloader
+INFO 2026-08-17 12:31:56,314 log 45997 128311825004224 "GET /home/ HTTP/1.1" 200 16612
+INFO 2026-08-17 12:32:00,181 log 45997 128311825004224 "GET /profile/akash/ HTTP/1.1" 200 3363
+WARNING 2026-08-17 12:32:00,204 log 45997 128311711741632 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 12:32:00,207 log 45997 128311825004224 "GET /static/accounts/css_files/profile.css HTTP/1.1" 200 4737
+INFO 2026-08-17 12:32:04,954 log 45997 128311825004224 "POST /verify-account/ HTTP/1.1" 302 0
+INFO 2026-08-17 12:35:49,975 log 45997 128311711741632 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 12:35:50,613 log 45997 128311711741632 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 12:35:50,666 log 45997 128311711741632 "POST /stripe/webhook/ HTTP/1.1" 200 21
+ERROR 2026-08-17 12:35:50,886 log 45997 128311711741632 Internal Server Error: /stripe/webhook/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 145, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py", line 404, in post
+    user_id = session.get("metadata", {}).get("user_id")
+              ^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+ERROR 2026-08-17 12:35:50,890 log 45997 128311711741632 "POST /stripe/webhook/ HTTP/1.1" 500 148950
+INFO 2026-08-17 12:35:52,002 log 45997 128311825004224 "GET /profile/akash/?verification=success HTTP/1.1" 200 3363
+INFO 2026-08-17 12:35:52,025 log 45997 128311701251776 "GET /static/accounts/css_files/profile.css HTTP/1.1" 304 0
+WARNING 2026-08-17 12:35:52,026 log 45997 128311825004224 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 12:35:52,609 log 45997 128311711741632 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 12:35:55,747 log 45997 128311701251776 "GET /profile/akash/?verification=success HTTP/1.1" 200 3363
+WARNING 2026-08-17 12:35:55,763 log 45997 128311701251776 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 12:35:58,793 log 45997 128311825004224 "GET /profile/akash/?verification=success HTTP/1.1" 200 3363
+WARNING 2026-08-17 12:35:58,806 log 45997 128311825004224 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 12:36:00,434 log 45997 128311701251776 "GET /profile/akash/?verification=success HTTP/1.1" 200 3363
+INFO 2026-08-17 12:36:00,445 log 45997 128311701251776 "GET /static/accounts/css_files/profile.css HTTP/1.1" 200 4737
+WARNING 2026-08-17 12:36:00,457 log 45997 128311825004224 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 12:36:00,475 log 45997 128311141332672 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+INFO 2026-08-17 12:36:00,476 log 45997 128311692859072 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+WARNING 2026-08-17 12:36:00,691 log 45997 128311701251776 Not Found: /favicon.ico
+WARNING 2026-08-17 12:36:00,711 log 45997 128311701251776 "GET /favicon.ico HTTP/1.1" 404 5762
+INFO 2026-08-17 12:40:09,712 autoreload 45997 128311967264896 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:40:10,580 autoreload 48615 125810835644544 Watching for file changes with StatReloader
+INFO 2026-08-17 12:40:20,506 autoreload 48697 125003482701952 Watching for file changes with StatReloader
+ERROR 2026-08-17 12:42:04,490 log 48697 125003274122944 Internal Server Error: /stripe/webhook/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 145, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py", line 410, in post
+    print("SESSION ID:", session.get("id"))
+                         ^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+ERROR 2026-08-17 12:42:04,495 log 48697 125003274122944 "POST /stripe/webhook/ HTTP/1.1" 500 148908
+INFO 2026-08-17 12:45:01,660 autoreload 48697 125003482701952 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:45:02,545 autoreload 49629 129887373373568 Watching for file changes with StatReloader
+INFO 2026-08-17 12:45:09,798 autoreload 49641 127813722620032 Watching for file changes with StatReloader
+ERROR 2026-08-17 12:45:48,882 log 49641 127813581534912 Internal Server Error: /stripe/webhook/
+ERROR 2026-08-17 12:45:48,885 log 49641 127813581534912 "POST /stripe/webhook/ HTTP/1.1" 500 56
+INFO 2026-08-17 12:47:54,671 autoreload 49641 127813722620032 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:47:55,501 autoreload 50220 126552800936064 Watching for file changes with StatReloader
+INFO 2026-08-17 12:48:22,362 autoreload 50220 126552800936064 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:48:23,198 autoreload 50490 129641725251712 Watching for file changes with StatReloader
+INFO 2026-08-17 12:48:33,683 autoreload 50504 123178801811584 Watching for file changes with StatReloader
+ERROR 2026-08-17 12:48:47,386 log 50504 123178588305088 Internal Server Error: /stripe/webhook/
+ERROR 2026-08-17 12:48:47,390 log 50504 123178588305088 "POST /stripe/webhook/ HTTP/1.1" 500 56
+INFO 2026-08-17 12:50:33,245 autoreload 50504 123178801811584 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 12:50:34,023 autoreload 51003 136624054505600 Watching for file changes with StatReloader
+INFO 2026-08-17 12:51:14,647 autoreload 51091 132083345977472 Watching for file changes with StatReloader
+WARNING 2026-08-17 12:51:26,954 log 51091 132083129251520 Not Found: /stripe/webhook/clear
+WARNING 2026-08-17 12:51:26,957 log 51091 132083129251520 "POST /stripe/webhook/clear HTTP/1.1" 404 5790
+INFO 2026-08-17 12:51:57,509 autoreload 51274 124606138445952 Watching for file changes with StatReloader
+WARNING 2026-08-17 12:52:52,496 log 51274 124605926733504 Not Found: /stripe/webhook/clear
+WARNING 2026-08-17 12:52:52,500 log 51274 124605926733504 "POST /stripe/webhook/clear HTTP/1.1" 404 5790
+WARNING 2026-08-17 12:53:10,064 log 51274 124605926733504 Not Found: /stripe/webhook/clear
+WARNING 2026-08-17 12:53:10,066 log 51274 124605926733504 "POST /stripe/webhook/clear HTTP/1.1" 404 5790
+ERROR 2026-08-17 12:53:50,149 log 51274 124605926733504 Internal Server Error: /stripe/webhook
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/middleware.py", line 208, in __call__
+    return f(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to localhost:8000/stripe/webhook/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-08-17 12:53:50,152 log 51274 124605926733504 "POST /stripe/webhook HTTP/1.1" 500 82228
+INFO 2026-08-17 12:54:02,730 autoreload 51754 138006133964928 Watching for file changes with StatReloader
+ERROR 2026-08-17 12:54:19,136 log 51754 138005991913152 Internal Server Error: /stripe/webhook
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/middleware.py", line 208, in __call__
+    return f(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to localhost:8000/stripe/webhook/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-08-17 12:54:19,140 log 51754 138005991913152 "POST /stripe/webhook HTTP/1.1" 500 82228
+INFO 2026-08-17 14:05:15,408 autoreload 64154 129602088882304 Watching for file changes with StatReloader
+INFO 2026-08-17 14:05:19,974 log 64154 129601946777280 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 14:05:29,804 log 64154 129601695110848 "GET /profile/akash/?verification=success HTTP/1.1" 200 2991
+INFO 2026-08-17 14:05:29,829 log 64154 129601695110848 "GET /static/accounts/css_files/profile.css HTTP/1.1" 200 4737
+WARNING 2026-08-17 14:05:29,833 log 64154 129601686718144 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 14:05:29,845 log 64154 129601678325440 "GET /media/posts/instapic_hiJg7Uq.jpg HTTP/1.1" 200 576680
+INFO 2026-08-17 14:05:29,854 log 64154 129601669932736 "GET /media/posts/instapic_MYh9cQJ.jpg HTTP/1.1" 200 576680
+WARNING 2026-08-17 14:05:30,100 log 64154 129601695110848 Not Found: /favicon.ico
+WARNING 2026-08-17 14:05:30,123 log 64154 129601695110848 "GET /favicon.ico HTTP/1.1" 404 5762
+INFO 2026-08-17 15:02:12,758 autoreload 64154 129602088882304 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 15:02:13,569 autoreload 75381 140254758633600 Watching for file changes with StatReloader
+INFO 2026-08-17 15:02:36,403 autoreload 75381 140254758633600 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 15:02:37,141 autoreload 75467 140715294744704 Watching for file changes with StatReloader
+INFO 2026-08-17 15:02:46,604 autoreload 75467 140715294744704 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 15:02:47,400 autoreload 75594 138599028433024 Watching for file changes with StatReloader
+INFO 2026-08-17 15:05:30,870 autoreload 75594 138599028433024 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 15:05:31,626 autoreload 77234 125045660237952 Watching for file changes with StatReloader
+INFO 2026-08-17 15:05:53,539 autoreload 77234 125045660237952 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 15:05:54,321 autoreload 77321 137519593087104 Watching for file changes with StatReloader
+INFO 2026-08-17 15:06:01,409 log 77321 137519451600576 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:06:01,458 log 77321 137519451600576 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 15:06:01,517 log 77321 137519434815168 "GET /static/accounts/instapic.jpg HTTP/1.1" 304 0
+INFO 2026-08-17 15:06:01,520 log 77321 137519451600576 "GET /static/accounts/js_files/login.js HTTP/1.1" 200 1555
+INFO 2026-08-17 15:06:01,522 log 77321 137519063619264 "GET /static/accounts/css_files/login.css HTTP/1.1" 200 3609
+INFO 2026-08-17 15:06:04,627 log 77321 137519451600576 "POST /login/ HTTP/1.1" 200 42
+INFO 2026-08-17 15:06:04,681 log 77321 137519451600576 "GET /home/ HTTP/1.1" 200 16700
+INFO 2026-08-17 15:06:07,694 log 77321 137519063619264 "GET /profile/aakash/ HTTP/1.1" 200 3452
+INFO 2026-08-17 15:06:07,703 log 77321 137519063619264 "GET /static/accounts/css_files/profile.css HTTP/1.1" 304 0
+INFO 2026-08-17 15:06:07,732 log 77321 137519451600576 "GET /media/posts/instapic_hs1k5lQ.jpg HTTP/1.1" 304 0
+INFO 2026-08-17 15:06:07,733 log 77321 137519434815168 "GET /media/profile_pics/linkedin.jpg HTTP/1.1" 304 0
+INFO 2026-08-17 15:06:07,737 log 77321 137519053129408 "GET /media/posts/linkedin_mWy9VMo.jpg HTTP/1.1" 304 0
+INFO 2026-08-17 15:06:10,255 log 77321 137519063619264 "POST /verify-account/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:06:31,570 log 77321 137519043688128 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:06:31,743 log 77321 137519043688128 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:06:31,809 log 77321 137519043688128 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:06:31,972 log 77321 137519043688128 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:06:33,103 log 77321 137519063619264 "GET /profile/aakash/?verification=success HTTP/1.1" 200 3080
+INFO 2026-08-17 15:06:34,021 log 77321 137519043688128 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:22:02,453 autoreload 77321 137519593087104 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/urls.py changed, reloading.
+INFO 2026-08-17 15:22:03,934 autoreload 82028 131728857415808 Watching for file changes with StatReloader
+INFO 2026-08-17 15:25:59,116 autoreload 82028 131728857415808 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/urls.py changed, reloading.
+INFO 2026-08-17 15:25:59,981 autoreload 83083 123204142354560 Watching for file changes with StatReloader
+INFO 2026-08-17 15:26:16,079 log 83083 123204000544448 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:26:16,117 log 83083 123204000544448 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 15:26:18,848 log 83083 123204000544448 "POST /accounts/google/login/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:26:23,958 log 83083 123204000544448 "GET /accounts/google/login/callback/?state=clVC3KkxoPcojyrI&iss=https%3A%2F%2Faccounts.google.com&code=4%2F0ATsMZqCXPTZY2piP1ZKvSZ5CYAN8tGNrbvWmcl6b5L-DdCioDlNk9-5Uc6grCwgMWtjy0A&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=0&hd=thoughtwin.com&prompt=none HTTP/1.1" 302 0
+INFO 2026-08-17 15:26:23,998 log 83083 123204000544448 "GET /home/ HTTP/1.1" 200 16612
+INFO 2026-08-17 15:26:25,738 log 83083 123204000544448 "GET /profile/akash/ HTTP/1.1" 200 2991
+WARNING 2026-08-17 15:26:25,752 log 83083 123204000544448 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 15:26:25,754 log 83083 123203975366336 "GET /static/accounts/css_files/profile.css HTTP/1.1" 304 0
+INFO 2026-08-17 15:26:28,594 log 83083 123203975366336 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:26:28,620 log 83083 123203975366336 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 15:26:34,740 log 83083 123203975366336 "POST /accounts/github/login/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:26:49,497 log 83083 123203975366336 "POST /accounts/oidc/linkedin/login/?id=linkedin HTTP/1.1" 302 0
+INFO 2026-08-17 15:27:06,647 log 83083 123203975366336 "GET /accounts/oidc/linkedin/login/callback/?code=AQQs19EuSoUYwPupJSboFI-ZXVycBEXOtMI0SiPnX_WyZcjbShA8yFmesT15A_jnFEnYH6TrHbROZJx6B5TTG4_4rZuGY_jeTKmSTF-DK0e9pC5rnW9olfUvBz1aEgWMZuuhz0r38JdSu6iNvCQiTy5tkUdlnR0U28YxNiLawWc76fMsqs1sIBmJZ1r2N9--iap11l8wzoNY4o_XnHQ&state=1rD3ZBSa2iRsBzfO HTTP/1.1" 302 0
+INFO 2026-08-17 15:27:06,686 log 83083 123203975366336 "GET /home/ HTTP/1.1" 200 16710
+INFO 2026-08-17 15:27:10,086 log 83083 123203975366336 "GET /profile/aakashdayma/ HTTP/1.1" 200 2922
+WARNING 2026-08-17 15:27:10,108 log 83083 123203975366336 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 15:27:11,952 log 83083 123204000544448 "POST /verify-account/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:27:22,495 log 83083 123203609421504 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:27:22,742 log 83083 123203609421504 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:27:22,844 log 83083 123203609421504 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:27:23,029 log 83083 123203609421504 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:27:24,656 log 83083 123204000544448 "GET /profile/aakashdayma/?verification=success HTTP/1.1" 200 2574
+WARNING 2026-08-17 15:27:24,670 log 83083 123204000544448 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 15:27:24,935 log 83083 123203609421504 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 15:27:47,440 autoreload 83083 123204142354560 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/urls.py changed, reloading.
+INFO 2026-08-17 15:27:48,351 autoreload 83935 130853254824064 Watching for file changes with StatReloader
+INFO 2026-08-17 15:29:08,097 log 83935 130853113951936 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 15:29:08,135 log 83935 130853113951936 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 15:29:10,839 log 83935 130853113951936 "POST /login/ HTTP/1.1" 200 42
+INFO 2026-08-17 15:29:10,895 log 83935 130853113951936 "GET /home/ HTTP/1.1" 200 16700
+INFO 2026-08-17 15:29:15,968 log 83935 130853113951936 "GET /profile/aakash/ HTTP/1.1" 200 3080
+INFO 2026-08-17 16:13:28,202 autoreload 83935 130853254824064 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 16:13:29,065 autoreload 95009 127680510144640 Watching for file changes with StatReloader
+INFO 2026-08-17 16:14:36,906 autoreload 95009 127680510144640 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 16:14:37,792 autoreload 95409 137958677504128 Watching for file changes with StatReloader
+INFO 2026-08-17 16:40:34,529 log 95409 137958535460544 "GET /profile/aakash/ HTTP/1.1" 200 3080
+INFO 2026-08-17 16:40:34,538 log 95409 137958535460544 "GET /static/accounts/css_files/profile.css HTTP/1.1" 304 0
+INFO 2026-08-17 16:40:44,496 log 95409 137958535460544 "GET /home/ HTTP/1.1" 200 16700
+INFO 2026-08-17 16:40:46,753 log 95409 137958535460544 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 16:40:46,786 log 95409 137958535460544 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 16:40:48,060 log 95409 137958535460544 "POST /accounts/github/login/ HTTP/1.1" 302 0
+INFO 2026-08-17 16:41:03,059 log 95409 137958535460544 "GET /accounts/github/login/callback/?code=6d740cd2ab05c1e3ce31&state=7OrI7pmnYunNpttP HTTP/1.1" 302 0
+INFO 2026-08-17 16:41:03,115 log 95409 137958535460544 "GET /home/ HTTP/1.1" 200 16714
+INFO 2026-08-17 16:41:05,454 log 95409 137958535460544 "GET /profile/AakashDayma01/ HTTP/1.1" 200 2928
+WARNING 2026-08-17 16:41:05,466 log 95409 137958535460544 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 16:41:12,733 log 95409 137958308968128 "POST /verify-account/ HTTP/1.1" 302 0
+INFO 2026-08-17 16:41:41,321 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:41:41,713 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:41:42,048 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:41:42,193 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:41:42,563 log 95409 137958308968128 "GET /profile/AakashDayma01/?verification=success HTTP/1.1" 200 2580
+WARNING 2026-08-17 16:41:42,577 log 95409 137958308968128 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 16:41:44,099 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:47:20,605 log 95409 137958535460544 "GET /profile/AakashDayma01/?verification=success HTTP/1.1" 200 2580
+WARNING 2026-08-17 16:47:20,622 log 95409 137958308968128 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 16:47:20,628 log 95409 137958535460544 "GET /static/accounts/css_files/profile.css HTTP/1.1" 200 4737
+WARNING 2026-08-17 16:47:20,899 log 95409 137958535460544 Not Found: /favicon.ico
+WARNING 2026-08-17 16:47:20,922 log 95409 137958535460544 "GET /favicon.ico HTTP/1.1" 404 5762
+INFO 2026-08-17 16:47:58,005 log 95409 137958535460544 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 16:47:58,034 log 95409 137958535460544 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 16:48:14,927 log 95409 137958535460544 "POST /login/ HTTP/1.1" 200 42
+INFO 2026-08-17 16:48:14,970 log 95409 137958535460544 "GET /home/ HTTP/1.1" 200 16612
+INFO 2026-08-17 16:48:17,645 log 95409 137958535460544 "GET /profile/akash/ HTTP/1.1" 200 2991
+WARNING 2026-08-17 16:48:17,657 log 95409 137958535460544 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 16:49:09,337 log 95409 137958308968128 "POST /logout/ HTTP/1.1" 302 0
+INFO 2026-08-17 16:49:09,362 log 95409 137958308968128 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 16:49:10,901 log 95409 137958308968128 "GET /register/ HTTP/1.1" 200 2002
+INFO 2026-08-17 16:49:10,915 log 95409 137958535460544 "GET /static/accounts/js_files/register.js HTTP/1.1" 200 1278
+INFO 2026-08-17 16:49:10,918 log 95409 137958308968128 "GET /static/accounts/css_files/registration_page.css HTTP/1.1" 200 1302
+WARNING 2026-08-17 16:50:14,988 log 95409 137958308968128 Bad Request: /register/
+WARNING 2026-08-17 16:50:14,990 log 95409 137958308968128 "POST /register/ HTTP/1.1" 400 112
+WARNING 2026-08-17 16:50:37,502 log 95409 137958308968128 Bad Request: /register/
+WARNING 2026-08-17 16:50:37,505 log 95409 137958308968128 "POST /register/ HTTP/1.1" 400 112
+INFO 2026-08-17 16:50:54,437 log 95409 137958308968128 "POST /register/ HTTP/1.1" 200 44
+INFO 2026-08-17 16:50:54,469 log 95409 137958308968128 "GET /login/ HTTP/1.1" 200 3106
+INFO 2026-08-17 16:51:07,510 log 95409 137958308968128 "POST /login/ HTTP/1.1" 200 42
+INFO 2026-08-17 16:51:07,561 log 95409 137958308968128 "GET /home/ HTTP/1.1" 200 16704
+INFO 2026-08-17 16:51:10,784 log 95409 137958308968128 "GET /profile/vijay001/ HTTP/1.1" 200 2924
+WARNING 2026-08-17 16:51:10,796 log 95409 137958308968128 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 16:51:14,623 log 95409 137958535460544 "POST /verify-account/ HTTP/1.1" 302 0
+INFO 2026-08-17 16:52:18,204 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:52:18,396 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:52:18,465 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:52:18,575 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 16:52:20,222 log 95409 137958535460544 "GET /profile/vijay001/?verification=success HTTP/1.1" 200 2576
+WARNING 2026-08-17 16:52:20,234 log 95409 137958535460544 "GET /static/images/default.png HTTP/1.1" 404 1868
+INFO 2026-08-17 16:52:20,608 log 95409 137958275397312 "POST /stripe/webhook/ HTTP/1.1" 200 21
+INFO 2026-08-17 17:05:08,855 autoreload 95409 137958677504128 /home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py changed, reloading.
+INFO 2026-08-17 17:05:09,972 autoreload 106652 140051126759552 Watching for file changes with StatReloader

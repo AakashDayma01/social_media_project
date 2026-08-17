@@ -39,6 +39,7 @@ class CustomUser(AbstractUser):
     following = models.ManyToManyField(
         'self', through='Contact', related_name='followers', symmetrical=False
     )
+    is_verified = models.BooleanField(default=False)
     def __str__(self):
         """
         Returns the string representation of the user.

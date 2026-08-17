@@ -37,3 +37,317 @@ Traceback (most recent call last):
                        ~~^~~
 ZeroDivisionError: division by zero
 ERROR 2026-08-13 14:21:18,136 log 56890 133916939777728 "GET /post/sentry-debug/ HTTP/1.1" 500 79063
+ERROR 2026-08-13 16:02:59,972 log 78509 139618708088512 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 16:02:59,975 log 78509 139618708088512 "GET /post/sentry-debug/ HTTP/1.1" 500 79477
+ERROR 2026-08-13 16:05:48,942 log 78509 139618699695808 Internal Server Error: /post/sentry-debug/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/post/urls.py", line 25, in trigger_sentry_crash
+    division_by_zero = 1 / 0
+                       ~~^~~
+ZeroDivisionError: division by zero
+ERROR 2026-08-13 16:05:48,945 log 78509 139618699695808 "GET /post/sentry-debug/ HTTP/1.1" 500 79739
+ERROR 2026-08-17 09:06:12,640 log 4457 131774294259392 Internal Server Error: /home/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/mixins.py", line 72, in dispatch
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/__init__.py", line 328, in get_user
+    user = backend.get_user(user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/utils.py", line 1886, in runner
+    return sentry_patched_function(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/__init__.py", line 737, in execute
+    result = real_execute(self, sql, params)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+ERROR 2026-08-17 09:06:12,659 log 4457 131774294259392 "GET /home/ HTTP/1.1" 500 196418
+ERROR 2026-08-17 09:06:24,976 log 4457 131774294259392 Internal Server Error: /home/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/mixins.py", line 72, in dispatch
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+    ~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/__init__.py", line 328, in get_user
+    user = backend.get_user(user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/contrib/auth/backends.py", line 232, in get_user
+    user = UserModel._default_manager.get(pk=user_id)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/utils.py", line 1886, in runner
+    return sentry_patched_function(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/__init__.py", line 737, in execute
+    result = real_execute(self, sql, params)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: column accounts_customuser.is_verified does not exist
+LINE 1: ...hone_number", "accounts_customuser"."created_at", "accounts_...
+                                                             ^
+
+ERROR 2026-08-17 09:06:24,983 log 4457 131774294259392 "GET /home/ HTTP/1.1" 500 196683
+ERROR 2026-08-17 12:35:50,886 log 45997 128311711741632 Internal Server Error: /stripe/webhook/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 145, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py", line 404, in post
+    user_id = session.get("metadata", {}).get("user_id")
+              ^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+ERROR 2026-08-17 12:35:50,890 log 45997 128311711741632 "POST /stripe/webhook/ HTTP/1.1" 500 148950
+ERROR 2026-08-17 12:42:04,490 log 48697 125003274122944 Internal Server Error: /stripe/webhook/
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 171, in __getattr__
+    return self[k]
+           ~~~~^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+           ~~~~~~~~~~^^^
+KeyError: 'get'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/views.py", line 92, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/views/generic/base.py", line 145, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/instagram/apps/accounts/class_view.py", line 410, in post
+    print("SESSION ID:", session.get("id"))
+                         ^^^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/stripe/_stripe_object.py", line 173, in __getattr__
+    raise AttributeError(*err.args) from err
+AttributeError: get
+ERROR 2026-08-17 12:42:04,495 log 48697 125003274122944 "POST /stripe/webhook/ HTTP/1.1" 500 148908
+ERROR 2026-08-17 12:45:48,882 log 49641 127813581534912 Internal Server Error: /stripe/webhook/
+ERROR 2026-08-17 12:45:48,885 log 49641 127813581534912 "POST /stripe/webhook/ HTTP/1.1" 500 56
+ERROR 2026-08-17 12:48:47,386 log 50504 123178588305088 Internal Server Error: /stripe/webhook/
+ERROR 2026-08-17 12:48:47,390 log 50504 123178588305088 "POST /stripe/webhook/ HTTP/1.1" 500 56
+ERROR 2026-08-17 12:53:50,149 log 51274 124605926733504 Internal Server Error: /stripe/webhook
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/middleware.py", line 208, in __call__
+    return f(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to localhost:8000/stripe/webhook/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-08-17 12:53:50,152 log 51274 124605926733504 "POST /stripe/webhook HTTP/1.1" 500 82228
+ERROR 2026-08-17 12:54:19,136 log 51754 138005991913152 Internal Server Error: /stripe/webhook
+Traceback (most recent call last):
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/sentry_sdk/integrations/django/middleware.py", line 208, in __call__
+    return f(*args, **kwargs)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/lenovo/Desktop/social_media_project/myvenv/lib/python3.14/site-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to localhost:8000/stripe/webhook/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-08-17 12:54:19,140 log 51754 138005991913152 "POST /stripe/webhook HTTP/1.1" 500 82228

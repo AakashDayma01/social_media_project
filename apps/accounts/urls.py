@@ -28,4 +28,6 @@ urlpatterns = [
     path('user/toggle-follow/', class_view.ToggleFollow.as_view(), name='toggle_follow'),
     path("profile/edit/", class_view.EditProfileView.as_view(), name="edit_profile"),
     path('profile/<str:username>/', class_view.ProfileView.as_view(), name='profile_view'),
+    path("verify-account/", class_view.CreateVerificationCheckoutView.as_view(), name="create_verification_checkout"),
+    path("stripe/webhook/", class_view.StripeWebhookView.as_view(), name="stripe_webhook"),
 ]

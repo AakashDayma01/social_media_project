@@ -24,6 +24,14 @@ from django.views import View
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
+import stripe
+
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class RegisterView(View):
     """
@@ -269,3 +277,82 @@ class ToggleFollow(View):
         return JsonResponse({'status': 'success',
             'action': action, 'follower_count': target_user.followers.count()
         })
+
+
+class CreateVerificationCheckoutView(LoginRequiredMixin, View):
+    """
+    Create a Stripe Checkout Session for account verification.
+    """
+    def post(self, request):
+        if request.user.is_verified:
+            return JsonResponse({
+                "success": False, "message": "Your account is already verified."
+            }, status=400)
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                mode="payment",
+                line_items=[
+                    {
+                        "price_data": {
+                            "currency": "inr",
+                            "product_data": {
+                                "name": "Verified Account",
+                                "description": "Social media account verification",
+                            },
+                            "unit_amount": 49900,
+                        },
+                        "quantity": 1,
+                    }
+                ],
+                metadata={"user_id": str(request.user.id),},
+                success_url=request.build_absolute_uri(
+                    reverse("profile_view", kwargs={"username": request.user.username})
+                ) + "?verification=success",
+                cancel_url=request.build_absolute_uri(
+                    reverse("profile_view", kwargs={"username": request.user.username})
+                ) + "?verification=cancelled",
+            )
+            return redirect(checkout_session.url)
+        except stripe.error.StripeError as e:
+            return JsonResponse({"success": False, "message": str(e),}, status=400)
+        except Exception:
+            return JsonResponse({
+                "success": False, "message": "Something went wrong.",
+            }, status=500)
+
+@method_decorator(csrf_exempt, name="dispatch")
+class StripeWebhookView(View):
+    def post(self, request):
+        payload = request.body
+        sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, settings.STRIPE_WEBHOOK_SECRET,
+            )
+        except ValueError as e:
+            return JsonResponse(
+                {"error": "Invalid payload"}, status=400,
+            )
+        except stripe.error.SignatureVerificationError as e:
+            return JsonResponse(
+                {"error": "Invalid signature"},
+                status=400,
+            )
+        if event["type"] == "checkout.session.completed":
+            try:
+                session = event["data"]["object"]
+                metadata = session.metadata
+                user_id = metadata["user_id"]
+                if not user_id:
+                    return JsonResponse(
+                        {"error": "User ID missing from metadata"}, status=400,
+                    )
+                user = CustomUser.objects.get(id=int(user_id))
+                if not user.is_verified:
+                    user.is_verified = True
+                    user.save(update_fields=["is_verified"])
+            except Exception as e:
+                return JsonResponse(
+                    { "error": "Webhook processing failed", "details": str(e)}, status=500,
+                )
+        return JsonResponse({"status": "success"})

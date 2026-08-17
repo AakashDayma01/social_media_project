@@ -313,3 +313,30 @@ body{
     align-items:center;
 }
 }
+
+
+
+.verify-form {
+    display: inline-block;
+}
+
+.verify-btn {
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.verify-btn:hover {
+    background-color: #0077cc;
+}
+
+.verified-badge {
+    color: #0095f6;
+    font-weight: 600;
+    font-size: 14px;
+}

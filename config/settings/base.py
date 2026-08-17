@@ -56,9 +56,18 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     "allauth.socialaccount.providers.github",
     'allauth.socialaccount.providers.openid_connect',
+    'corsheaders',
     # "drf_spectacular",
     "rest_framework",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:4200",
+    "https://www.google.com",  # <-- Add this temporarily for testing
+]
+
 
 SITE_ID = 1
 
@@ -70,6 +79,7 @@ AUTHENTICATION_BACKENDS = [
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -110,6 +120,11 @@ env = environ.Env()
 
 # 3. Read the .env file from your project root directory
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
+STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
+
 
 DATABASES = {
     'default': env.db(),
@@ -261,47 +276,38 @@ LOGGING = {
             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
             'style': '{',
         },
-        'simple': {
-            'format': '{levelname} {asctime} {message}',
-            'style': '{',
-        },
     },
     'handlers': {
-        # File handler for standard application & DRF logs
         'info_file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(LOG_DIR, 'django_info.log'),
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'verbose',
         },
-        # Dedicated file handler for errors and exceptions
         'error_file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(LOG_DIR, 'django_errors.log'),
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'verbose',
         },
     },
     'loggers': {
-        # Captures standard Django/DRF requests, and errors
         'django': {
             'handlers': ['info_file', 'error_file'],
             'level': 'INFO',
-            'propagate': True,
-        },
-        # Captures database queries
-        'django.db.backends': {
-            'handlers': ['info_file'],
-            'level': 'ERROR',
             'propagate': False,
         },
-        # Captures DRF-specific internal warnings/errors
+        'django.db.backends': {
+            'handlers': [], 
+            'level': 'ERROR',
+            'propagate': True,
+        },
         'rest_framework': {
-            'handlers': ['info_file', 'error_file'],
+            'handlers': [],
             'level': 'INFO',
             'propagate': True,
         },
