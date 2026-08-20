@@ -35,7 +35,9 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "testserver",
+    "web", 
 ]
+
 
 
 # Application definition
@@ -164,6 +166,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
@@ -223,7 +226,8 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
 }
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+
 # REST_FRAMEWORK = {
 #     # 'DEFAULT_THROTTLE_CLASSES': [
 #     #     'rest_framework.throttling.AnonRateThrottle',

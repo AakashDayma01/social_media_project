@@ -2,3 +2,9 @@
 media/
 __pycache__/
 *.pyc
+old_data.sql
+old_data.sql
+*.swp
+old_data.sql
+backup.sql
+*.log
