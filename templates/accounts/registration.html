@@ -7,14 +7,14 @@
 <div id="form-div">
 <form method="post" novalidate id="register-form" >
     {% csrf_token %}
-    
+
     <span class="error" id="non-field-errors"></span>
 
     {% for field in form %}
         <div class="form-group" >
             <label class="labels">{{ field.label }}</label>
             {{ field }}
-            
+
             <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
         </div>
     {% endfor %}
@@ -23,4 +23,3 @@
 </form>
 <button id="login_button" onclick="go_to_login()" >I already have an account</button>
 </div>
-

@@ -2,9 +2,9 @@ from rest_framework.pagination import PageNumberPagination, LimitOffsetPaginatio
 from rest_framework.response import Response
 
 class PostPagination(PageNumberPagination):
-    page_size = 4               
+    page_size = 4
     page_size_query_param = 'limit'
-    max_page_size = 10 
+    max_page_size = 10
     def get_paginated_response(self, data):
         return Response({
             'count': self.page.paginator.count,

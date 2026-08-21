@@ -22,7 +22,7 @@ class CreatePost(View):
     Binds the incoming upload assets and text values directly to the active session user.
     """
     def get(self, request):
-        form = SocialPostForm()     
+        form = SocialPostForm()
         return render(request, 'posts/create_post.html', {'form': form})
     def post(self, request):
         if request.method == 'POST':
@@ -43,7 +43,7 @@ class EditPost(View):
         post = get_object_or_404(SocialPost, id=post_id, author=request.user)
         form = SocialPostForm(instance=post)
         return render(request, "posts/edit_post.html", {'form': form, 'post': post})
-        
+
     def post(self, request, post_id):
         post = get_object_or_404(SocialPost, id=post_id, author=request.user)
         if request.method == "POST":
@@ -69,7 +69,7 @@ class LikePost(View):
             else:
                 post.likes.add(request.user)
                 liked = True
-            return JsonResponse({"success": True, 
+            return JsonResponse({"success": True,
                 "liked": liked,
                 "total_likes": post.likes.count()
             })
@@ -121,14 +121,14 @@ class AddComment(View):
                 'type': 'add'
             })
 
-    
+
 class EditComments(View):
     """
     Update text components of an existing user-authored conversation entry.
     """
     def get(self, request):
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
-    
+
     def post(self, request, post_id):
         post = get_object_or_404(SocialPost, id=post_id)
         if request.method == 'POST':
@@ -136,13 +136,13 @@ class EditComments(View):
             comment = get_object_or_404(Comment, id=parent, post=post)
 
             if comment.user != request.user:
-                return JsonResponse({'success': False, 
+                return JsonResponse({'success': False,
                     'error': 'You are not allowed to edit this comment.'
                 }, status=403)
 
             content = request.POST.get('content')
             comment.content = content
-            comment.timestamp = timezone.now() 
+            comment.timestamp = timezone.now()
             comment.save()
             return JsonResponse({
                 'success': True,
@@ -158,13 +158,13 @@ class EditComments(View):
 class GetComments(View):
     """
     Retrieve and construct an algorithmic nested tree of message data components.
-    """     
+    """
     def get(self, request, post_id):
         post = get_object_or_404(SocialPost, id=post_id)
         all_comments = post.comments.select_related('user').order_by('timestamp')
         comment_tree = {}
         root_comments = []
-    
+
         for comment in all_comments:
             data = {
                 'id': comment.id,
@@ -174,23 +174,23 @@ class GetComments(View):
                 'liked_by_user': request.user in comment.likes.all(),
                 'total_likes': comment.likes.count(),
                 'is_deleted': comment.is_deleted,
-                'replies': [] 
+                'replies': []
             }
-            
+
             if comment.parent_id is None:
                 root_comments.append(data)
             else:
                 if comment.parent_id not in comment_tree:
                     comment_tree[comment.parent_id] = []
                 comment_tree[comment.parent_id].append(data)
-    
+
         def attach_replies(parent_comment):
             parent_id = parent_comment['id']
             if parent_id in comment_tree:
                 for reply in comment_tree[parent_id]:
                     parent_comment['replies'].append(reply)
                     attach_replies(reply)
-    
+
         for root_comment in root_comments:
             attach_replies(root_comment)
         return JsonResponse({'success': True, 'comments': root_comments})
@@ -209,7 +209,7 @@ class DeleteComment(View):
             comment = get_object_or_404(Comment, id=comment_id, post=post)
 
             if comment.user != request.user:
-                return JsonResponse({'success': False, 
+                return JsonResponse({'success': False,
                     'error': 'You are not allowed to delete this comment.'
                 }, status=403)
 
@@ -226,7 +226,7 @@ class DeleteComment(View):
                 'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
                 'type': 'delete'
             })
-    
+
 class LikeComment(View):
     """
     Toggle a user's recommendation metrics for an individual conversation row.
@@ -244,8 +244,8 @@ class LikeComment(View):
                 comment.likes.add(request.user)
                 liked = True
             return JsonResponse({
-                "success": True, 
-                "liked": liked, 
+                "success": True,
+                "liked": liked,
                 "total_likes": comment.likes.count()
             })
 
@@ -260,7 +260,7 @@ class NotificationListView(View):
         request.user.notifications.filter(is_read=False).update(is_read=True)
         request.user.notifications.filter(timestamp__lte=cutoff_date, is_read=True).delete()
         following_ids = set(request.user.following.values_list('id', flat=True))
-    
+
         context = {
             'notifications': notifications,
             'following_ids': following_ids,
@@ -295,8 +295,8 @@ class DeleteStory(View):
             if story.author == request.user:
                 story.delete()
                 return JsonResponse({
-                    "success": True, 
-                    "image_url": story.image.url, 
+                    "success": True,
+                    "image_url": story.image.url,
                     "story_id": story.id
                 })
 

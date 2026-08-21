@@ -24,9 +24,9 @@ class CustomUserCreationForm(forms.ModelForm):
         fields = [
             'email',
             'password',
-            'date_of_birth', 
+            'date_of_birth',
             'full_name',
-            'username', 
+            'username',
         ]
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
@@ -44,7 +44,7 @@ class CustomUserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-    
+
     def clean_email(self):
         """
         Validates that the email field is not empty.
@@ -98,7 +98,7 @@ class CustomUserCreationForm(forms.ModelForm):
         dob = self.cleaned_data.get('date_of_birth')
         if dob is None:
             raise forms.ValidationError('Select your birthday.')
-        
+
         today = date.today()
         age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
         if age < 13:
@@ -156,17 +156,17 @@ class UniversalLoginForm(forms.Form):
                 "password": "Please enter a valid password."})
         if username == "" or password=="":
             if username == "":
-                raise ValidationError({"username": "Please enter a valid username."})   
+                raise ValidationError({"username": "Please enter a valid username."})
             elif password=="":
                 raise ValidationError({"password": "Please enter a valid password."})
 
         if username and password:
             self.user_cache = authenticate(
-                self.request, 
-                username=username, 
+                self.request,
+                username=username,
                 password=password
             )
-            
+
             if self.user_cache is None:
                 raise ValidationError(
                     "Invalid login credentials. Please try again."
@@ -193,4 +193,3 @@ class OTPRequestForm(forms.Form):
             'class': 'form-control'
         })
     )
-    

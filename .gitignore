@@ -1,4 +1,30 @@
+# Environment variables
 .env
-media/
+.env.*
+
+# Python
 __pycache__/
+*.py[cod]
 *.pyc
+
+# Django
+*.log
+logs/
+staticfiles/
+media/
+
+# Database backups
+*.dump
+*.sql
+backup.sql
+old_data.sql
+
+# Editor
+*.swp
+.vscode/
+.idea/
+
+# Virtual environment
+myvenv/
+venv/
+.venv/

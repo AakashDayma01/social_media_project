@@ -30,7 +30,7 @@ class PostViewset(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
-    
+
     @action(detail=True, methods=['post'])
     def like(self, request, pk=None):
         post = self.get_object()
@@ -50,7 +50,7 @@ class CommentViewset(viewsets.ModelViewSet):
     """
     Render or process the submission form for publishing a new entry.
     Binds the incoming upload assets and text values directly to the active session user.
-    """ 
+    """
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -59,9 +59,9 @@ class CommentViewset(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
-        comment = self.get_object()        
+        comment = self.get_object()
         if comment.user != request.user:
-            return Response({'success': False, 
+            return Response({'success': False,
                 'error': 'You are not allowed to delete this comment.'
             }, status=403)
 
@@ -93,11 +93,11 @@ class CommentViewset(viewsets.ModelViewSet):
             comment.likes.add(request.user)
             liked = True
         return Response({
-            "success": True, 
-            "liked": liked, 
+            "success": True,
+            "liked": liked,
             "total_likes": comment.likes.count()
         })
-    
+
     @action(detail=True, methods=['get'])
     def get_comments(self, request, pk=None):
         """
@@ -118,9 +118,9 @@ class CommentViewset(viewsets.ModelViewSet):
                 'total_likes': comment.likes.count(),
                 'is_deleted': comment.is_deleted,
                 'likes': [user.username for user in comment.likes.all()],
-                'replies': [] 
+                'replies': []
             }
-            
+
             if comment.parent_id is None:
                 root_comments.append(data)
             else:
@@ -133,11 +133,11 @@ class CommentViewset(viewsets.ModelViewSet):
                 for reply in comment_tree[parent_id]:
                     parent_comment['replies'].append(reply)
                     attach_replies(reply)
-    
+
         for root_comment in root_comments:
             attach_replies(root_comment)
         return Response({'success': True, 'comments': root_comments})
-        
+
 
 
 class NotificationListView(viewsets.ModelViewSet):

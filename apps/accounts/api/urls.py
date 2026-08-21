@@ -11,4 +11,4 @@ urlpatterns = [
     path('logout/',api_views.LogoutAPIView.as_view(), name="logout"),
     path('request-otp/',api_views.RequestOtp.as_view(), name="request-otp"),
     path('verify-otp/',api_views.VerifyOtp.as_view(), name="verify-otp")
-] 
+]

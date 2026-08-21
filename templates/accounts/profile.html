@@ -41,9 +41,21 @@
         <div class="profile-right">
             <div class="username-row">
                 <h2>{{ profile_user.username }}</h2>
+
+                {% if profile_user.is_verified %}
+                    <span class="verified-badge">✓ Verified</span>
+                {% else %}
+                    <form action="{% url 'create_verification_checkout' %}" method="POST" class="verify-form">
+                        {% csrf_token %}
+                        <button type="submit" class="verify-btn">
+                            ✓ Verify Account - ₹499
+                        </button>
+                    </form>
+                {% endif %}
                 <a href="{% url 'edit_profile' %}" class="edit-btn">
                     Edit Profile
                 </a>
+
                 <button class="settings-btn">
                     ⚙
                 </button>

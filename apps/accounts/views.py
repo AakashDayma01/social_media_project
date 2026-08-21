@@ -1,8 +1,8 @@
 # """
 # Authentication and profile views for the accounts application.
 
-# This module contains views managing user workflows including registration, 
-# universal identifier login, password resets via OTP tokens, session management, 
+# This module contains views managing user workflows including registration,
+# universal identifier login, password resets via OTP tokens, session management,
 # profile modifications, and social follow networks.
 # """
 # from django.shortcuts import render, redirect, get_object_or_404
@@ -14,7 +14,7 @@
 # from django.contrib import messages
 # from django.core.mail import send_mail
 # from django.contrib.auth import get_user_model
-# from .models import PasswordResetOTP 
+# from .models import PasswordResetOTP
 # from django.contrib.auth import logout
 # from django.contrib.auth.decorators import login_required
 # from apps.post.models import SocialPost, Story
@@ -38,16 +38,16 @@
 #             form.save()
 #             return JsonResponse({'success': True, 'redirect_url': '/login/'})
 #         else:
-#             return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
+#             return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
 #     else:
 #         form = CustomUserCreationForm()
-        
+
 #     return render(request, 'accounts/registration.html', {'form': form})
 
 # def login_view(request):
 #     """
 #     Authenticate users utilizing a multi-identifier universal login form.
-#     Populates standard session structures or transmits payload data objects 
+#     Populates standard session structures or transmits payload data objects
 #     back to asynchronous frontend fetch/XMLHttpRequest handlers.
 #     """
 #     #if request.user.is_authenticated:
@@ -60,7 +60,7 @@
 #             password = form.cleaned_data.get('password')
 #             user = authenticate(request, username=username, password=password)
 #             if user is not None:
-#                 login(request, user) 
+#                 login(request, user)
 #                 if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 #                     return JsonResponse({
 #                         'success': True,
@@ -70,7 +70,7 @@
 #             else:
 #                 form.add_error(None, "Invalid credentials. Please verify your entries.")
 #         else:
-#             return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
+#             return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
 #     else:
 #         form = UniversalLoginForm()
 
@@ -83,10 +83,10 @@
 #     Persists targeted credentials to the current user tracking session.
 #     """
 #     User = get_user_model()
-    
+
 #     if request.method == 'POST':
 #         form = OTPRequestForm(request.POST)
-        
+
 #         if form.is_valid():
 #             email = form.cleaned_data['email'].strip()
 #             user = User.objects.filter(email__iexact=email).first()
@@ -95,7 +95,7 @@
 #                 send_mail(
 #                     'Your Pasjsword Reset OTP',
 #                     f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-#                     settings.DEFAULT_FROM_EMAIL, 
+#                     settings.DEFAULT_FROM_EMAIL,
 #                     [email],
 #                     fail_silently=False,
 #                 )
@@ -111,7 +111,7 @@
 #                 form.add_error('email', 'No user found with this email.')
 #         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 #             return JsonResponse({
-#                 'success': False, 
+#                 'success': False,
 #                 'errors': form.errors.get_json_data()
 #             }, status=400)
 
@@ -171,18 +171,18 @@
 
 # def logout_view(request):
 #     """
-#     Clears the session cookies and logs the user out entirely from 
+#     Clears the session cookies and logs the user out entirely from
 #     Django and allauth social providers.
 #     """
 #     logout(request)
-#     return redirect('login') 
+#     return redirect('login')
 
 # @login_required
 # def home_view(request):
 #     """
 #     Render central dashboard feed populated with global social post data.
 #     """
-#     posts = SocialPost.objects.all() 
+#     posts = SocialPost.objects.all()
 #     time_threshold = timezone.now() - timedelta(hours=24)
 #     stories = Story.objects.filter(timestamp__gte=time_threshold).order_by('-timestamp')
 #     return render(request, 'home.html', {'posts': posts, 'stories':stories})
@@ -195,14 +195,14 @@
 #     """
 #     if request.user.username != username:
 #         return redirect('profile_view', username=request.user.username)
-    
+
 #     posts = SocialPost.objects.filter(author=request.user)
-    
+
 #     return render(request, 'accounts/profile.html', {
 #         'profile_user': request.user,
 #         'posts': posts,
 #     })
-    
+
 # def edit_profile_view(request):
 #     """
 #     Process custom multi-field user profile changes from direct POST submissions.
@@ -225,7 +225,7 @@
 
 #     return render(request, "accounts/edit_profile.html")
 
-# @require_POST 
+# @require_POST
 # def toggle_follow(request):
 #     """
 #     Toggle social network graph follow connections asynchronously via JSON.
@@ -245,8 +245,8 @@
 #         action = 'follow'
 #     else:
 #         contact.delete()
-#         action = 'unfollow'    
+#         action = 'unfollow'
 
 #     return JsonResponse({'status': 'success',
-#         'action': action, 'follower_count': target_user.followers.count() 
+#         'action': action, 'follower_count': target_user.followers.count()
 #     })

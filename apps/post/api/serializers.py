@@ -14,8 +14,8 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
-            'id', 'post', 'user', 'content', 
-            'timestamp', 'likes', 'parent', 
+            'id', 'post', 'user', 'content',
+            'timestamp', 'likes', 'parent',
             'is_deleted', 'replies'
         ]
         read_only_fields = ['timestamp', 'is_deleted', 'likes', 'user']
@@ -32,7 +32,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class NotificationSenderSerializer(serializers.ModelSerializer):
     """
-    A minimal user serializer to avoid leaking sensitive data 
+    A minimal user serializer to avoid leaking sensitive data
     while showing who triggered the notification.
     """
     class Meta:
@@ -46,13 +46,13 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = [
-            'id', 
-            'recipient', 
-            'sender', 
-            'post', 
-            'comment', 
-            'notification_type', 
-            'timestamp', 
+            'id',
+            'recipient',
+            'sender',
+            'post',
+            'comment',
+            'notification_type',
+            'timestamp',
             'is_read'
         ]
         read_only_fields = ['recipient', 'sender', 'timestamp','notification_type']

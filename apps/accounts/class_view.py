@@ -1,8 +1,8 @@
 """
 Authentication and profile class based views for the accounts application.
 
-This module contains class based views managing user workflows including registration, 
-universal identifier login, password resets via OTP tokens, session management, 
+This module contains class based views managing user workflows including registration,
+universal identifier login, password resets via OTP tokens, session management,
 profile modifications, and social follow networks.
 """
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,7 +14,7 @@ from .forms import UniversalLoginForm, OTPRequestForm
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
-from .models import PasswordResetOTP 
+from .models import PasswordResetOTP
 from django.contrib.auth import logout
 from apps.post.models import SocialPost, Story
 from .models import CustomUser, Contact
@@ -24,6 +24,14 @@ from django.views import View
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
+import stripe
+
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class RegisterView(View):
     """
@@ -31,7 +39,7 @@ class RegisterView(View):
 
     Accepts standard browser requests as well as structured AJAX POST elements.
     Returns JSON response strings containing routing context when successful.
-    """ 
+    """
     def get(self, request):
         form = CustomUserCreationForm()
         return render(request, 'accounts/registration.html', {'form': form})
@@ -43,13 +51,13 @@ class RegisterView(View):
                 form.save()
                 return JsonResponse({'success': True, 'redirect_url': '/login/'})
             else:
-                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
+                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
 
 class LoginVIew(View):
     """
     Authenticate users utilizing a multi-identifier universal login form.
 
-    Populates standard session structures or transmits payload data objects 
+    Populates standard session structures or transmits payload data objects
     back to asynchronous frontend fetch/XMLHttpRequest handlers.
     """
     #if request.user.is_authenticated:
@@ -65,7 +73,7 @@ class LoginVIew(View):
                 password = form.cleaned_data.get('password')
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
-                    login(request, user) 
+                    login(request, user)
                     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                         return JsonResponse({
                             'success': True,
@@ -75,7 +83,7 @@ class LoginVIew(View):
                 else:
                     form.add_error(None, "Invalid credentials. Please verify your entries.")
             else:
-                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)   
+                return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
 
 
 
@@ -92,7 +100,7 @@ class RequestOtp(View):
     def post(self, request):
         if request.method == 'POST':
             form = OTPRequestForm(request.POST)
-            
+
             if form.is_valid():
                 email = form.cleaned_data['email'].strip()
                 user = self.User.objects.filter(email__iexact=email).first()
@@ -101,7 +109,7 @@ class RequestOtp(View):
                     send_mail(
                         'Your Pasjsword Reset OTP',
                         f'Your OTP code is {otp_obj.otp}. It expires in 5 minutes.',
-                        settings.DEFAULT_FROM_EMAIL, 
+                        settings.DEFAULT_FROM_EMAIL,
                         [email],
                         fail_silently=False,
                     )
@@ -117,7 +125,7 @@ class RequestOtp(View):
                     form.add_error('email', 'No user found with this email.')
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({
-                    'success': False, 
+                    'success': False,
                     'errors': form.errors.get_json_data()
                 }, status=400)
 
@@ -146,8 +154,7 @@ class VerifyOtp(View):
             try:
                 user = self.User.objects.get(email=email)
                 otp_record = PasswordResetOTP.objects.filter(
-                    user=user,
-                    otp=otp_entered
+                    user=user, otp=otp_entered
                 ).first()
 
                 if otp_record and otp_record.is_valid():
@@ -186,12 +193,12 @@ class VerifyOtp(View):
 
 class LogoutView(View):
     """
-    Clears the session cookies and logs the user out entirely from 
+    Clears the session cookies and logs the user out entirely from
     Django and allauth social providers.
     """
     def post(self, request):
         logout(request)
-        return redirect('login') 
+        return redirect('login')
 
 
 class HomeView(LoginRequiredMixin, View):
@@ -199,8 +206,8 @@ class HomeView(LoginRequiredMixin, View):
         """
         Render central dashboard feed populated with global social post data.
         """
-        posts_list = SocialPost.objects.all().order_by('-id') 
-        paginator = Paginator(posts_list, 2) 
+        posts_list = SocialPost.objects.all().order_by('-id')
+        paginator = Paginator(posts_list, 2)
         page_number = request.GET.get('page')
         posts_page = paginator.get_page(page_number)
         time_threshold = timezone.now() - timedelta(hours=24)
@@ -215,7 +222,7 @@ class ProfileView(LoginRequiredMixin, View):
         if request.user.username != username:
             return redirect('profile_view', username=request.user.username)
         posts = SocialPost.objects.filter(author=request.user)
-        
+
         return render(request, 'accounts/profile.html', {
             'profile_user': request.user,
             'posts': posts,
@@ -228,7 +235,7 @@ class EditProfileView(View):
     """
     def get(self, request):
         return render(request, "accounts/edit_profile.html")
-    
+
     def post(self, request):
         user = request.user
         user.full_name = request.POST.get("full_name", "").strip()
@@ -264,10 +271,87 @@ class ToggleFollow(View):
             action = 'follow'
         else:
             contact.delete()
-            action = 'unfollow'    
+            action = 'unfollow'
 
         return JsonResponse({'status': 'success',
-            'action': action, 'follower_count': target_user.followers.count() 
+            'action': action, 'follower_count': target_user.followers.count()
         })
-    
 
+
+class CreateVerificationCheckoutView(LoginRequiredMixin, View):
+    """
+    Create a Stripe Checkout Session for account verification.
+    """
+    def post(self, request):
+        if request.user.is_verified:
+            return JsonResponse({
+                "success": False, "message": "Your account is already verified."
+            }, status=400)
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                mode="payment",
+                line_items=[
+                    {
+                        "price_data": {
+                            "currency": "inr",
+                            "product_data": {
+                                "name": "Verified Account",
+                                "description": "Social media account verification",
+                            },
+                            "unit_amount": 49900,
+                        },
+                        "quantity": 1,
+                    }
+                ],
+                metadata={"user_id": str(request.user.id),},
+                success_url=request.build_absolute_uri(
+                    reverse("profile_view", kwargs={"username": request.user.username})
+                ) + "?verification=success",
+                cancel_url=request.build_absolute_uri(
+                    reverse("profile_view", kwargs={"username": request.user.username})
+                ) + "?verification=cancelled",
+            )
+            return redirect(checkout_session.url)
+        except stripe.error.StripeError as e:
+            return JsonResponse({"success": False, "message": str(e),}, status=400)
+        except Exception:
+            return JsonResponse({
+                "success": False, "message": "Something went wrong.",
+            }, status=500)
+
+@method_decorator(csrf_exempt, name="dispatch")
+class StripeWebhookView(View):
+    def post(self, request):
+        payload = request.body
+        sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, settings.STRIPE_WEBHOOK_SECRET,
+            )
+        except ValueError as e:
+            return JsonResponse(
+                {"error": "Invalid payload"}, status=400,
+            )
+        except stripe.error.SignatureVerificationError as e:
+            return JsonResponse(
+                {"error": "Invalid signature"},
+                status=400,
+            )
+        if event["type"] == "checkout.session.completed":
+            try:
+                session = event["data"]["object"]
+                metadata = session.metadata
+                user_id = metadata["user_id"]
+                if not user_id:
+                    return JsonResponse(
+                        {"error": "User ID missing from metadata"}, status=400,
+                    )
+                user = CustomUser.objects.get(id=int(user_id))
+                if not user.is_verified:
+                    user.is_verified = True
+                    user.save(update_fields=["is_verified"])
+            except Exception as e:
+                return JsonResponse(
+                    { "error": "Webhook processing failed", "details": str(e)}, status=500,
+                )
+        return JsonResponse({"status": "success"})

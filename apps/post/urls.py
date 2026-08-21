@@ -1,8 +1,8 @@
 """
 URL configuration for the post and interaction social features.
 
-This module maps incoming HTTP request routes to their corresponding view functions 
-handling feed management, content creation, nested commenting, engagement metrics, 
+This module maps incoming HTTP request routes to their corresponding view functions
+handling feed management, content creation, nested commenting, engagement metrics,
 and user notifications.
 
 Routes:
@@ -20,7 +20,10 @@ Routes:
 from django.urls import path, include
 from . import views
 from . import class_view
-    
+
+def trigger_sentry_crash(request):
+    division_by_zero = 1 / 0
+
 urlpatterns = [
     path('add/', class_view.CreatePost.as_view(), name='create_post'),
     path('like-post/<int:post_id>/', class_view.LikePost.as_view(), name='like_post'),
@@ -35,5 +38,5 @@ urlpatterns = [
     path('story-create/', class_view.CreateStory.as_view(), name='create_story'),
     path('story-delete/<int:story_id>/', class_view.DeleteStory.as_view(), name='delete_story'),
     path('api/', include('apps.post.api.urls')),
+    path('sentry-debug/', trigger_sentry_crash),
  ]
-    

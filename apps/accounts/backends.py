@@ -18,19 +18,19 @@ class UniversalAuthBackend(ModelBackend):
         username = kwargs.get('username')
         password = kwargs.get('password')
         identifier = kwargs.get('username')
-        
+
         if not identifier:
             return None
-            
-        try:    
+
+        try:
             user = User.objects.get(
-                Q(username__iexact=identifier) | 
-                Q(email__iexact=identifier) | 
+                Q(username__iexact=identifier) |
+                Q(email__iexact=identifier) |
                 Q(phone_number=identifier)
             )
         except User.DoesNotExist:
             return None
-        
+
         if user.check_password(password):
             return user
         return None
