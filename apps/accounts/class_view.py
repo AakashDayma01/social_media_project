@@ -154,8 +154,7 @@ class VerifyOtp(View):
             try:
                 user = self.User.objects.get(email=email)
                 otp_record = PasswordResetOTP.objects.filter(
-                    user=user,
-                    otp=otp_entered
+                    user=user, otp=otp_entered
                 ).first()
 
                 if otp_record and otp_record.is_valid():

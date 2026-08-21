@@ -1,45 +1,66 @@
 services:
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
 
   web:
     build: .
-    command: sh -c "python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
+    command: >
+      sh -c "
+      python manage.py collectstatic --noinput &&
+      gunicorn
+      --bind 0.0.0.0:8000
+      config.wsgi:application
+      "
     volumes:
       - .:/app
-      - /app/myvenv            
-      - static_volume:/app/static
+      - static_volume:/app/staticfiles
       - media_volume:/app/media
       - logs_volume:/app/logs
     ports:
       - "8000:8000"
     env_file:
       - .env
-    network_mode: "host"     
     environment:
-      - DATABASE_URL=postgres://aakash:psql@localhost:5432/social_media_db
-      - CELERY_BROKER_URL=redis://127.0.0.1:6379/0
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      DATABASE_URL: ${DATABASE_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
     depends_on:
+      - db
       - redis
-      
+
   celery:
     build: .
-    command: python -m celery -A config.settings.celery worker --loglevel=info
+    command:
+      - celery
+      - -A
+      - config.settings.celery
+      - worker
+      - --loglevel=info
     volumes:
       - .:/app
-      - /app/myvenv            
+      - logs_volume:/app/logs
     env_file:
       - .env
-    network_mode: "host"   
     environment:
-      - DATABASE_URL=postgres://aakash:psql@localhost:5432/social_media_db
-      - CELERY_BROKER_URL=redis://127.0.0.1:6379/0
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      DATABASE_URL: ${DATABASE_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
     depends_on:
+      - db
       - redis
 
 volumes:
+  postgres_data:
   static_volume:
   media_volume:
   logs_volume:

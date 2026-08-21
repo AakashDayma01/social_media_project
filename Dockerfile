@@ -27,3 +27,6 @@ COPY . /app/
 
 # Expose the standard web port
 EXPOSE 8000
+
+# Start Django using Gunicorn in production
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]

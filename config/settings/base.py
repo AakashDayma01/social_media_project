@@ -21,22 +21,28 @@ from sentry_sdk.integrations.django import DjangoIntegration
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+# 2. Initialize env variable
+env = environ.Env()
+
+# 3. Read the .env file from your project root directory
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ybe7dq9vt_m8gzu(&3&d5g=@$_bypu8m$7ll$p&i$p5si&jbrq'
 
+SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "testserver",
-    "web", 
-]
+# ALLOWED_HOSTS = [
+#     "127.0.0.1",
+#     "localhost",
+#     "testserver",
+#     "web",
+# ]
 
 
 
@@ -63,12 +69,12 @@ INSTALLED_APPS = [
     "rest_framework",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://localhost:4200",
-    "https://www.google.com",  # <-- Add this temporarily for testing
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://localhost:5173",
+#     "http://localhost:4200",
+#     "https://www.google.com",  # <-- Add this temporarily for testing
+# ]
 
 
 SITE_ID = 1
@@ -117,11 +123,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-# 2. Initialize env variable
-env = environ.Env()
 
-# 3. Read the .env file from your project root directory
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
@@ -166,7 +168,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
@@ -306,7 +308,7 @@ LOGGING = {
             'propagate': False,
         },
         'django.db.backends': {
-            'handlers': [], 
+            'handlers': [],
             'level': 'ERROR',
             'propagate': True,
         },

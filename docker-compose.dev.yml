@@ -1,0 +1,45 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+      - /app/myvenv
+      - static_volume:/app/static
+      - media_volume:/app/media
+      - logs_volume:/app/logs
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    network_mode: "host"
+    environment:
+      - DATABASE_URL=postgres://aakash:psql@localhost:5432/social_media_db
+      - CELERY_BROKER_URL=redis://127.0.0.1:6379/0
+    depends_on:
+      - redis
+
+  celery:
+    build: .
+    command: python -m celery -A config.settings.celery worker --loglevel=info
+    volumes:
+      - .:/app
+      - /app/myvenv
+    env_file:
+      - .env
+    network_mode: "host"
+    environment:
+      - DATABASE_URL=postgres://aakash:psql@localhost:5432/social_media_db
+      - CELERY_BROKER_URL=redis://127.0.0.1:6379/0
+    depends_on:
+      - redis
+
+volumes:
+  static_volume:
+  media_volume:
+  logs_volume:
