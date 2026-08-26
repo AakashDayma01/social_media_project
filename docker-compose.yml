@@ -23,9 +23,9 @@ services:
       "
     volumes:
       - .:/app
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
-      - logs_volume:/app/logs
+      - ./staticfiles:/app/staticfiles
+      - ./media:/app/media
+      - ./logs:/app/logs
     ports:
       - "8000:8000"
     env_file:
@@ -48,7 +48,7 @@ services:
       - --loglevel=info
     volumes:
       - .:/app
-      - logs_volume:/app/logs
+      - ./logs:/app/logs
     env_file:
       - .env
     environment:
@@ -60,7 +60,4 @@ services:
       - redis
 
 volumes:
-  postgres_data:
-  static_volume:
-  media_volume:
-  logs_volume:
+  postgres_data:  
