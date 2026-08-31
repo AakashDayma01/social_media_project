@@ -13,6 +13,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      DJANGO_SETTINGS_MODULE: config.settings.test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,12 +31,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Django checks
-        env:
-          SECRET_KEY: test-secret-key
-          STRIPE_SECRET_KEY: sk_test_dummy
-          STRIPE_PUBLISHABLE_KEY: pk_test_dummy
-          DATABASE_URL: sqlite:///test.db
-          DJANGO_SETTINGS_MODULE: config.settings.base
         run: |
           python manage.py check
 
