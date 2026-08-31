@@ -6,6 +6,8 @@
 __pycache__/
 *.py[cod]
 *.pyc
+.coverage
+.pytest_cache/
 
 # Django
 *.log
