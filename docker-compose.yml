@@ -58,6 +58,15 @@ services:
     depends_on:
       - db
       - redis
-
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./staticfiles:/staticfiles:ro
+      - ./media:/media:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - web
 volumes:
   postgres_data:  
