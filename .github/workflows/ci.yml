@@ -30,6 +30,8 @@ jobs:
       - name: Run Django checks
         env:
           SECRET_KEY: test-secret-key
+          STRIPE_SECRET_KEY: sk_test_dummy
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy
           DATABASE_URL: sqlite:///test.db
           DJANGO_SETTINGS_MODULE: config.settings.base
         run: |
