@@ -14,10 +14,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: social_media_db
+          POSTGRES_USER: aakash
+          POSTGRES_PASSWORD: psql
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U aakash -d social_media_db"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     env:
-      DJANGO_SETTINGS_MODULE: config.settings.development
+      DJANGO_SETTINGS_MODULE: config.settings.base
       SECRET_KEY: test-secret-key
-      DATABASE_URL: sqlite:///test.db
+      DATABASE_URL: postgresql://aakash:psql@localhost:5432/social_media_db
+      STRIPE_SECRET_KEY: ""
+      STRIPE_PUBLISHABLE_KEY: ""
+      STRIPE_WEBHOOK_SECRET: ""
 
     steps:
       - name: Checkout code
@@ -39,7 +57,7 @@ jobs:
 
       - name: Run test cases
         run: |
-          python manage.py test
+          pytest
 
       - name: Build Docker image
         run: |
