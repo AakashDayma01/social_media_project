@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+
   pull_request:
     branches:
       - dev
@@ -12,9 +13,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    env:
-      DJANGO_SETTINGS_MODULE: config.settings.test
 
     steps:
       - name: Checkout code
@@ -31,6 +29,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Django checks
+        env:
+          SECRET_KEY: test-secret-key
+          DATABASE_URL: sqlite:///test.db
         run: |
           python manage.py check
 
