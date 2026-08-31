@@ -37,6 +37,10 @@ jobs:
         run: |
           python manage.py check
 
+      - name: Run test cases
+        run: |
+          python manage.py test
+
       - name: Build Docker image
         run: |
           docker build -t social-media-project .
