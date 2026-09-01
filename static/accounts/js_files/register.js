@@ -36,3 +36,15 @@ document.getElementById('register-form').addEventListener('submit', function(e){
 function go_to_login(){
     window.location.href = 'http://127.0.0.1:8000/login/'
 }
+
+function togglePassword(fieldId, button) {
+    const passwordField = document.getElementById(fieldId);
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        button.textContent = "🙈";
+    } else {
+        passwordField.type = "password";
+        button.textContent = "👁";
+    }
+}

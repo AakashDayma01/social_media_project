@@ -44,3 +44,17 @@ function go_to_register(){
 function reset_password(){
     window.location.href = "http://127.0.0.1:8000/request-otp/"
 }
+
+
+function togglePassword() {
+    const passwordInput = document.getElementById("id_password");
+    const eyeButton = document.querySelector(".eye-button");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeButton.textContent = "🙈";
+    } else {
+        passwordInput.type = "password";
+        eyeButton.textContent = "👁";
+    }
+}
