@@ -37,12 +37,12 @@ document.getElementById('login-form').addEventListener('submit', function(e){
 
 
 function go_to_register(){
-    window.location.href = "http://127.0.0.1:8000/register/"
+     window.location.href = "/register/";
 }
 
 
 function reset_password(){
-    window.location.href = "http://127.0.0.1:8000/request-otp/"
+    window.location.href = "/request-otp/"
 }
 
 

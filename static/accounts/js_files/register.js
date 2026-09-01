@@ -34,7 +34,7 @@ document.getElementById('register-form').addEventListener('submit', function(e){
 });
 
 function go_to_login(){
-    window.location.href = 'http://127.0.0.1:8000/login/'
+    window.location.href = '/login/'
 }
 
 function togglePassword(fieldId, button) {
