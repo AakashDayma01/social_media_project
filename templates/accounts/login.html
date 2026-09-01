@@ -30,7 +30,18 @@
             {% for field in form %}
                 <div class="form-group">
                     <label class="labels" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
+
+                    {% if field.name == "password" %}
+                        <div class="password-container">
+                            {{ field }}
+                            <button type="button" class="eye-button" onclick="togglePassword()">
+                                👁
+                            </button>
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
+
                     <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
                 </div>
             {% endfor %}

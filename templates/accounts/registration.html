@@ -1,25 +1,50 @@
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'accounts/css_files/registration_page.css' %}">
+
 <head>
     <link rel="icon" href="data:,">
     <script src="{% static 'accounts/js_files/register.js' %}" defer></script>
 </head>
+
 <div id="form-div">
-<form method="post" novalidate id="register-form" >
-    {% csrf_token %}
+    <form method="post" novalidate id="register-form">
+        {% csrf_token %}
 
     <span class="error" id="non-field-errors"></span>
 
     {% for field in form %}
-        <div class="form-group" >
+        <div class="form-group">
             <label class="labels">{{ field.label }}</label>
-            {{ field }}
 
-            <span class="error" id="error_{{ field.name }}">{{ field.errors.as_text }}</span>
+            {% if field.name == "password" %}
+                <div class="password-wrapper">
+                    {{ field }}
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword('{{ field.id_for_label }}', this)"
+                        aria-label="Show password"
+                    >
+                        👁
+                    </button>
+                </div>
+            {% else %}
+                {{ field }}
+            {% endif %}
+
+            <span class="error" id="error_{{ field.name }}">
+                {{ field.errors.as_text }}
+            </span>
         </div>
     {% endfor %}
 
     <button id="submit_button" type="submit">Submit</button>
 </form>
-<button id="login_button" onclick="go_to_login()" >I already have an account</button>
+
+<button id="login_button" onclick="go_to_login()">
+    I already have an account
+</button>
+
 </div>
