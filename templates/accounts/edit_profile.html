@@ -114,7 +114,7 @@ document.getElementById('edit-profile-form').addEventListener('submit', function
                     `error_${fieldName}`
                 );
                 if (errorSpan) {
-                    errorSpan.textContent = errors[fieldName];
+                    errorSpan.textContent = `* ${errors[fieldName]}`;
                 }
             }
         }

@@ -81,3 +81,9 @@ textarea{
     padding:12px 25px;
     border-radius:6px;
 }
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 3px;
+}
