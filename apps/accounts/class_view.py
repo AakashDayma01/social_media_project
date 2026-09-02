@@ -244,14 +244,18 @@ class EditProfileView(View):
         full_name = request.POST.get("full_name", "").strip()
         if not full_name:
             errors["full_name"] = "Please enter your full name."
+
         elif not re.fullmatch(r"[A-Za-z ]+", full_name):
             errors["full_name"] = "Full name can contain only letters and spaces."
+
         phone_number = request.POST.get("phone_number", "").strip()
         if not re.fullmatch(r"[6-9]\d{9}", phone_number):
             errors["phone_number"] = "Enter a valid 10-digit mobile number."
+
         gender = request.POST.get("gender", "").strip()
-        if gender not in ["Male", "Female", "Other"]:
+        if gender not in dict(CustomUser.GENDER_CHOICES):
             errors["gender"] = "Please select a valid gender."
+            
         dob = request.POST.get("date_of_birth", "").strip()
         if dob:
             try:
