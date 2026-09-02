@@ -291,16 +291,20 @@ class EditProfileView(View):
         if profile_pic:
             user.profile_pic = profile_pic
         user.save()
-        return JsonResponse(
-            {
-                "success": True,
-                "message": "Profile updated successfully.",
-                "redirect_url": redirect(
-                    "profile_view",
-                    username=user.username
-                ).url,
-            }
-        )
+
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return JsonResponse(
+                {
+                    "success": True,
+                    "message": "Profile updated successfully.",
+                    "redirect_url": redirect(
+                        "profile_view",
+                        username=user.username
+                    ).url,
+                }
+            )
+
+        return redirect("profile_view", username=user.username)
 
 class ToggleFollow(View):
     """

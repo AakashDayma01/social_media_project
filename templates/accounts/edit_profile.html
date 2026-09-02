@@ -95,7 +95,7 @@ document.getElementById('edit-profile-form').addEventListener('submit', function
         method: 'POST',
         body: formData,
         headers: {
-            'X-Request-With': 'XMLHttpRequest'
+            'X-Requested-With': 'XMLHttpRequest'
         }
     })
     .then(response =>
