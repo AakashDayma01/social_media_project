@@ -34,6 +34,6 @@ jobs:
             docker compose ps
 
             echo "Testing application..."
-            curl -f http://localhost/
+            curl -f http://localhost/login/
 
             echo "Deployment successful!"
