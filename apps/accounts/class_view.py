@@ -5,6 +5,8 @@ This module contains class based views managing user workflows including registr
 universal identifier login, password resets via OTP tokens, session management,
 profile modifications, and social follow networks.
 """
+import re
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .forms import CustomUserCreationForm
@@ -19,7 +21,7 @@ from django.contrib.auth import logout
 from apps.post.models import SocialPost, Story
 from .models import CustomUser, Contact
 from django.utils import timezone
-from datetime import timedelta
+from datetime import date, timedelta
 from django.views import View
 from django.urls import reverse
 from django.core.paginator import Paginator
@@ -235,23 +237,66 @@ class EditProfileView(View):
     """
     def get(self, request):
         return render(request, "accounts/edit_profile.html")
-
+    
     def post(self, request):
         user = request.user
-        user.full_name = request.POST.get("full_name", "").strip()
+        errors = {}
+        full_name = request.POST.get("full_name", "").strip()
+        if not full_name:
+            errors["full_name"] = "Please enter your full name."
+        elif not re.fullmatch(r"[A-Za-z ]+", full_name):
+            errors["full_name"] = "Full name can contain only letters and spaces."
+        phone_number = request.POST.get("phone_number", "").strip()
+        if not re.fullmatch(r"[6-9]\d{9}", phone_number):
+            errors["phone_number"] = "Enter a valid 10-digit mobile number."
+        gender = request.POST.get("gender", "").strip()
+        if gender not in ["Male", "Female", "Other"]:
+            errors["gender"] = "Please select a valid gender."
+        dob = request.POST.get("date_of_birth", "").strip()
+        if dob:
+            try:
+                dob = date.fromisoformat(dob)
+                today = date.today()
+                age = (
+                    today.year - dob.year
+                    - ((today.month, today.day) < (dob.month, dob.day))
+                )
+                if age < 12:
+                    errors["date_of_birth"] = ("You must be at least 12 years old.")
+            except ValueError:
+                errors["date_of_birth"] = "Enter a valid date of birth."
+        profile_pic = request.FILES.get("profile_pic")
+
+        if profile_pic:
+            if profile_pic.content_type not in ["image/jpeg","image/png","image/webp",]:
+                errors["profile_pic"] = (
+                    "Only JPG, PNG and WEBP images are allowed."
+                )
+        if errors:
+            return JsonResponse(
+                {"success": False, "errors": errors}, status=400,
+            )
+        user.full_name = full_name
         user.bio = request.POST.get("bio", "").strip()
         user.website = request.POST.get("website", "").strip()
-        user.phone_number = request.POST.get("phone_number", "").strip()
-        user.gender = request.POST.get("gender", "")
-        dob = request.POST.get("date_of_birth")
+        user.phone_number = phone_number
+        user.gender = gender
+
         if dob:
             user.date_of_birth = dob
-        if request.FILES.get("profile_pic"):
-            user.profile_pic = request.FILES["profile_pic"]
+        if profile_pic:
+            user.profile_pic = profile_pic
         user.save()
-        return redirect("profile_view", username=user.username)
-
-
+        return JsonResponse(
+            {
+                "success": True,
+                "message": "Profile updated successfully.",
+                "redirect_url": redirect(
+                    "profile_view",
+                    username=user.username
+                ).url,
+            }
+        )
 
 class ToggleFollow(View):
     """
